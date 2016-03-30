@@ -17,7 +17,7 @@ public class Logout {
 		if( session != null){
 			session.invalidate();
 		}
-		return "redirect:/Tinder";
+		return "redirect:/";
 	}
 
 }
