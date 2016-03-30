@@ -16,12 +16,12 @@
 		<a href="Profile">
 			<div class="profile">
 				<div class="profile_pic">
-					<img src="images/<c:out value="${sessionScope.user.avatarName}" />" alt="..." class="img-circle profile_img">
+					<img src="images/${user.avatarName}"  alt="..." class="img-circle profile_img">
 				</div>
 				<div class="profile_info">
-					<span>Welcome, <c:out value="${sessionScope.user.username}" /></span>
+					<span>Welcome, ${user.username}</span>
 					<span class="glyphicon glyphicon-envelope">
-						<c:out value="${sessionScope.user.email}" />
+						${user.email}
 					</span>
 				</div>
 			</div>

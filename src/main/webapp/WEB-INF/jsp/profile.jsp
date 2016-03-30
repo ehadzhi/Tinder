@@ -66,7 +66,7 @@
 												<!-- Current avatar -->
 												<div class="avatar-view" title="Change the avatar">
 													<img
-														src=<c:out value="images/${sessionScope.user.avatarName}"></c:out>
+														src="images/${user.avatarName}"
 														alt="Avatar">
 												</div>
 
@@ -79,14 +79,13 @@
 
 										</div>
 										<h3>
-											<c:out value="${sessionScope.user.username}"></c:out>
+										${user.username}
 										</h3>
 
 										<ul class="list-unstyled user_data">
 											<li id="user-location"></li>
 
-											<li><i class="fa fa-briefcase user-profile-icon"></i> <c:out
-													value="${sessionScope.user.email }"></c:out></li>
+											<li><i class="fa fa-briefcase user-profile-icon"></i>"${user.email}"</li>
 
 										</ul>
 

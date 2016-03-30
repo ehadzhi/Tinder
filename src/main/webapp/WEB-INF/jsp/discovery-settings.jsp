@@ -92,7 +92,7 @@
 														Men:
 														<div class="pull-right">
 															<input type="checkbox" name="show-men" class="flat"
-															<c:if test="${sessionScope.user.wantsMale == true}">
+															<c:if test="${user.wantsMale == true}">
 																	checked="checked"
 															</c:if>>
 														</div>
@@ -100,7 +100,7 @@
 														Women:
 														<div class="pull-right">
 															<input type="checkbox" name="show-women" class="flat"
-															<c:if test="${sessionScope.user.wantsFemale == true}">
+															<c:if test="${user.wantsFemale == true}">
 																	checked="checked"
 															</c:if>>
 														</div>
@@ -198,8 +198,8 @@
 									keyboard : true,
 									min : 18,
 									max : 100,
-									from : '<c:out value="${sessionScope.user.minDesiredAge}" />',
-									to : '<c:out value="${sessionScope.user.maxDesiredAge}" />',
+									from : '${user.minDesiredAge}',
+									to : '${user.maxDesiredAge}',
 									type : 'double',
 									step : 1,
 									grid : true
@@ -209,7 +209,7 @@
 								{
 									min : 1,
 									max : 1000,
-									from : '<c:out value="${sessionScope.user.searchDistance}" />',
+									from : '${user.searchDistance}',
 									postfix : ' km',
 									grid : true,
 								});
