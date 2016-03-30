@@ -65,9 +65,7 @@
 											<div id="crop-avatar">
 												<!-- Current avatar -->
 												<div class="avatar-view" title="Change the avatar">
-													<img
-														src="images/${user.avatarName}"
-														alt="Avatar">
+													<img src="images/${user.avatarName}" alt="Avatar">
 												</div>
 
 
@@ -78,9 +76,7 @@
 											<!-- end of image cropping -->
 
 										</div>
-										<h3>
-										${user.username}
-										</h3>
+										<h3>${user.username}</h3>
 
 										<ul class="list-unstyled user_data">
 											<li id="user-location"></li>
@@ -91,7 +87,36 @@
 
 										<a class="btn btn-success" data-toggle="modal"
 											data-target=".bs-example-modal-lg"><i
-											class="fa fa-edit m-right-xs"></i>Edit Profile</a> <br />
+											class="fa fa-edit m-right-xs"></i>Edit Profile</a> <br /> <a
+											class="btn btn-success" data-toggle="modal"
+											data-target=".bs-example-modal-sm"><i
+											class="fa fa-cloud-upload m-right-xs"></i>Upload Picture</a> <br />
+
+										<div class="modal fade bs-example-modal-sm" tabindex="-1"
+											role="dialog" aria-labelledby="mySmallModalLabel">
+											<div class="modal-dialog modal-sm">
+												<div class="modal-content">
+													<div class="modal-body">
+														<form action="/Tinder/UploadPhoto" method="post"
+															enctype="multipart/form-data">
+															<h2 class="form-signup-heading">Upload a picture</h2>
+															<fieldset class="form-group">
+																<label for="exampleInputFile">Picture input</label> <input
+																	type="file" name=post_picture class="form-control-file"
+																	id="exampleInputFile"> <small
+																	class="text-muted">Please select a photo from
+																	your computer.</small>
+															</fieldset>
+															<button class="btn btn-lg btn-primary btn-block"
+																type="submit">
+																<i class="fa fa-cloud-upload m-right-xs"></i>Upload
+																picture
+															</button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
 
 										<div class="modal fade bs-example-modal-lg" tabindex="-1"
 											role="dialog" aria-hidden="true" style="display: none">
@@ -145,10 +170,19 @@
 
 									</div>
 
-									<div class="container">
-										<ul id="user-photos">
-											<li><img src="images/joro1.jpg" /></li>
-										</ul>
+									<div class="row grid_slider">
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<jsp:include page="profile-pictures-upper.jsp"></jsp:include>
+											<c:forEach items='${pictures}' var="picture">
+												<div>
+													<img
+														style="width: 100%; height: 100%; object-fit: contain;"
+														src="images/${picture}" /> <img data-u="thumb"
+														src="images/${picture}" />
+												</div>
+											</c:forEach>
+											<jsp:include page="profile-pictures-lower.jsp"></jsp:include>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -179,25 +213,25 @@
 			NProgress.done();
 		</script>
 		<script type="text/javascript">
-		function photoLoader() {
-			$
-					.ajax({
-						url : 'UserPhotosService',
-						type : 'POST',
-						data : "action=none"
-					})
-					.done(
-							function(response) {
-								$('#user-photos').empty();
-								var i;
-								for (i = 0; i < response.photos.length; i += 1) {
-									$('#user-photos')
-											.append(
-													"<li class='col-lg-2 col-md-2 col-sm-3 col-xs-4'><img src='"+ response.photos[i] +"' /></li>");
+			function photoLoader() {
+				$
+						.ajax({
+							url : 'UserPhotosService',
+							type : 'POST',
+							data : "action=none"
+						})
+						.done(
+								function(response) {
+									$('#user-photos').empty();
+									var i;
+									for (i = 0; i < response.photos.length; i += 1) {
+										$('#user-photos')
+												.append(
+														"<li class='col-lg-2 col-md-2 col-sm-3 col-xs-4'><img src='"+ response.photos[i] +"' /></li>");
 
-								}
-							});
-		};
+									}
+								});
+			};
 			function locationLoader() {
 				$
 						.ajax(
