@@ -6,38 +6,39 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tinder.exceptions.DBException;
-import com.tinder.exceptions.UnauthorizedException;
 import com.tinder.model.dao.UserDAO;
 import com.tinder.model.pojo.User;
 
 @RestController
 public class LikeDislikeService {
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/LikeDislikeService", method = RequestMethod.POST)
+	public List<String> doPost(HttpServletRequest request, HttpServletResponse response) throws DBException {
 		User user = (User) request.getSession(false).getAttribute("user");
 		@SuppressWarnings("unchecked")
 		List<User> users = (List<User>) request.getSession().getAttribute("userCandidates");
 		if (users.size() == 0) {
 			addCandidates(request, users);
-			// retrurnPhotosOfTheFirstUser(response, users);
 		} else if (users.size() == 1) {
-			// likeOrDislikeAndRemoveTheTopUser(request, user, users);
+			likeOrDislikeAndRemoveTheTopUser(request, user, users);
 			addCandidates(request, users);
-			// retrurnPhotosOfTheFirstUser(response, users);
 		} else {
-			// likeOrDislikeAndRemoveTheTopUser(request, user, users);
-			// retrurnPhotosOfTheFirstUser(response, users);
+			likeOrDislikeAndRemoveTheTopUser(request, user, users);
 		}
+		return retrurnPhotosOfTheFirstUser(response, users);
 	}
 
-	private void getPhotosOfTheFirstUser(List<User> users) throws DBException {
+	private List<String> retrurnPhotosOfTheFirstUser(HttpServletResponse response, List<User> users)
+			throws DBException {
 		if (users.size() == 0) {
-			Arrays.asList("nousers.jpg");
+			return Arrays.asList("nousers.jpg");
 		} else {
-			UserDAO.getAllPhotosOfUser(users.get(0).getUsername());
+			return UserDAO.getAllPhotosOfUser(users.get(0).getUsername());
 		}
 	}
 

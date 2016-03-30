@@ -1,5 +1,13 @@
 package com.tinder.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tinder.exceptions.DBException;
@@ -7,22 +15,21 @@ import com.tinder.model.dao.UserDAO;
 
 @RestController
 public class SignUpValidationService {
-
-//	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {
+	
+//	@RequestMapping(value = "/SignUpValidationService", method = RequestMethod.POST)
+//	public String doPost(HttpServletRequest request, HttpServletResponse response){
 //		try {
-//			response.setContentType("aplication/json");
+//			
 //			String username = request.getParameter("username");
 //			String email = request.getParameter("email");
 //			String age = request.getParameter("age");
-//			JSONObject resp = new JSONObject();
 //			if (username != null) {
 //				if (!UserDAO.isUsernameExisting(username) && username.length() <= 45) {
-//					resp.append("username", "OK");
+//					return "OK";
 //				} else if (UserDAO.isUsernameExisting(username)) {
-//					resp.append("username", "This username is already in use!");
+//					return "This username is already in use!";
 //				} else {
-//					resp.append("username", "Too long username!");
+//					return "Too long username!";
 //				}
 //			}
 //			if (email != null) {

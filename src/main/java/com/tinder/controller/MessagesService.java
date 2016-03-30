@@ -1,15 +1,13 @@
 package com.tinder.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tinder.exceptions.DBException;
@@ -20,29 +18,25 @@ import com.tinder.model.pojo.Message;
 
 @RestController
 public class MessagesService{
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	@RequestMapping(value="/MessagesService",method=RequestMethod.GET)
+	public List<Message> doPost(HttpServletRequest request){
 		try {
-			response.setContentType("application/json");
 			HttpSession session = request.getSession(false);
-			if (session == null) {
+			if (session == null || session.getAttribute("user") == null) {
 				throw new UnauthorizedException("The user is not logged in.");
 			}
-			List<Message> toReturn = MessageDAO.getLastMessagesFrom(
+			return MessageDAO.getLastMessagesFrom(
 					Integer.parseInt(request.getParameter("nummessages")),
 					UserDAO.getUser(request.getParameter("username1")),
 					UserDAO.getUser(request.getParameter("username2")),
 					LocalDateTime.parse(request.getParameter("fromtime")));
-
-			//json.put("messages", toReturn);
-
 		} catch (UnauthorizedException e) {
 			e.printStackTrace();
-			response.sendRedirect("./Home");
 		} catch (DBException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 }
