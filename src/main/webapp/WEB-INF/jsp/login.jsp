@@ -269,10 +269,6 @@
 			$('#signup-submit').removeClass('hidden');
 		}
 		function checkForSubmit(){
-			console.log('email' + $('#email-addon').text());
-			console.log('age' +$('#age-addon').text());
-			console.log('username' +$('#username-addon').text());
-			console.log('password' +$('#password-addon').text());
 			if($('#email-addon').text()=='OK' &&
 					$('#age-addon').text()=='OK' && 
 					$('#username-addon').text()=='OK' &&
