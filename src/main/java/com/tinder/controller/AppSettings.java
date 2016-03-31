@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AppSettings {
 
 	@RequestMapping(method = RequestMethod.GET)
-	protected String appSettings(HttpServletRequest request) {
+	public String appSettings(HttpServletRequest request) {
 		if( Home.checkValidSession(request) != null){
 			return Home.checkValidSession(request);
 		}

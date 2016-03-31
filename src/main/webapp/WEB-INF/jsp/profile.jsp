@@ -97,12 +97,12 @@
 											<div class="modal-dialog modal-sm">
 												<div class="modal-content">
 													<div class="modal-body">
-														<form action="/Tinder/UploadPhoto" method="post"
+														<form action="/Tinder/PictureUpload" method="post"
 															enctype="multipart/form-data">
 															<h2 class="form-signup-heading">Upload a picture</h2>
 															<fieldset class="form-group">
 																<label for="exampleInputFile">Picture input</label> <input
-																	type="file" name=post_picture class="form-control-file"
+																	type="file" name="picture" class="form-control-file"
 																	id="exampleInputFile"> <small
 																	class="text-muted">Please select a photo from
 																	your computer.</small>
