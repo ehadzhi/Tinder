@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tinder.exceptions.DBException;
+import com.tinder.model.dao.NotificationDAO;
 import com.tinder.model.dao.UserDAO;
 import com.tinder.model.pojo.User;
 
@@ -51,6 +52,10 @@ public class LikeDislikeService {
 			throws DBException {
 		if (((String) request.getParameter("action")).equals("Like")) {
 			UserDAO.likeUser(user.getId(), users.get(0).getId());
+			if(NotificationDAO.checkForLike(users.get(0).getId(), user.getId())){
+				NotificationDAO.addMatch(users.get(0).getId(),  user.getId());
+				NotificationDAO.addMatch(user.getId(), users.get(0).getId());
+			}
 		}
 		if (((String) request.getParameter("action")).equals("Dislike")) {
 			UserDAO.dislikeUser(user.getId(), users.get(0).getId());

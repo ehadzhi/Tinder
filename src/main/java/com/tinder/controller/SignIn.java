@@ -31,7 +31,8 @@ public class SignIn {
 			boolean isExisting = UserDAO.isUserAndPassExisting(username, password);
 			if (isExisting) {
 				HttpSession session = request.getSession();
-				UserDAO.setLocation(username, Double.parseDouble(latitude), Double.parseDouble(longitude));
+				if(latitude!=null && longitude!=null && !latitude.equals("") && !longitude.equals(""))
+					UserDAO.setLocation(username, Double.parseDouble(latitude), Double.parseDouble(longitude));
 				User user = (User) UserDAO.getUser(username);
 				session.setAttribute("user", user);
 				session.setAttribute("userCandidates", new LinkedList<User>());
