@@ -1,4 +1,4 @@
-package com.tinder.chat.endpoint;
+	package com.tinder.chat.endpoint;
 
 import java.io.IOException;
 import java.util.LinkedList;

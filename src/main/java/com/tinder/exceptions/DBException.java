@@ -2,6 +2,11 @@ package com.tinder.exceptions;
 
 public class DBException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2313078367923419598L;
+
 	public DBException() {
 		// TODO Auto-generated constructor stub
 	}

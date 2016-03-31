@@ -2,6 +2,11 @@ package com.tinder.exceptions;
 
 public class UnauthorizedException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2252852964506092791L;
+
 	public UnauthorizedException() {
 		super();
 		// TODO Auto-generated constructor stub
