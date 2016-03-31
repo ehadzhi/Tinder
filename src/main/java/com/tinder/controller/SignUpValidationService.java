@@ -1,8 +1,11 @@
 package com.tinder.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.print.attribute.HashAttributeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,48 +18,82 @@ import com.tinder.model.dao.UserDAO;
 
 @RestController
 public class SignUpValidationService {
-	
-//	@RequestMapping(value = "/SignUpValidationService", method = RequestMethod.POST)
-//	public String doPost(HttpServletRequest request, HttpServletResponse response){
-//		try {
-//			
-//			String username = request.getParameter("username");
-//			String email = request.getParameter("email");
-//			String age = request.getParameter("age");
-//			if (username != null) {
-//				if (!UserDAO.isUsernameExisting(username) && username.length() <= 45) {
-//					return "OK";
-//				} else if (UserDAO.isUsernameExisting(username)) {
-//					return "This username is already in use!";
-//				} else {
-//					return "Too long username!";
-//				}
-//			}
-//			if (email != null) {
-//				if (!UserDAO.isEmailExisting(username) && username.length() <= 45) {
-//					resp.append("email", "OK");
-//				} else {
-//					resp.append("email", "This email is already in use!");
-//				}
-//			}
-//			if(age!=null){
-//				if(Integer.parseInt(age)>100){
-//					resp.append("age","You can't be that old!");
-//				}
-//				else if(Integer.parseInt(age)<1){
-//					resp.append("age","You can't be that young!");
-//				}
-//				else{
-//					resp.append("age","OK");
-//				}
-//			}
-//			PrintWriter pw = response.getWriter();
-//			pw.print(resp);
-//			pw.flush();
-//			
-//		} catch (DBException e) {
-//			e.printStackTrace();
-//		}
-//	}
+
+	@RequestMapping(value = "/SignUpValidationService", method = RequestMethod.POST)
+	public Map<String, String> doPost(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> result = new HashMap<String, String>();
+		try {
+			String username = request.getParameter("username");
+			String email = request.getParameter("email");
+			String age = request.getParameter("age");
+			String password = request.getParameter("password");
+			System.out.println(email);
+			if (username != null) {
+				if (!UserDAO.isUsernameExisting(username) && username.length() <= 45) {
+					result.put("username", "OK");
+				} else if (UserDAO.isUsernameExisting(username)) {
+					result.put("username", "This username is already in use!");
+				} else {
+					result.put("username", "Too long username!");
+				}
+			}
+			if (email != null) {
+				if (!UserDAO.isEmailExisting(email) && email.length() <= 45) {
+					result.put("email", "OK");
+				} else {
+					result.put("email", "This email is already in use!");
+				}
+			}
+			if (age != null) {
+				if (Integer.parseInt(age) > 100) {
+					result.put("age", "You can't be that old!");
+				} else if (Integer.parseInt(age) < 1) {
+					result.put("age", "You can't be that young!");
+				} else {
+					result.put("age", "OK");
+				}
+			}
+			if (password != null) {
+				result.put("password", checkPasswordStrength(password));
+			}
+
+		} catch (DBException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	private String checkPasswordStrength(String password) {
+		int strengthPercentage = 0;
+		String[] partialRegexChecks = { ".*[a-z]+.*", // lower
+				".*[A-Z]+.*", // upper
+				".*[\\d]+.*", // digits
+				".*[@#$%]+.*" // symbols
+		};
+
+		if (password.matches(partialRegexChecks[0])) {
+			strengthPercentage += 1;
+		}
+		if (password.matches(partialRegexChecks[1])) {
+			strengthPercentage += 1;
+		}
+		if (password.matches(partialRegexChecks[2])) {
+			strengthPercentage += 1;
+		}
+		if (password.matches(partialRegexChecks[3])) {
+			strengthPercentage += 1;
+		}
+
+		if (strengthPercentage == 1)
+			return "Poor";
+		else if (strengthPercentage == 2)
+			return "Good";
+		else if (strengthPercentage == 3)
+			return "Very Good";
+		else if (strengthPercentage == 4)
+			return "Strong";
+		
+			return "";
+	}
 
 }

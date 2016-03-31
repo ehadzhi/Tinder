@@ -189,8 +189,9 @@
 						</div>
 					</div>
 					<br />
-					<jsp:include page="footer.jsp" />
+					
 				</div>
+				<jsp:include page="footer.jsp" />
 				<!-- /page content -->
 
 			</div>

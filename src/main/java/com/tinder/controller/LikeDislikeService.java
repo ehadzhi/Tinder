@@ -1,7 +1,9 @@
 package com.tinder.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +20,7 @@ import com.tinder.model.pojo.User;
 public class LikeDislikeService {
 
 	@RequestMapping(value = "/LikeDislikeService", method = RequestMethod.POST)
-	public List<String> doPost(HttpServletRequest request, HttpServletResponse response) throws DBException {
+	public Map<String,List<String>> doPost(HttpServletRequest request, HttpServletResponse response) throws DBException {
 		User user = (User) request.getSession(false).getAttribute("user");
 		@SuppressWarnings("unchecked")
 		List<User> users = (List<User>) request.getSession().getAttribute("userCandidates");
@@ -30,7 +32,10 @@ public class LikeDislikeService {
 		} else {
 			likeOrDislikeAndRemoveTheTopUser(request, user, users);
 		}
-		return retrurnPhotosOfTheFirstUser(response, users);
+		Map<String, List<String>> result =  new HashMap<String, List<String>>();
+		 result.put("photos",
+				retrurnPhotosOfTheFirstUser(response, users));
+		 return result;
 	}
 
 	private List<String> retrurnPhotosOfTheFirstUser(HttpServletResponse response, List<User> users)

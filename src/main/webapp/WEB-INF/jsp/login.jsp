@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page session="false"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +33,7 @@
 
 </head>
 
-<body style="background: #F7F7F7;" onload="getLocation(); checker();">
+<body style="background: #F7F7F7;" onload="getLocation();">
 
 	<div class="">
 		<a class="hiddenanchor" id="toregister"></a> <a class="hiddenanchor"
@@ -77,21 +78,28 @@
 					</form>
 				</section>
 			</div>
+			
 			<div id="register" class="animate form">
+			<button onclick="showSubmitButton()">add</button>
+			<button onclick="hideSubmitButton()">remove</button>
 				<section class="login_content">
 					<form action="SignUp" method="post">
 						<h1>Create Account</h1>
 						<div>
-							<input type="text" name="username" class="form-control"
+							<span class="input-group-addon" id="username-addon"></span> 
+							<input id='username' type="text" name="username" class="form-control"
 								placeholder="Username" required />
+
 						</div>
 						<div>
-							<input type="email" name="email" class="form-control"
-								placeholder="Email" required />
+							<span class="input-group-addon" id="email-addon"></span> 
+							<input id='email' type="email" name="email"
+								class="form-control" placeholder="Email" required />
 						</div>
 						<div>
-							<input type="password" name="password" class="form-control"
-								placeholder="Password" required />
+							<span class="input-group-addon" id="password-addon"></span> 
+							<input id='password' type="password" name="password"
+								class="form-control" placeholder="Password" required />
 						</div>
 						<div>
 							<select class="form-control" name="gender">
@@ -100,14 +108,13 @@
 							</select> <br>
 						</div>
 						<div>
-							<input type="number" name="age" class="form-control"
+							<span class="input-group-addon" id="age-addon"></span> 
+							<input id='age' type="number" name="age" class="form-control"
 								placeholder="Age" required />
 						</div>
 						<br>
-						<div>
-							<input type="submit" class="btn btn-default submit"
+							<input id='signup-submit' type="submit" class="btn btn-default submit"
 								value="Sign up">
-						</div>
 						<div class="clearfix"></div>
 						<div class="separator">
 
@@ -168,19 +175,113 @@
 				alert("Sorry, browser does not support geolocation!");
 			}
 		}
+
+		var delay = (function() {
+			var timer = 0;
+			return function(callback, ms) {
+				clearTimeout(timer);
+				timer = setTimeout(callback, ms);
+			};
+		})();
+
+		$('#username').keyup(function() {
+			delay(function() {
+				usernameChecker($('#username').val());
+				checkForSubmit();
+			}, 1000);
+		});
+
+		$('#password').keyup(function() {
+			delay(function() {
+				passChecker($('#password').val());
+				checkForSubmit();
+			}, 1000);
+		});
+
+		$('#age').keyup(function() {
+			delay(function() {
+				ageChecker($('#age').val());
+				checkForSubmit();
+			}, 1000);
+		});
+		$('#age').change(function() {
+			delay(function() {
+				ageChecker($('#age').val());
+				checkForSubmit();
+			}, 1000);
+		});
 		
-		function checker() {
-			$
-					.ajax({
+		$('#email').keyup(function() {
+			delay(function() {
+				emailChecker($('#email').val());
+				checkForSubmit();
+			}, 1000);
+		});
+
+		function usernameChecker(username) {
+			$.ajax(
+					{
 						url : 'SignUpValidationService',
 						type : 'POST',
-						data : "username=kiko&age=120&email=asdasdasdasdasdsa"
-					})
-					.done(
-							function(response) {
-								console.print(response);
-							});
+						data : "username=" + username
+					}).done(function(response) {
+				$('#username-addon').empty();
+				$('#username-addon').append(response.username);
+			});
 		};
+
+		function ageChecker(age) {
+			$.ajax(
+					{
+						url : 'SignUpValidationService',
+						type : 'POST',
+						data : "age=" + age
+					}).done(function(response) {
+						$('#age-addon').empty();
+						$('#age-addon').append(response.age);
+			});
+		};
+
+		function emailChecker(email) {
+			$.ajax(
+					{
+						url : 'SignUpValidationService',
+						type : 'POST',
+						data : "email=" + email
+					}).done(function(response) {
+						$('#email-addon').empty();
+						$('#email-addon').append(response.email);
+			});
+		};
+		function passChecker(pass) {
+			$.ajax(
+					{
+						url : 'SignUpValidationService',
+						type : 'POST',
+						data : "password=" + pass
+					}).done(function(response) {
+						$('#password-addon').empty();
+						$('#password-addon').append(response.password);
+			});
+		};
+		
+		function hideSubmitButton(){
+			console.log($('#email-addon').innerHTML);
+			console.log($('#password-addon').val());
+			console.log($('#username-addon').val());
+			$('#signup-submit').addClass('hidden');
+		}
+		function showSubmitButton(){
+			$('#signup-submit').removeClass('hidden');
+		}
+		function checkForSubmit(){
+			console.log($('#email-addon'));
+			if($('#email-addon').val()==OK)
+				showSubmitButton();
+			else
+				hideSubmitButton();
+		}
+		
 	</script>
 
 </body>
