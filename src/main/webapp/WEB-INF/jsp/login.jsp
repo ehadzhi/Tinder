@@ -33,7 +33,7 @@
 
 </head>
 
-<body style="background: #F7F7F7;" onload="getLocation();">
+<body style="background: #F7F7F7;" onload="getLocation();checkForSubmit();">
 
 	<div class="">
 		<a class="hiddenanchor" id="toregister"></a> <a class="hiddenanchor"
@@ -187,34 +187,29 @@
 		$('#username').keyup(function() {
 			delay(function() {
 				usernameChecker($('#username').val());
-				checkForSubmit();
 			}, 1000);
 		});
 
 		$('#password').keyup(function() {
 			delay(function() {
 				passChecker($('#password').val());
-				checkForSubmit();
 			}, 1000);
 		});
 
 		$('#age').keyup(function() {
 			delay(function() {
 				ageChecker($('#age').val());
-				checkForSubmit();
 			}, 1000);
 		});
 		$('#age').change(function() {
 			delay(function() {
 				ageChecker($('#age').val());
-				checkForSubmit();
 			}, 1000);
 		});
 		
 		$('#email').keyup(function() {
 			delay(function() {
 				emailChecker($('#email').val());
-				checkForSubmit();
 			}, 1000);
 		});
 
@@ -227,6 +222,7 @@
 					}).done(function(response) {
 				$('#username-addon').empty();
 				$('#username-addon').append(response.username);
+				checkForSubmit();
 			});
 		};
 
@@ -239,6 +235,7 @@
 					}).done(function(response) {
 						$('#age-addon').empty();
 						$('#age-addon').append(response.age);
+						checkForSubmit();
 			});
 		};
 
@@ -251,6 +248,7 @@
 					}).done(function(response) {
 						$('#email-addon').empty();
 						$('#email-addon').append(response.email);
+						checkForSubmit();
 			});
 		};
 		function passChecker(pass) {
@@ -262,21 +260,25 @@
 					}).done(function(response) {
 						$('#password-addon').empty();
 						$('#password-addon').append(response.password);
+						checkForSubmit();
 			});
 		};
 		
 		function hideSubmitButton(){
-			console.log($('#email-addon').innerHTML);
-			console.log($('#password-addon').val());
-			console.log($('#username-addon').val());
 			$('#signup-submit').addClass('hidden');
 		}
 		function showSubmitButton(){
 			$('#signup-submit').removeClass('hidden');
 		}
 		function checkForSubmit(){
-			console.log($('#email-addon'));
-			if($('#email-addon').val()==OK)
+			console.log('email' + $('#email-addon').text());
+			console.log('age' +$('#age-addon').text());
+			console.log('username' +$('#username-addon').text());
+			console.log('password' +$('#password-addon').text());
+			if($('#email-addon').text()=='OK' &&
+					$('#age-addon').text()=='OK' && 
+					$('#username-addon').text()=='OK' &&
+					$('#password-addon').text()!='')
 				showSubmitButton();
 			else
 				hideSubmitButton();
