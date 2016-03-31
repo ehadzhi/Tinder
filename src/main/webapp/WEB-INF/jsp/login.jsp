@@ -80,8 +80,6 @@
 			</div>
 			
 			<div id="register" class="animate form">
-			<button onclick="showSubmitButton()">add</button>
-			<button onclick="hideSubmitButton()">remove</button>
 				<section class="login_content">
 					<form action="SignUp" method="post">
 						<h1>Create Account</h1>
