@@ -38,9 +38,11 @@ public class SignUpValidationService {
 				}
 			}
 			if (email != null) {
-				if (!UserDAO.isEmailExisting(email) && email.length() <= 45) {
+				if (!UserDAO.isEmailExisting(email) && email.length() <= 45 && isValidEmailAddress(email)) {
 					result.put("email", "OK");
-				} else {
+				} else if(!isValidEmailAddress(email)){
+					result.put("email", "Email is not valid!");
+				}else {
 					result.put("email", "This email is already in use!");
 				}
 			}
@@ -92,8 +94,15 @@ public class SignUpValidationService {
 			return "Very Good";
 		else if (strengthPercentage == 4)
 			return "Strong";
-		
-			return "";
+
+		return "";
+	}
+
+	private boolean isValidEmailAddress(String email) {
+		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+		java.util.regex.Matcher m = p.matcher(email);
+		return m.matches();
 	}
 
 }
