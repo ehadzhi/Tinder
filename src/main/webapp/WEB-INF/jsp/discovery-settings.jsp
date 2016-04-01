@@ -8,7 +8,6 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- Meta, title, CSS, favicons, etc. -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,11 +17,8 @@
 <!-- Bootstrap core CSS -->
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
-
 <link href="fonts/css/font-awesome.min.css" rel="stylesheet">
 <link href="css/animate.min.css" rel="stylesheet">
-
-<!-- Custom styling plus plugins -->
 <link href="css/custom.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css"
 	href="css/maps/jquery-jvectormap-2.0.3.css" />
@@ -33,34 +29,17 @@
 <link rel="stylesheet" href="css/normalize.css" />
 <link rel="stylesheet" href="css/ion.rangeSlider.css" />
 <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
-<script src="js/jquery.min.js"></script>
-<script src="js/nprogress.js"></script>
-
-<!--[if lt IE 9]>
-			        <script src="../assets/js/ie8-responsive-file-warning.js"></script>
-			        <![endif]-->
-
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-			          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-			          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-			          <![endif]-->
-
 </head>
 
 
 <body class="nav-md">
-
 	<div class="container body">
-
-
 		<div class="main_container">
 
 			<jsp:include page="sideMenu.jsp" />
 			<jsp:include page="navMenu.jsp" />
 
 			<div class="right_col" role="main">
-
 				<div class="row">
 					<div class="col-md-12 col-sm-12 col-xs-12">
 						<div class="dashboard_graph">
@@ -92,7 +71,7 @@
 														Men:
 														<div class="pull-right">
 															<input type="checkbox" name="show-men" class="flat"
-															<c:if test="${user.wantsMale == true}">
+																<c:if test="${user.wantsMale == true}">
 																	checked="checked"
 															</c:if>>
 														</div>
@@ -100,7 +79,7 @@
 														Women:
 														<div class="pull-right">
 															<input type="checkbox" name="show-women" class="flat"
-															<c:if test="${user.wantsFemale == true}">
+																<c:if test="${user.wantsFemale == true}">
 																	checked="checked"
 															</c:if>>
 														</div>
@@ -133,18 +112,14 @@
 								<div class="col-md-6"></div>
 							</div>
 
-
 							<div class="clearfix"></div>
 						</div>
 					</div>
-
 				</div>
-
 				<jsp:include page="footer.jsp" />
 			</div>
 			<!-- /page content -->
 		</div>
-
 
 		<div id="custom_notifications" class="custom-notifications dsp_none">
 			<ul class="list-unstyled notifications clearfix"
@@ -159,28 +134,15 @@
 		<!-- bootstrap progress js -->
 		<script src="js/progressbar/bootstrap-progressbar.min.js"></script>
 		<script src="js/nicescroll/jquery.nicescroll.min.js"></script>
-		<!-- icheck -->
 		<script src="js/icheck/icheck.min.js"></script>
 		<script src="js/custom.js"></script>
-		<!-- daterangepicker -->
 		<script type="text/javascript" src="js/moment/moment.min.js"></script>
 		<script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
-		<!-- input mask -->
 		<script src="js/input_mask/jquery.inputmask.js"></script>
-		<!-- knob -->
-		<script src="js/knob/jquery.knob.min.js"></script>
 		<!-- range slider -->
 		<script src="js/ion_range/ion.rangeSlider.min.js"></script>
-		<!-- color picker -->
-		<script src="js/colorpicker/bootstrap-colorpicker.min.js"></script>
-		<script src="js/colorpicker/docs.js"></script>
-
-		<!-- image cropping -->
-		<script src="js/cropping/cropper.min.js"></script>
-		<script src="js/cropping/main2.js"></script>
-		<!-- pace -->
-		<script src="js/pace/pace.min.js"></script>
-
+		<script src="js/jquery.min.js"></script>
+		<script src="js/nprogress.js"></script>
 
 		<script>
 			$(document).ready(function() {
@@ -191,134 +153,26 @@
 		<!-- ion_range -->
 		<script>
 			$(function() {
-				$("#range-age")
-						.ionRangeSlider(
-								{
-									hide_min_max : true,
-									keyboard : true,
-									min : 18,
-									max : 100,
-									from : '${user.minDesiredAge}',
-									to : '${user.maxDesiredAge}',
-									type : 'double',
-									step : 1,
-									grid : true
-								});
-				$(".range-distance")
-						.ionRangeSlider(
-								{
-									min : 1,
-									max : 1000,
-									from : '${user.searchDistance}',
-									postfix : ' km',
-									grid : true,
-								});
-			});
-		</script>
-		<!-- /ion_range -->
-		<!-- knob -->
-		<script>
-			$(function($) {
-
-				$(".knob").knob(
-						{
-							change : function(value) {
-								//console.log("change : " + value);
-							},
-							release : function(value) {
-								//console.log(this.$.attr('value'));
-								console.log("release : " + value);
-							},
-							cancel : function() {
-								console.log("cancel : ", this);
-							},
-							/*format : function (value) {
-							 return value + '%';
-							},*/
-							draw : function() {
-
-								// "tron" case
-								if (this.$.data('skin') == 'tron') {
-
-									this.cursorExt = 0.3;
-
-									var a = this.arc(this.cv) // Arc
-									, pa // Previous arc
-									, r = 1;
-
-									this.g.lineWidth = this.lineWidth;
-
-									if (this.o.displayPrevious) {
-										pa = this.arc(this.v);
-										this.g.beginPath();
-										this.g.strokeStyle = this.pColor;
-										this.g.arc(this.xy, this.xy,
-												this.radius - this.lineWidth,
-												pa.s, pa.e, pa.d);
-										this.g.stroke();
-									}
-
-									this.g.beginPath();
-									this.g.strokeStyle = r ? this.o.fgColor
-											: this.fgColor;
-									this.g.arc(this.xy, this.xy, this.radius
-											- this.lineWidth, a.s, a.e, a.d);
-									this.g.stroke();
-
-									this.g.lineWidth = 2;
-									this.g.beginPath();
-									this.g.strokeStyle = this.o.fgColor;
-									this.g.arc(this.xy, this.xy, this.radius
-											- this.lineWidth + 1
-											+ this.lineWidth * 2 / 3, 0,
-											2 * Math.PI, false);
-									this.g.stroke();
-
-									return false;
-								}
-							}
-						});
-
-				// Example of infinite knob, iPod click wheel
-				var v, up = 0, down = 0, i = 0, $idir = $("div.idir"), $ival = $("div.ival"), incr = function() {
-					i++;
-					$idir.show().html("+").fadeOut();
-					$ival.html(i);
-				}, decr = function() {
-					i--;
-					$idir.show().html("-").fadeOut();
-					$ival.html(i);
-				};
-				$("input.infinite").knob({
-					min : 0,
-					max : 20,
-					stopper : false,
-					change : function() {
-						if (v > this.cv) {
-							if (up) {
-								decr();
-								up = 0;
-							} else {
-								up = 1;
-								down = 0;
-							}
-						} else {
-							if (v < this.cv) {
-								if (down) {
-									incr();
-									down = 0;
-								} else {
-									down = 1;
-									up = 0;
-								}
-							}
-						}
-						v = this.cv;
-					}
+				$("#range-age").ionRangeSlider({
+					hide_min_max : true,
+					keyboard : true,
+					min : 18,
+					max : 100,
+					from : '${user.minDesiredAge}',
+					to : '${user.maxDesiredAge}',
+					type : 'double',
+					step : 1,
+					grid : true
+				});
+				$(".range-distance").ionRangeSlider({
+					min : 1,
+					max : 1000,
+					from : '${user.searchDistance}',
+					postfix : ' km',
+					grid : true,
 				});
 			});
 		</script>
-		<!-- /knob -->
 </body>
 
 </html>
