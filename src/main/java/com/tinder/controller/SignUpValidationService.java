@@ -20,7 +20,7 @@ import com.tinder.model.dao.UserDAO;
 public class SignUpValidationService {
 
 	@RequestMapping(value = "/SignUpValidationService", method = RequestMethod.POST)
-	public Map<String, String> doPost(HttpServletRequest request, HttpServletResponse response) {
+	public Map<String, String> doPost(HttpServletRequest request) {
 		Map<String, String> result = new HashMap<String, String>();
 		try {
 			String username = request.getParameter("username");

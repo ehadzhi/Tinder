@@ -88,7 +88,7 @@
 												</a>
 											</div>
 										</div>
-										<button onclick="worker('disLike')" class="LDButton"
+										<button onclick="worker('disLike');getMatchNotifications();" class="LDButton"
 											style="float: right;" type="button">Dislike</button>
 										<button onclick="worker('Like')" class="LDButton"
 											style="float: left;" type="button">Like</button>
