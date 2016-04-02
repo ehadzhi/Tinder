@@ -21,6 +21,9 @@
 <link href="css/icheck/flat/green.css" rel="stylesheet" />
 <link href="css/floatexamples.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="css/normalize.css" />
+
+<script src="js/jquery.min.js"></script>
+<script src="js/nprogress.js"></script>
 </head>
 
 
@@ -110,8 +113,6 @@
 	<script src="js/icheck/icheck.min.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="js/input_mask/jquery.inputmask.js"></script>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/nprogress.js"></script>
 
 </body>
 

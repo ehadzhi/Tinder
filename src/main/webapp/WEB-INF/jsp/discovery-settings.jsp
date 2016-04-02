@@ -29,6 +29,10 @@
 <link rel="stylesheet" href="css/normalize.css" />
 <link rel="stylesheet" href="css/ion.rangeSlider.css" />
 <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+
+<script src="js/jquery.min.js"></script>
+<script src="js/nprogress.js"></script>
+
 </head>
 
 
@@ -128,51 +132,50 @@
 			<div class="clearfix"></div>
 			<div id="notif-group" class="tabbed_notifications"></div>
 		</div>
+	</div>
 
-		<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 
-		<!-- bootstrap progress js -->
-		<script src="js/progressbar/bootstrap-progressbar.min.js"></script>
-		<script src="js/nicescroll/jquery.nicescroll.min.js"></script>
-		<script src="js/icheck/icheck.min.js"></script>
-		<script src="js/custom.js"></script>
-		<script type="text/javascript" src="js/moment/moment.min.js"></script>
-		<script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
-		<script src="js/input_mask/jquery.inputmask.js"></script>
-		<!-- range slider -->
-		<script src="js/ion_range/ion.rangeSlider.min.js"></script>
-		<script src="js/jquery.min.js"></script>
-		<script src="js/nprogress.js"></script>
+	<!-- bootstrap progress js -->
+	<script src="js/progressbar/bootstrap-progressbar.min.js"></script>
+	<script src="js/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="js/icheck/icheck.min.js"></script>
+	<script src="js/custom.js"></script>
+	<script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
+	<script src="js/input_mask/jquery.inputmask.js"></script>
+	<!-- range slider -->
+	<script src="js/ion_range/ion.rangeSlider.min.js"></script>
 
-		<script>
-			$(document).ready(function() {
-				$(":input").inputmask();
+
+	<script>
+		$(document).ready(function() {
+			$(":input").inputmask();
+		});
+	</script>
+	<!-- /input mask -->
+	<!-- ion_range -->
+	<script>
+		$(function() {
+			$("#range-age").ionRangeSlider({
+				hide_min_max : true,
+				keyboard : true,
+				min : 18,
+				max : 100,
+				from : '${user.minDesiredAge}',
+				to : '${user.maxDesiredAge}',
+				type : 'double',
+				step : 1,
+				grid : true
 			});
-		</script>
-		<!-- /input mask -->
-		<!-- ion_range -->
-		<script>
-			$(function() {
-				$("#range-age").ionRangeSlider({
-					hide_min_max : true,
-					keyboard : true,
-					min : 18,
-					max : 100,
-					from : '${user.minDesiredAge}',
-					to : '${user.maxDesiredAge}',
-					type : 'double',
-					step : 1,
-					grid : true
-				});
-				$(".range-distance").ionRangeSlider({
-					min : 1,
-					max : 1000,
-					from : '${user.searchDistance}',
-					postfix : ' km',
-					grid : true,
-				});
+			$(".range-distance").ionRangeSlider({
+				min : 1,
+				max : 1000,
+				from : '${user.searchDistance}',
+				postfix : ' km',
+				grid : true,
 			});
-		</script>
+		});
+	</script>
 </body>
 
 </html>

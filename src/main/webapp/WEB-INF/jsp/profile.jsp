@@ -91,10 +91,11 @@
 											class="fa fa-cloud-upload m-right-xs"></i>Upload Picture</a> <br />
 										<a class="btn btn-success" data-toggle="modal"
 											data-target=".bs-example-modal-smdel"><i
-											class="fa fa-trash m-right-xs"></i>Delete Picture</a> <br />
-											<a class="btn btn-success" data-toggle="modal"
+											class="fa fa-trash m-right-xs"></i>Delete Picture</a> <br /> <a
+											class="btn btn-success" data-toggle="modal"
 											data-target=".bs-example-modal-sm-select-profile"><i
-											class="fa fa-file-image-o m-right-xs"></i>Change Profile Picture</a> <br />
+											class="fa fa-file-image-o m-right-xs"></i>Change Profile
+											Picture</a> <br />
 
 										<div class="modal fade bs-example-modal-sm" tabindex="-1"
 											role="dialog" aria-labelledby="mySmallModalLabel">
@@ -133,35 +134,34 @@
 															<c:forEach items='${pictures}' var="picture">
 																<input type="image" style="width: 130px; height: auto;"
 																	formaction="/Tinder/PictureDelete/${picture}"
-																	formmethod="post"
-																	src="images/${picture}">
+																	formmethod="post" src="images/${picture}">
 															</c:forEach>
 														</form>
 													</div>
 												</div>
 											</div>
 										</div>
-										
-										<div class="modal fade bs-example-modal-sm-select-profile" tabindex="-1"
-											role="dialog" aria-labelledby="mySmallModalLabel">
+
+										<div class="modal fade bs-example-modal-sm-select-profile"
+											tabindex="-1" role="dialog"
+											aria-labelledby="mySmallModalLabel">
 											<div class="modal-dialog modal-sm">
 												<div class="modal-content">
 													<div class="modal-body">
-														<h2 class="form-signup-heading">To set a profile picture just click on it
-															just click on it.</h2>
+														<h2 class="form-signup-heading">To set a profile
+															picture just click on it just click on it.</h2>
 														<form action="/Tinder/SetProfilePicture" method="post">
 															<c:forEach items='${pictures}' var="picture">
 																<input type="image" style="width: 130px; height: auto;"
 																	formaction="/Tinder/SetProfilePicture/${picture}"
-																	formmethod="post"
-																	src="images/${picture}">
+																	formmethod="post" src="images/${picture}">
 															</c:forEach>
 														</form>
 													</div>
 												</div>
 											</div>
 										</div>
-										
+
 
 										<div class="modal fade bs-example-modal-lg" tabindex="-1"
 											role="dialog" aria-hidden="true" style="display: none">
@@ -177,26 +177,26 @@
 														</div>
 														<div class="modal-body">
 															<div class="form-group">
-																<label class="col-md-3 control-label" >
-																	Password: *
-																</label>
-																<label id="old-password-label" style="font-size:15px; color:red;"></label>
+																<label class="col-md-3 control-label"> Password:
+																	* </label> <label id="old-password-label"
+																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
-																	<input id="old-password" class="form-control" type="password"
-																		value="">
+																	<input id="old-password" class="form-control"
+																		type="password" value="">
 																</div>
 															</div>
 															<div class="form-group">
 																<label class="col-lg-3 control-label">New Email:</label>
-																<label id="new-email-label" style=" font-size:15px; color:red;"></label>
+																<label id="new-email-label"
+																	style="font-size: 15px; color: red;"></label>
 																<div class="col-lg-5">
 																	<input id="new-email" class="form-control" type="text"
 																		placeholder='${user.email}'>
 																</div>
 															</div>
 															<div class="form-group">
-																<label class="col-lg-3 control-label">New Age:</label>
-																<label id="new-age-label" style=" font-size:15px; color:red;"></label>
+																<label class="col-lg-3 control-label">New Age:</label> <label
+																	id="new-age-label" style="font-size: 15px; color: red;"></label>
 																<div class="col-lg-5">
 																	<input id="new-age" class="form-control" type="text"
 																		placeholder='${user.age}'>
@@ -204,29 +204,41 @@
 															</div>
 															<div class="form-group">
 																<label class="col-md-3 control-label">New
-																	Username:</label>
-																	<label id="new-username-label" style=" font-size:15px; color:red;"></label>
+																	Username:</label> <label id="new-username-label"
+																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
-																	<input id="new-username" class="form-control" type="text"
-																		placeholder='${user.username}'>
+																	<input id="new-username" class="form-control"
+																		type="text" placeholder='${user.username}'>
 																</div>
 															</div>
 															<div class="form-group">
 																<label class="col-md-3 control-label">New
-																	Password:</label>
-																<label id="new-password-label" style=" font-size:15px; color:red;"></label>
+																	Password:</label> <label id="new-password-label"
+																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
-																	<input id="new-password" class="form-control" type="password"
-																		value=''>
+																	<input id="new-password" class="form-control"
+																		type="password" value=''>
 																</div>
 															</div>
 															<div class="form-group">
 																<label class="col-md-3 control-label">Confirm
-																	New Password:</label>
-																<label id="new-password-confirm-label" style="font-size:15px; color:red;"></label>
+																	New Password:</label> <label id="new-password-confirm-label"
+																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
-																	<input id="new-password-confirm" class="form-control" type="password"
-																		value=''>
+																	<input id="new-password-confirm" class="form-control"
+																		type="password" value=''>
+																</div>
+															</div>
+															<div class="form-group">
+																<label class="col-md-3 control-label">Description:</label>
+																<label id="new-password-confirm-label"
+																	style="font-size: 15px; color: red;">ima</label>
+																<div class="col-md-5">
+																	<fieldset class="form-group">
+																		<textarea style="max-width: 100%;"class="form-control" id="exampleTextarea"
+																			rows="3" placeholder='${user.description}'>
+																		</textarea>
+																	</fieldset>
 																</div>
 															</div>
 
@@ -236,9 +248,8 @@
 														<div class="modal-footer">
 															<button type="button" class="btn btn-default"
 																data-dismiss="modal">Close</button>
-															<button id="changes-submit" type="submit" class="btn btn-primary hidden">
-																Save changes
-															</button>
+															<button id="changes-submit" type="submit"
+																class="btn btn-primary hidden">Save changes</button>
 														</div>
 													</form>
 
@@ -374,25 +385,25 @@
 				newPassConfirmator($('#new-password-confirm').val());
 			}, 1000);
 		});
-		
+
 		$('#new-password').keyup(function() {
 			delay(function() {
 				newPassChecker($('#new-password').val());
 			}, 1000);
 		});
-		
+
 		$('#old-password').keyup(function() {
 			delay(function() {
 				passChecker($('#old-password').val());
 			}, 1000);
 		});
-		
+
 		$('#new-age').change(function() {
 			delay(function() {
 				ageChecker($('#new-age').val());
 			}, 1000);
 		});
-		
+
 		$('#new-email').keyup(function() {
 			delay(function() {
 				emailChecker($('#new-email').val());
@@ -400,12 +411,11 @@
 		});
 
 		function usernameChecker(username) {
-			$.ajax(
-					{
-						url : 'SignUpValidationService',
-						type : 'POST',
-						data : "username=" + username
-					}).done(function(response) {
+			$.ajax({
+				url : 'SignUpValidationService',
+				type : 'POST',
+				data : "username=" + username
+			}).done(function(response) {
 				$('#new-username-label').empty();
 				$('#new-username-label').append(response.username);
 				checkForSubmit();
@@ -413,79 +423,78 @@
 		};
 
 		function ageChecker(age) {
-			$.ajax(
-					{
-						url : 'SignUpValidationService',
-						type : 'POST',
-						data : "age=" + age
-					}).done(function(response) {
-						$('#new-age-label').empty();
-						$('#new-age-label').append(response.age);
-						checkForSubmit();
+			$.ajax({
+				url : 'SignUpValidationService',
+				type : 'POST',
+				data : "age=" + age
+			}).done(function(response) {
+				$('#new-age-label').empty();
+				$('#new-age-label').append(response.age);
+				checkForSubmit();
 			});
 		};
 
 		function emailChecker(email) {
-			$.ajax(
-					{
-						url : 'SignUpValidationService',
-						type : 'POST',
-						data : "email=" + email
-					}).done(function(response) {
-						$('#new-email-label').empty();
-						$('#new-email-label').append(response.email);
-						checkForSubmit();
+			$.ajax({
+				url : 'SignUpValidationService',
+				type : 'POST',
+				data : "email=" + email
+			}).done(function(response) {
+				$('#new-email-label').empty();
+				$('#new-email-label').append(response.email);
+				checkForSubmit();
 			});
 		};
 		function passChecker(pass) {
-			$.ajax(
-					{
-						url : 'SignUpValidationService',
-						type : 'POST',
-						data : "oldPassword=" + pass
-					}).done(function(response) {
-						$('#old-password-label').empty();
-						$('#old-password-label').append(response.oldPassword);
-						checkForSubmit();
+			$.ajax({
+				url : 'SignUpValidationService',
+				type : 'POST',
+				data : "oldPassword=" + pass
+			}).done(function(response) {
+				$('#old-password-label').empty();
+				$('#old-password-label').append(response.oldPassword);
+				checkForSubmit();
 			});
 		};
 		function newPassChecker(pass) {
-			$.ajax(
-					{
-						url : 'SignUpValidationService',
-						type : 'POST',
-						data : "password=" + pass
-					}).done(function(response) {
-						$('#new-password-label').empty();
-						$('#new-password-label').append(response.password);
-						checkForSubmit();
+			$.ajax({
+				url : 'SignUpValidationService',
+				type : 'POST',
+				data : "password=" + pass
+			}).done(function(response) {
+				$('#new-password-label').empty();
+				$('#new-password-label').append(response.password);
+				checkForSubmit();
 			});
 		};
 		function newPassConfirmator(pass) {
 			$('#new-password-confirm-label').empty();
-			if($('#new-password-confirm').val()==$('#new-password').val())
+			if ($('#new-password-confirm').val() == $('#new-password').val())
 				$('#new-password-confirm-label').append('OK');
 			else
-				$('#new-password-confirm-label').append("The passwords doesn't match");
+				$('#new-password-confirm-label').append(
+						"The passwords doesn't match");
 			checkForSubmit();
 		};
-		
-		function hideSubmitButton(){
+
+		function hideSubmitButton() {
 			$('#changes-submit').addClass('hidden');
 		}
-		function showSubmitButton(){
+		function showSubmitButton() {
 			$('#changes-submit').removeClass('hidden');
 		}
-		function checkForSubmit(){
-			if($('#old-password-label').text()=='OK' && (
-					$('#new-email-label').text()=='OK' || 
-					$('#new-username-label').text()=='OK' || 
-					$('#new-age-label').text()=='OK' || 
-					$('#new-email-label').text()=='' || 
-					$('#new-username-label').text()=='' || 
-					$('#new-age-label').text()=='' || 
-					($('#new-password-label').text()!='' && $('#new-password-comfirm-label').text()=='OK') ||
-					($('#new-password-label').text()=='' && $('#new-password-comfirm-label').text()=='') ))
+		function checkForSubmit() {
+			if ($('#old-password-label').text() == 'OK'
+					&& ($('#new-email-label').text() == 'OK'
+							|| $('#new-username-label').text() == 'OK'
+							|| $('#new-age-label').text() == 'OK'
+							|| $('#new-email-label').text() == ''
+							|| $('#new-username-label').text() == ''
+							|| $('#new-age-label').text() == ''
+							|| ($('#new-password-label').text() != '' && $(
+									'#new-password-comfirm-label').text() == 'OK') || ($(
+							'#new-password-label').text() == '' && $(
+							'#new-password-comfirm-label').text() == '')))
 				showSubmitButton();
 			else
 				hideSubmitButton();
