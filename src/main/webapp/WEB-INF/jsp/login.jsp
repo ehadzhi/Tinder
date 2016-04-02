@@ -90,6 +90,12 @@
 
 						</div>
 						<div>
+							<span class="input-group-addon" id="fullName-addon"></span> 
+							<input id='fullName' type="text" name="fullName" class="form-control"
+								placeholder="Full Name" required />
+
+						</div>
+						<div>
 							<span class="input-group-addon" id="email-addon"></span> 
 							<input id='email' type="email" name="email"
 								class="form-control" placeholder="Email" required />

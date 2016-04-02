@@ -115,7 +115,7 @@ public class UserDAO {
 		}
 	}
 
-	public static void registerUser(String username, String password, String email, boolean gender, int age)
+	public static void registerUser(String username, String password, String email, boolean gender, int age, String fullName)
 			throws DBException {
 		Connection conn = null;
 		PreparedStatement st = null;
@@ -128,6 +128,7 @@ public class UserDAO {
 			st.setInt(3, age);
 			st.setBoolean(4, gender);
 			st.setString(5, email);
+			st.setString(6, fullName);
 			st.executeUpdate();
 
 		} catch (Exception e) {

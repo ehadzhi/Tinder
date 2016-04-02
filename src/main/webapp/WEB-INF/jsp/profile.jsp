@@ -37,7 +37,7 @@
 </head>
 
 
-<body class="nav-md" onload="photoLoader();locationLoader();">
+<body class="nav-md" onload="locationLoader();">
 	<div class="container body">
 		<div class="main_container">
 			<jsp:include page="sideMenu.jsp" />
