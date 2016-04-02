@@ -130,24 +130,56 @@
 														</div>
 														<div class="modal-body">
 															<div class="form-group">
-																<label class="col-lg-3 control-label">Email:</label>
-																<div class="col-lg-8">
-																	<input class="form-control" type="text"
-																		value="janesemail@gmail.com">
+																<label class="col-md-3 control-label" >
+																	Password: *
+																</label>
+																<label id="old-password-label" style="font-size:15px; color:red;"></label>
+																<div class="col-md-5">
+																	<input id="old-password" class="form-control" type="password"
+																		value="">
 																</div>
 															</div>
 															<div class="form-group">
-																<label class="col-md-3 control-label">Username:</label>
-																<div class="col-md-8">
-																	<input class="form-control" type="text"
-																		value="janeuser">
+																<label class="col-lg-3 control-label">New Email:</label>
+																<label id="new-email-label" style=" font-size:15px; color:red;"></label>
+																<div class="col-lg-5">
+																	<input id="new-email" class="form-control" type="text"
+																		placeholder='${user.email}'>
 																</div>
 															</div>
 															<div class="form-group">
-																<label class="col-md-3 control-label">Password:</label>
-																<div class="col-md-8">
-																	<input class="form-control" type="password"
-																		value="11111122333">
+																<label class="col-lg-3 control-label">New Age:</label>
+																<label id="new-age-label" style=" font-size:15px; color:red;"></label>
+																<div class="col-lg-5">
+																	<input id="new-age" class="form-control" type="text"
+																		placeholder='${user.age}'>
+																</div>
+															</div>
+															<div class="form-group">
+																<label class="col-md-3 control-label">New
+																	Username:</label>
+																	<label id="new-username-label" style=" font-size:15px; color:red;"></label>
+																<div class="col-md-5">
+																	<input id="new-username" class="form-control" type="text"
+																		placeholder='${user.username}'>
+																</div>
+															</div>
+															<div class="form-group">
+																<label class="col-md-3 control-label">New
+																	Password:</label>
+																<label id="new-password-label" style=" font-size:15px; color:red;"></label>
+																<div class="col-md-5">
+																	<input id="new-password" class="form-control" type="password"
+																		value=''>
+																</div>
+															</div>
+															<div class="form-group">
+																<label class="col-md-3 control-label">Confirm
+																	New Password:</label>
+																<label id="new-password-confirm-label" style="font-size:15px; color:red;"></label>
+																<div class="col-md-5">
+																	<input id="new-password-confirm" class="form-control" type="password"
+																		value=''>
 																</div>
 															</div>
 
@@ -157,8 +189,9 @@
 														<div class="modal-footer">
 															<button type="button" class="btn btn-default"
 																data-dismiss="modal">Close</button>
-															<button type="button" class="btn btn-primary">Save
-																changes</button>
+															<button id="changes-submit" type="submit" class="btn btn-primary hidden">
+																Save changes
+															</button>
 														</div>
 													</form>
 
@@ -187,7 +220,7 @@
 						</div>
 					</div>
 					<br />
-					
+
 				</div>
 				<jsp:include page="footer.jsp" />
 				<!-- /page content -->
@@ -195,85 +228,222 @@
 			</div>
 
 		</div>
+	</div>
 
-		<div id="custom_notifications" class="custom-notifications dsp_none">
-			<ul class="list-unstyled notifications clearfix"
-				data-tabbed_notifications="notif-group">
-			</ul>
-			<div class="clearfix"></div>
-			<div id="notif-group" class="tabbed_notifications"></div>
-		</div>
+	<div id="custom_notifications" class="custom-notifications dsp_none">
+		<ul class="list-unstyled notifications clearfix"
+			data-tabbed_notifications="notif-group">
+		</ul>
+		<div class="clearfix"></div>
+		<div id="notif-group" class="tabbed_notifications"></div>
+	</div>
 
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/custom.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/custom.js"></script>
 
 
-		<script>
-			NProgress.done();
-		</script>
-		<script type="text/javascript">
-			function photoLoader() {
-				$
-						.ajax({
-							url : 'UserPhotosService',
-							type : 'POST',
-							data : "action=none"
-						})
-						.done(
-								function(response) {
-									$('#user-photos').empty();
-									var i;
-									for (i = 0; i < response.photos.length; i += 1) {
-										$('#user-photos')
-												.append(
-														"<li class='col-lg-2 col-md-2 col-sm-3 col-xs-4'><img src='"+ response.photos[i] +"' /></li>");
-
-									}
-								});
-			};
-			function locationLoader() {
-				$
-						.ajax(
-								{
-									url : 'https://maps.googleapis.com/maps/api/geocode/json',
-									type : 'GET',
-									data : "latlng="
-											+ '<c:out value="${sessionScope.user.latitude}" />'
-											+ ","
-											+ '<c:out value="${sessionScope.user.longitude}"/>'
-											+ "&key=AIzaSyCNu5m_VtOStftb0xxeu26lK9nxWokDzl4"
-								})
-						.done(
-								function(response) {
-									$('#user-location').empty();
-									$('#user-location')
+	<script>
+		NProgress.done();
+	</script>
+	<script type="text/javascript">
+		function photoLoader() {
+			$
+					.ajax({
+						url : 'UserPhotosService',
+						type : 'POST',
+						data : "action=none"
+					})
+					.done(
+							function(response) {
+								$('#user-photos').empty();
+								var i;
+								for (i = 0; i < response.photos.length; i += 1) {
+									$('#user-photos')
 											.append(
-													"<i class=\"fa fa-map-marker user-profile-icon\"></i> "
-															+ response.results[0].formatted_address);
-								});
+													"<li class='col-lg-2 col-md-2 col-sm-3 col-xs-4'><img src='"+ response.photos[i] +"' /></li>");
+
+								}
+							});
+		};
+		function locationLoader() {
+			$
+					.ajax(
+							{
+								url : 'https://maps.googleapis.com/maps/api/geocode/json',
+								type : 'GET',
+								data : "latlng="
+										+ '<c:out value="${sessionScope.user.latitude}" />'
+										+ ","
+										+ '<c:out value="${sessionScope.user.longitude}"/>'
+										+ "&key=AIzaSyCNu5m_VtOStftb0xxeu26lK9nxWokDzl4"
+							})
+					.done(
+							function(response) {
+								$('#user-location').empty();
+								$('#user-location')
+										.append(
+												"<i class=\"fa fa-map-marker user-profile-icon\"></i> "
+														+ response.results[0].formatted_address);
+							});
+		};
+		function profilePictureLoader() {
+			$
+					.ajax(
+							{
+								url : 'https://maps.googleapis.com/maps/api/geocode/json',
+								type : 'GET',
+								data : "latlng="
+										+ '<c:out value="${sessionScope.user.latitude}" />'
+										+ ","
+										+ '<c:out value="${sessionScope.user.longitude}"/>'
+										+ "&key=AIzaSyCNu5m_VtOStftb0xxeu26lK9nxWokDzl4"
+							})
+					.done(
+							function(response) {
+								$('#user-location').empty();
+								$('#user-location')
+										.append(
+												"<i class=\"fa fa-map-marker user-profile-icon\"></i> "
+														+ response.results[0].formatted_address);
+							});
+		}
+
+		var delay = (function() {
+			var timer = 0;
+			return function(callback, ms) {
+				clearTimeout(timer);
+				timer = setTimeout(callback, ms);
 			};
-			function profilePictureLoader() {
-				$
-						.ajax(
-								{
-									url : 'https://maps.googleapis.com/maps/api/geocode/json',
-									type : 'GET',
-									data : "latlng="
-											+ '<c:out value="${sessionScope.user.latitude}" />'
-											+ ","
-											+ '<c:out value="${sessionScope.user.longitude}"/>'
-											+ "&key=AIzaSyCNu5m_VtOStftb0xxeu26lK9nxWokDzl4"
-								})
-						.done(
-								function(response) {
-									$('#user-location').empty();
-									$('#user-location')
-											.append(
-													"<i class=\"fa fa-map-marker user-profile-icon\"></i> "
-															+ response.results[0].formatted_address);
-								});
-			}
-		</script>
+		})();
+
+		$('#new-username').keyup(function() {
+			delay(function() {
+				usernameChecker($('#new-username').val());
+			}, 1000);
+		});
+
+		$('#new-password-confirm').keyup(function() {
+			delay(function() {
+				newPassConfirmator($('#new-password-confirm').val());
+			}, 1000);
+		});
+		
+		$('#new-password').keyup(function() {
+			delay(function() {
+				newPassChecker($('#new-password').val());
+			}, 1000);
+		});
+		
+		$('#old-password').keyup(function() {
+			delay(function() {
+				passChecker($('#old-password').val());
+			}, 1000);
+		});
+		
+		$('#new-age').change(function() {
+			delay(function() {
+				ageChecker($('#new-age').val());
+			}, 1000);
+		});
+		
+		$('#new-email').keyup(function() {
+			delay(function() {
+				emailChecker($('#new-email').val());
+			}, 1000);
+		});
+
+		function usernameChecker(username) {
+			$.ajax(
+					{
+						url : 'SignUpValidationService',
+						type : 'POST',
+						data : "username=" + username
+					}).done(function(response) {
+				$('#new-username-label').empty();
+				$('#new-username-label').append(response.username);
+				checkForSubmit();
+			});
+		};
+
+		function ageChecker(age) {
+			$.ajax(
+					{
+						url : 'SignUpValidationService',
+						type : 'POST',
+						data : "age=" + age
+					}).done(function(response) {
+						$('#new-age-label').empty();
+						$('#new-age-label').append(response.age);
+						checkForSubmit();
+			});
+		};
+
+		function emailChecker(email) {
+			$.ajax(
+					{
+						url : 'SignUpValidationService',
+						type : 'POST',
+						data : "email=" + email
+					}).done(function(response) {
+						$('#new-email-label').empty();
+						$('#new-email-label').append(response.email);
+						checkForSubmit();
+			});
+		};
+		function passChecker(pass) {
+			$.ajax(
+					{
+						url : 'SignUpValidationService',
+						type : 'POST',
+						data : "oldPassword=" + pass
+					}).done(function(response) {
+						$('#old-password-label').empty();
+						$('#old-password-label').append(response.oldPassword);
+						checkForSubmit();
+			});
+		};
+		function newPassChecker(pass) {
+			$.ajax(
+					{
+						url : 'SignUpValidationService',
+						type : 'POST',
+						data : "password=" + pass
+					}).done(function(response) {
+						$('#new-password-label').empty();
+						$('#new-password-label').append(response.password);
+						checkForSubmit();
+			});
+		};
+		function newPassConfirmator(pass) {
+			$('#new-password-confirm-label').empty();
+			if($('#new-password-confirm').val()==$('#new-password').val())
+				$('#new-password-confirm-label').append('OK');
+			else
+				$('#new-password-confirm-label').append("The passwords doesn't match");
+			checkForSubmit();
+		};
+		
+		function hideSubmitButton(){
+			$('#changes-submit').addClass('hidden');
+		}
+		function showSubmitButton(){
+			$('#changes-submit').removeClass('hidden');
+		}
+		function checkForSubmit(){
+			if($('#old-password-label').text()=='OK' && (
+					$('#new-email-label').text()=='OK' || 
+					$('#new-username-label').text()=='OK' || 
+					$('#new-age-label').text()=='OK' || 
+					$('#new-email-label').text()=='' || 
+					$('#new-username-label').text()=='' || 
+					$('#new-age-label').text()=='' || 
+					($('#new-password-label').text()!='' && $('#new-password-comfirm-label').text()=='OK') ||
+					($('#new-password-label').text()=='' && $('#new-password-comfirm-label').text()=='') ))
+				showSubmitButton();
+			else
+				hideSubmitButton();
+		}
+	</script>
 </body>
 
 </html>

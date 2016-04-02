@@ -9,12 +9,14 @@ import javax.print.attribute.HashAttributeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.startup.UserDatabase;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tinder.exceptions.DBException;
 import com.tinder.model.dao.UserDAO;
+import com.tinder.model.pojo.User;
 
 @RestController
 public class SignUpValidationService {
@@ -27,6 +29,9 @@ public class SignUpValidationService {
 			String email = request.getParameter("email");
 			String age = request.getParameter("age");
 			String password = request.getParameter("password");
+			String oldPassword = request.getParameter("oldPassword");
+			User user = (User)request.getSession().getAttribute("user");
+			
 			System.out.println(email);
 			if (username != null) {
 				if (!UserDAO.isUsernameExisting(username) && username.length() <= 45) {
@@ -57,6 +62,14 @@ public class SignUpValidationService {
 			}
 			if (password != null) {
 				result.put("password", checkPasswordStrength(password));
+			}
+			if (oldPassword != null) {
+				if(UserDAO.isUserAndPassExisting(user.getUsername(), oldPassword)){
+					result.put("oldPassword", "OK");
+				}
+				else{
+					result.put("oldPassword", "Incorrect password");
+				}
 			}
 
 		} catch (DBException e) {
