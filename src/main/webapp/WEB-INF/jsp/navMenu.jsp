@@ -79,7 +79,7 @@
 
 
 <script type="text/javascript">
-	function getMatchNotifications() {
+	(function getMatchNotifications() {
 		$.ajax({
 			url : 'MatchNotificationsService',
 			type : 'POST'
@@ -105,8 +105,9 @@
 					"	class='fa fa-angle-up'></i>"+
 					"</a>"+
 			"</div></li>");
+			setTimeout(getMatchNotifications, 10000);
 		});
-	};
+	})();
 	function deleteMatchNotifications() {
 		$.ajax({
 			url : 'MatchNotificationsService',
@@ -115,6 +116,5 @@
 			getMatchNotifications();
 		});
 	};
-	getMatchNotifications();
 </script>
 <!-- /top navigation -->

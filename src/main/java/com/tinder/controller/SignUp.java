@@ -19,7 +19,8 @@ public class SignUp {
 					request.getParameter("password"),
 					request.getParameter("email"),
 					parseGender(request.getParameter("gender")),
-					Integer.parseInt(request.getParameter("age")));
+					Integer.parseInt(request.getParameter("age")),
+					request.getParameter("fullName"));
 			return "redirect:/Home";
 			
 		} catch (Exception e) {

@@ -18,7 +18,7 @@ public class UserDAO {
 	private static final String SET_DISCOVERY_SETTINGS = "UPDATE tinder.users SET wants_male=?, wants_female=?, search_distance=?, min_desired_age=?, max_desired_age=? WHERE id=? ;";
 	private static final String DELETE_USER = "delete from tinder.users WHERE username = ? ;";
 	private static final String REGISTER_USER = "INSERT INTO tinder.users "
-			+ "values(null,?,?,?,?,'default',?,false,false,null,null,null,null,null);";
+			+ "values(null,?,?,?,?,'default',?,false,false,null,null,null,null,null,?,NULL);";
 	private static final String IS_USER_AND_PASS_EXISTING = "select count(id) from tinder.users where "
 			+ "username = ? and password_hash = ?";
 	private static final String IS_USER_EXISTING = "select count(id) from tinder.users where "
@@ -115,7 +115,7 @@ public class UserDAO {
 		}
 	}
 
-	public static void registerUser(String username, String password, String email, boolean gender, int age)
+	public static void registerUser(String username, String password, String email, boolean gender, int age, String fullName)
 			throws DBException {
 		Connection conn = null;
 		PreparedStatement st = null;
@@ -128,6 +128,7 @@ public class UserDAO {
 			st.setInt(3, age);
 			st.setBoolean(4, gender);
 			st.setString(5, email);
+			st.setString(6, fullName);
 			st.executeUpdate();
 
 		} catch (Exception e) {
@@ -296,7 +297,8 @@ public class UserDAO {
 						rs.getInt("age"), rs.getBoolean("gender_is_male"), rs.getString("avatar_name"),
 						rs.getString("email"), rs.getBoolean("wants_male"), rs.getBoolean("wants_female"),
 						rs.getDouble("latitude"), rs.getDouble("longitude"), rs.getInt("search_distance"),
-						rs.getInt("max_desired_age"), rs.getInt("min_desired_age"));
+						rs.getInt("max_desired_age"), rs.getInt("min_desired_age"),
+						rs.getString("full_name"),rs.getString("description"));
 			}
 			return null;
 
