@@ -79,8 +79,9 @@
 										<ul class="list-unstyled user_data">
 											<li id="user-location"></li>
 
-											<li><i class="fa fa-briefcase user-profile-icon"></i>"${user.email}"</li>
-
+											<li><i class="fa fa-briefcase user-profile-icon"></i>${user.email}</li>
+											<li><i class="fa fa-briefcase fa-user-profile-icon"></i>${user.fullName}</li>
+											<li><i class="fa fa-briefcase user-profile-icon"></i>${user.description}</li>
 										</ul>
 
 										<a class="btn btn-success" data-toggle="modal"

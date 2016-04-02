@@ -33,7 +33,9 @@
 
 </head>
 
-<body style="background: #F7F7F7;" onload="getLocation();checkForSubmit();">
+<body style="background: #F7F7F7;"
+	onload="getLocation();checkForSubmit();">
+
 
 	<div class="">
 		<a class="hiddenanchor" id="toregister"></a> <a class="hiddenanchor"
@@ -78,31 +80,31 @@
 					</form>
 				</section>
 			</div>
-			
+
 			<div id="register" class="animate form">
 				<section class="login_content">
 					<form action="SignUp" method="post">
 						<h1>Create Account</h1>
 						<div>
-							<span class="input-group-addon" id="username-addon"></span> 
-							<input id='username' type="text" name="username" class="form-control"
+							<span class="input-group-addon" id="username-addon"></span> <input
+								id='username' type="text" name="username" class="form-control"
 								placeholder="Username" required />
 
 						</div>
 						<div>
-							<span class="input-group-addon" id="fullName-addon"></span> 
-							<input id='fullName' type="text" name="fullName" class="form-control"
+							<span class="input-group-addon" id="fullName-addon"></span> <input
+								id='fullName' type="text" name="fullName" class="form-control"
 								placeholder="Full Name" required />
 
 						</div>
 						<div>
-							<span class="input-group-addon" id="email-addon"></span> 
-							<input id='email' type="email" name="email"
-								class="form-control" placeholder="Email" required />
+							<span class="input-group-addon" id="email-addon"></span> <input
+								id='email' type="email" name="email" class="form-control"
+								placeholder="Email" required />
 						</div>
 						<div>
-							<span class="input-group-addon" id="password-addon"></span> 
-							<input id='password' type="password" name="password"
+							<span class="input-group-addon" id="password-addon"></span> <input
+								id='password' type="password" name="password"
 								class="form-control" placeholder="Password" required />
 						</div>
 						<div>
@@ -112,13 +114,12 @@
 							</select> <br>
 						</div>
 						<div>
-							<span class="input-group-addon" id="age-addon"></span> 
-							<input id='age' type="number" name="age" class="form-control"
+							<span class="input-group-addon" id="age-addon"></span> <input
+								id='age' type="number" name="age" class="form-control"
 								placeholder="Age" required />
 						</div>
-						<br>
-							<input id='signup-submit' type="submit" class="btn btn-default submit"
-								value="Sign up">
+						<br> <input id='signup-submit' type="submit"
+							class="btn btn-default submit" value="Sign up">
 						<div class="clearfix"></div>
 						<div class="separator">
 
@@ -210,7 +211,7 @@
 				ageChecker($('#age').val());
 			}, 1000);
 		});
-		
+
 		$('#email').keyup(function() {
 			delay(function() {
 				emailChecker($('#email').val());
@@ -218,12 +219,11 @@
 		});
 
 		function usernameChecker(username) {
-			$.ajax(
-					{
-						url : 'SignUpValidationService',
-						type : 'POST',
-						data : "username=" + username
-					}).done(function(response) {
+			$.ajax({
+				url : 'SignUpValidationService',
+				type : 'POST',
+				data : "username=" + username
+			}).done(function(response) {
 				$('#username-addon').empty();
 				$('#username-addon').append(response.username);
 				checkForSubmit();
@@ -231,59 +231,55 @@
 		};
 
 		function ageChecker(age) {
-			$.ajax(
-					{
-						url : 'SignUpValidationService',
-						type : 'POST',
-						data : "age=" + age
-					}).done(function(response) {
-						$('#age-addon').empty();
-						$('#age-addon').append(response.age);
-						checkForSubmit();
+			$.ajax({
+				url : 'SignUpValidationService',
+				type : 'POST',
+				data : "age=" + age
+			}).done(function(response) {
+				$('#age-addon').empty();
+				$('#age-addon').append(response.age);
+				checkForSubmit();
 			});
 		};
 
 		function emailChecker(email) {
-			$.ajax(
-					{
-						url : 'SignUpValidationService',
-						type : 'POST',
-						data : "email=" + email
-					}).done(function(response) {
-						$('#email-addon').empty();
-						$('#email-addon').append(response.email);
-						checkForSubmit();
+			$.ajax({
+				url : 'SignUpValidationService',
+				type : 'POST',
+				data : "email=" + email
+			}).done(function(response) {
+				$('#email-addon').empty();
+				$('#email-addon').append(response.email);
+				checkForSubmit();
 			});
 		};
 		function passChecker(pass) {
-			$.ajax(
-					{
-						url : 'SignUpValidationService',
-						type : 'POST',
-						data : "password=" + pass
-					}).done(function(response) {
-						$('#password-addon').empty();
-						$('#password-addon').append(response.password);
-						checkForSubmit();
+			$.ajax({
+				url : 'SignUpValidationService',
+				type : 'POST',
+				data : "password=" + pass
+			}).done(function(response) {
+				$('#password-addon').empty();
+				$('#password-addon').append(response.password);
+				checkForSubmit();
 			});
 		};
-		
-		function hideSubmitButton(){
+
+		function hideSubmitButton() {
 			$('#signup-submit').addClass('hidden');
 		}
-		function showSubmitButton(){
+		function showSubmitButton() {
 			$('#signup-submit').removeClass('hidden');
 		}
-		function checkForSubmit(){
-			if($('#email-addon').text()=='OK' &&
-					$('#age-addon').text()=='OK' && 
-					$('#username-addon').text()=='OK' &&
-					$('#password-addon').text()!='')
+		function checkForSubmit() {
+			if ($('#email-addon').text() == 'OK'
+					&& $('#age-addon').text() == 'OK'
+					&& $('#username-addon').text() == 'OK'
+					&& $('#password-addon').text() != '')
 				showSubmitButton();
 			else
 				hideSubmitButton();
 		}
-		
 	</script>
 
 </body>
