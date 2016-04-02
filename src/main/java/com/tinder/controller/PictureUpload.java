@@ -26,7 +26,7 @@ public class PictureUpload {
 	private static AtomicInteger numPictures;
 	static{
 		try {
-			numPictures = new AtomicInteger(PictureDAO.getNumPhotos());
+			numPictures = new AtomicInteger(PictureDAO.getLastPhotoId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -7,18 +7,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.tinder.exceptions.DBException;
-import com.tinder.model.dao.UserDAO;
+import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
 @Controller
 @RequestMapping(value = "/SignIn")
 public class SignIn {
+	
+	@Autowired
+	private IUserDAO userDAO;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(HttpServletRequest request,
@@ -28,12 +31,12 @@ public class SignIn {
 		String longitude = request.getParameter("longitude");
 		String latitude = request.getParameter("latitude");
 		try {
-			boolean isExisting = UserDAO.isUserAndPassExisting(username, password);
+			boolean isExisting = userDAO.isUserAndPassExisting(username, password);
 			if (isExisting) {
 				HttpSession session = request.getSession();
 				if(latitude!=null && longitude!=null && !latitude.equals("") && !longitude.equals(""))
-					UserDAO.setLocation(username, Double.parseDouble(latitude), Double.parseDouble(longitude));
-				User user = (User) UserDAO.getUser(username);
+					userDAO.setLocation(username, Double.parseDouble(latitude), Double.parseDouble(longitude));
+				User user = (User) userDAO.getUser(username);
 				session.setAttribute("user", user);
 				session.setAttribute("userCandidates", new LinkedList<User>());
 				System.out.println("TUK SAM");
@@ -42,10 +45,6 @@ public class SignIn {
 				throw new ServletException("Ivalid username or password! :" + username + " " + password);
 			}
 
-		} catch (DBException e) {
-			e.printStackTrace();
-			model.addAttribute("errorMassage", e.getMessage());
-			return "error";
 		} catch (ServletException e) {
 			e.printStackTrace();
 			request.setAttribute("errorMassage", e.getMessage());

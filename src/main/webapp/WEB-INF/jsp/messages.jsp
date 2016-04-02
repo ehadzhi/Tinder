@@ -206,7 +206,7 @@
 																		}
 																		// Create a new instance of the websocket
 																		webSocket = new WebSocket(
-																				"ws://localhost:8080/Tinder/chat");
+																				"ws://192.168.43.231:8080/Tinder/chat");
 
 																		/**
 																		 * Binds functions to the listeners for the websocket.
