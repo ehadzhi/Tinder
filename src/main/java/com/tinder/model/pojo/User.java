@@ -19,10 +19,12 @@ public class User implements Serializable{
 	private int searchDistance;
 	private int maxDesiredAge;
 	private int minDesiredAge;
+	private String fullName;
+	private String description;
 
 	public User(int id, String username, String passwordHash, int age, boolean genderIsMale, String avatarName,
 			String email, boolean wantsMale, boolean wantsFemale, double latitude, double longitude, int searchDistance,
-			int maxDesiredAge, int minDesiredAge) {
+			int maxDesiredAge, int minDesiredAge,String fullName,String description) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -38,7 +40,21 @@ public class User implements Serializable{
 		this.searchDistance = searchDistance;
 		this.maxDesiredAge = maxDesiredAge;
 		this.minDesiredAge = minDesiredAge;
+		this.fullName=fullName;
+		this.description=description;
 	}
+
+	
+	
+	public String getFullName() {
+		return fullName;
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
 
 	public int getSearchDistance() {
 		return searchDistance;
