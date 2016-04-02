@@ -15,6 +15,7 @@ import com.tinder.model.pojo.User;
 
 public class UserDAOTest {
 
+	private static final String KIRIL = "Kiril";
 	private static final int TEST_AGE = 135;
 	private static final boolean TEST_GENDER = false;
 	private static final String TEST_MAIL = "bacfo_testa@mail.bg";
@@ -49,7 +50,7 @@ public class UserDAOTest {
 
 	private void registerUserWithTestParam() throws DBException {
 		deleteUser();
-		UserDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE);
+		UserDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, KIRIL);
 	}
 
 	private void deleteUser() throws DBException {
@@ -105,13 +106,13 @@ public class UserDAOTest {
 	@Test
 	public void testGetNearbyUsers() throws DBException{
 		//user1 from Sofia
-		UserDAO.registerUser("testUser1", "pass", "testUser1@abv.bg", true, 22);
+		UserDAO.registerUser("testUser1", "pass", "testUser1@abv.bg", true, 22 , KIRIL);
 		UserDAO.setLocation("testUser1", 65, 17);
 		//User2 from Pleven
-		UserDAO.registerUser("testUser2", "pass", "testUser2@abv.bg", true, 22);
+		UserDAO.registerUser("testUser2", "pass", "testUser2@abv.bg", true, 22 , KIRIL);
 		UserDAO.setLocation("testUser2", 65, 17);
 		//User3 from Varna
-		UserDAO.registerUser("testUser3", "pass", "testUser3@abv.bg", true, 22);
+		UserDAO.registerUser("testUser3", "pass", "testUser3@abv.bg", true, 22 , KIRIL);
 		UserDAO.setLocation("testUser3", 65, 17);
 		
 		//getting users
