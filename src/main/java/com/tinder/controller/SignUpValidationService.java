@@ -30,47 +30,61 @@ public class SignUpValidationService {
 			String age = request.getParameter("age");
 			String password = request.getParameter("password");
 			String oldPassword = request.getParameter("oldPassword");
-			User user = (User)request.getSession().getAttribute("user");
-			
+			User user = (User) request.getSession().getAttribute("user");
+
 			System.out.println(email);
-			if (username != null) {
-				if (!UserDAO.isUsernameExisting(username) && username.length() <= 45) {
-					result.put("username", "OK");
-				} else if (UserDAO.isUsernameExisting(username)) {
-					result.put("username", "This username is already in use!");
+			if (username != null)
+				if (!username.equals("")) {
+					if (!UserDAO.isUsernameExisting(username) && username.length() <= 45) {
+						result.put("username", "OK");
+					} else if (UserDAO.isUsernameExisting(username)) {
+						result.put("username", "This username is already in use!");
+					} else {
+						result.put("username", "Too long username!");
+					}
 				} else {
-					result.put("username", "Too long username!");
+					result.put("username", "");
 				}
-			}
-			if (email != null) {
-				if (!UserDAO.isEmailExisting(email) && email.length() <= 45 && isValidEmailAddress(email)) {
-					result.put("email", "OK");
-				} else if(!isValidEmailAddress(email)){
-					result.put("email", "Email is not valid!");
-				}else {
-					result.put("email", "This email is already in use!");
-				}
-			}
-			if (age != null) {
-				if (Integer.parseInt(age) > 100) {
-					result.put("age", "You can't be that old!");
-				} else if (Integer.parseInt(age) < 1) {
-					result.put("age", "You can't be that young!");
+			if (email != null)
+				if (!email.equals("")) {
+					if (!UserDAO.isEmailExisting(email) && email.length() <= 45 && isValidEmailAddress(email)) {
+						result.put("email", "OK");
+					} else if (!isValidEmailAddress(email)) {
+						result.put("email", "Email is not valid!");
+					} else {
+						result.put("email", "This email is already in use!");
+					}
 				} else {
-					result.put("age", "OK");
+					result.put("email", "");
 				}
-			}
-			if (password != null) {
-				result.put("password", checkPasswordStrength(password));
-			}
-			if (oldPassword != null) {
-				if(UserDAO.isUserAndPassExisting(user.getUsername(), oldPassword)){
-					result.put("oldPassword", "OK");
+			if (age != null)
+				if (!age.equals("")) {
+					if (Integer.parseInt(age) > 100) {
+						result.put("age", "You can't be that old!");
+					} else if (Integer.parseInt(age) < 1) {
+						result.put("age", "You can't be that young!");
+					} else {
+						result.put("age", "OK");
+					}
+				} else {
+					result.put("age", "");
 				}
-				else{
-					result.put("oldPassword", "Incorrect password");
+			if (password != null)
+				if (!password.equals("")) {
+					result.put("password", checkPasswordStrength(password));
+				} else {
+					result.put("password", "");
 				}
-			}
+			if (oldPassword != null)
+				if (!oldPassword.equals("")) {
+					if (UserDAO.isUserAndPassExisting(user.getUsername(), oldPassword)) {
+						result.put("oldPassword", "OK");
+					} else {
+						result.put("oldPassword", "Incorrect password");
+					}
+				} else {
+					result.put("oldPassword", "");
+				}
 
 		} catch (DBException e) {
 			e.printStackTrace();

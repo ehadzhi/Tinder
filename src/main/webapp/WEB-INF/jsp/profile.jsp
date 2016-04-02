@@ -167,13 +167,17 @@
 											role="dialog" aria-hidden="true" style="display: none">
 											<div class="modal-dialog modal-lg">
 												<div class="modal-content">
-													<form class="form-horizontal" role="form">
+													<form class="form-horizontal" role="form" method="post" action="EditProfile">
 														<div class="modal-header">
 															<button type="button" class="close" data-dismiss="modal">
 																<span aria-hidden="true">×</span>
 															</button>
-															<h4 class="modal-title" id="myModalLabel">Edit
-																profile</h4>
+															<h4 class="modal-title" id="myModalLabel">
+																Edit profile:
+															</h4>
+															<h5>
+																Enter your password to be able to save the new settings.
+															</h5>
 														</div>
 														<div class="modal-body">
 															<div class="form-group">
@@ -190,16 +194,8 @@
 																<label id="new-email-label"
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-lg-5">
-																	<input id="new-email" class="form-control" type="text"
+																	<input id="new-email" name='newEmail' class="form-control" type="text"
 																		placeholder='${user.email}'>
-																</div>
-															</div>
-															<div class="form-group">
-																<label class="col-lg-3 control-label">New Age:</label> <label
-																	id="new-age-label" style="font-size: 15px; color: red;"></label>
-																<div class="col-lg-5">
-																	<input id="new-age" class="form-control" type="text"
-																		placeholder='${user.age}'>
 																</div>
 															</div>
 															<div class="form-group">
@@ -207,16 +203,16 @@
 																	Username:</label> <label id="new-username-label"
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
-																	<input id="new-username" class="form-control"
+																	<input id="new-username" name='newUsername' class="form-control"
 																		type="text" placeholder='${user.username}'>
 																</div>
 															</div>
 															<div class="form-group">
 																<label class="col-md-3 control-label">New
 																	Password:</label> <label id="new-password-label"
-																	style="font-size: 15px; color: red;"></label>
+																	style="font-size: 15px; color: black;"></label>
 																<div class="col-md-5">
-																	<input id="new-password" class="form-control"
+																	<input id="new-password" name='newPassword' class="form-control"
 																		type="password" value=''>
 																</div>
 															</div>
@@ -225,18 +221,18 @@
 																	New Password:</label> <label id="new-password-confirm-label"
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
-																	<input id="new-password-confirm" class="form-control"
+																	<input id="new-password-confirm" name='newPasswordConfirm' class="form-control"
 																		type="password" value=''>
 																</div>
 															</div>
 															<div class="form-group">
 																<label class="col-md-3 control-label">Description:</label>
-																<label id="new-password-confirm-label"
-																	style="font-size: 15px; color: red;">ima</label>
+																<label id="new-description-label"
+																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
 																	<fieldset class="form-group">
-																		<textarea style="max-width: 100%;"class="form-control" id="exampleTextarea"
-																			rows="3" placeholder='${user.description}'>
+																		<textarea id='new-description' name='newDescription' style="max-width: 100%;"class="form-control"
+																			rows="4" cols="50" placeholder="Describe yourself here...">
 																		</textarea>
 																	</fieldset>
 																</div>
@@ -377,37 +373,37 @@
 		$('#new-username').keyup(function() {
 			delay(function() {
 				usernameChecker($('#new-username').val());
-			}, 1000);
+			}, 500);
 		});
 
 		$('#new-password-confirm').keyup(function() {
 			delay(function() {
 				newPassConfirmator($('#new-password-confirm').val());
-			}, 1000);
+			}, 500);
 		});
 
 		$('#new-password').keyup(function() {
 			delay(function() {
 				newPassChecker($('#new-password').val());
-			}, 1000);
+			}, 500);
 		});
 
 		$('#old-password').keyup(function() {
 			delay(function() {
 				passChecker($('#old-password').val());
-			}, 1000);
-		});
-
-		$('#new-age').change(function() {
-			delay(function() {
-				ageChecker($('#new-age').val());
-			}, 1000);
+			}, 500);
 		});
 
 		$('#new-email').keyup(function() {
 			delay(function() {
 				emailChecker($('#new-email').val());
-			}, 1000);
+			}, 500);
+		});
+		
+		$('#new-description').keyup(function() {
+			delay(function() {
+				descriptionChecker($('#new-description').val());
+			}, 500);
 		});
 
 		function usernameChecker(username) {
@@ -418,18 +414,6 @@
 			}).done(function(response) {
 				$('#new-username-label').empty();
 				$('#new-username-label').append(response.username);
-				checkForSubmit();
-			});
-		};
-
-		function ageChecker(age) {
-			$.ajax({
-				url : 'SignUpValidationService',
-				type : 'POST',
-				data : "age=" + age
-			}).done(function(response) {
-				$('#new-age-label').empty();
-				$('#new-age-label').append(response.age);
 				checkForSubmit();
 			});
 		};
@@ -464,16 +448,28 @@
 			}).done(function(response) {
 				$('#new-password-label').empty();
 				$('#new-password-label').append(response.password);
+				newPassConfirmator(pass);
 				checkForSubmit();
 			});
 		};
+		function descriptionChecker(pass) {
+			$('#new-description-label').empty();
+			if ($('#new-description').length < 200 && $('#new-description').length>=0)
+				$('#new-description-label').append('OK');
+			else 
+				$('#new-description-label').append('Too much symbols!');
+			checkForSubmit();
+		};
 		function newPassConfirmator(pass) {
 			$('#new-password-confirm-label').empty();
-			if ($('#new-password-confirm').val() == $('#new-password').val())
-				$('#new-password-confirm-label').append('OK');
+			if($('#new-password').val() == '')
+				$('#new-password-confirm-label').append('');
 			else
-				$('#new-password-confirm-label').append(
-						"The passwords doesn't match");
+				if ($('#new-password-confirm').val() == $('#new-password').val())
+					$('#new-password-confirm-label').append('OK');
+				else
+					$('#new-password-confirm-label').append(
+							"The passwords doesn't match");
 			checkForSubmit();
 		};
 
@@ -485,16 +481,9 @@
 		}
 		function checkForSubmit() {
 			if ($('#old-password-label').text() == 'OK'
-					&& ($('#new-email-label').text() == 'OK'
-							|| $('#new-username-label').text() == 'OK'
-							|| $('#new-age-label').text() == 'OK'
-							|| $('#new-email-label').text() == ''
-							|| $('#new-username-label').text() == ''
-							|| $('#new-age-label').text() == ''
-							|| ($('#new-password-label').text() != '' && $(
-									'#new-password-comfirm-label').text() == 'OK') || ($(
-							'#new-password-label').text() == '' && $(
-							'#new-password-comfirm-label').text() == '')))
+					    &&	($('#new-email-label').text() == 'OK' ||  $('#new-email-label').text() == '')
+						&&  ($('#new-username-label').text() == 'OK'  || $('#new-username-label').text() == '')
+						&&  ($('#new-password-confirm-label').text() == 'OK' || $('#new-password-confirm-label').text() == ''))
 				showSubmitButton();
 			else
 				hideSubmitButton();
