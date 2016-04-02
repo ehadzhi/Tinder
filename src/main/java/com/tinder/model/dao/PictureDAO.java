@@ -53,6 +53,9 @@ public class PictureDAO {
 	}
 	
 	public static void deletePicture(String pictureName, User owner) throws DBException{
+		if( pictureName.equals(owner.getAvatarName())){
+			setProfilePicture(pictureName, owner);
+		}
 		Connection conn = null;
 		PreparedStatement st = null;
 		try {

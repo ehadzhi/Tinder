@@ -89,6 +89,12 @@
 											class="btn btn-success" data-toggle="modal"
 											data-target=".bs-example-modal-sm"><i
 											class="fa fa-cloud-upload m-right-xs"></i>Upload Picture</a> <br />
+										<a class="btn btn-success" data-toggle="modal"
+											data-target=".bs-example-modal-smdel"><i
+											class="fa fa-trash m-right-xs"></i>Delete Picture</a> <br />
+											<a class="btn btn-success" data-toggle="modal"
+											data-target=".bs-example-modal-sm-select-profile"><i
+											class="fa fa-file-image-o m-right-xs"></i>Change Profile Picture</a> <br />
 
 										<div class="modal fade bs-example-modal-sm" tabindex="-1"
 											role="dialog" aria-labelledby="mySmallModalLabel">
@@ -115,6 +121,47 @@
 												</div>
 											</div>
 										</div>
+
+										<div class="modal fade bs-example-modal-smdel" tabindex="-1"
+											role="dialog" aria-labelledby="mySmallModalLabel">
+											<div class="modal-dialog modal-sm">
+												<div class="modal-content">
+													<div class="modal-body">
+														<h2 class="form-signup-heading">To delete a picture
+															just click on it.</h2>
+														<form action="/Tinder/PictureDelete" method="post">
+															<c:forEach items='${pictures}' var="picture">
+																<input type="image" style="width: 130px; height: auto;"
+																	formaction="/Tinder/PictureDelete/${picture}"
+																	formmethod="post"
+																	src="images/${picture}">
+															</c:forEach>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="modal fade bs-example-modal-sm-select-profile" tabindex="-1"
+											role="dialog" aria-labelledby="mySmallModalLabel">
+											<div class="modal-dialog modal-sm">
+												<div class="modal-content">
+													<div class="modal-body">
+														<h2 class="form-signup-heading">To set a profile picture just click on it
+															just click on it.</h2>
+														<form action="/Tinder/SetProfilePicture" method="post">
+															<c:forEach items='${pictures}' var="picture">
+																<input type="image" style="width: 130px; height: auto;"
+																	formaction="/Tinder/SetProfilePicture/${picture}"
+																	formmethod="post"
+																	src="images/${picture}">
+															</c:forEach>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+										
 
 										<div class="modal fade bs-example-modal-lg" tabindex="-1"
 											role="dialog" aria-hidden="true" style="display: none">
@@ -187,7 +234,7 @@
 						</div>
 					</div>
 					<br />
-					
+
 				</div>
 				<jsp:include page="footer.jsp" />
 				<!-- /page content -->
