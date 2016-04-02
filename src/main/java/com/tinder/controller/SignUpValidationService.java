@@ -1,23 +1,16 @@
 package com.tinder.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.print.attribute.HashAttributeSet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.startup.UserDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tinder.exceptions.DBException;
 import com.tinder.model.dao.user.IUserDAO;
-import com.tinder.model.dao.user.UserDAO;
 import com.tinder.model.pojo.User;
 
 @RestController
@@ -29,6 +22,7 @@ public class SignUpValidationService {
 	@RequestMapping(value = "/SignUpValidationService", method = RequestMethod.POST)
 	public Map<String, String> doPost(HttpServletRequest request) {
 		Map<String, String> result = new HashMap<String, String>();
+
 		String username = request.getParameter("username");
 		String email = request.getParameter("email");
 		String age = request.getParameter("age");
@@ -37,43 +31,58 @@ public class SignUpValidationService {
 		User user = (User) request.getSession().getAttribute("user");
 
 		System.out.println(email);
-		if (username != null) {
-			if (!userDAO.isUsernameExisting(username) && username.length() <= 45) {
-				result.put("username", "OK");
-			} else if (userDAO.isUsernameExisting(username)) {
-				result.put("username", "This username is already in use!");
+		if (username != null)
+			if (!username.equals("")) {
+				if (!userDAO.isUsernameExisting(username) && username.length() <= 45) {
+					result.put("username", "OK");
+				} else if (userDAO.isUsernameExisting(username)) {
+					result.put("username", "This username is already in use!");
+				} else {
+					result.put("username", "Too long username!");
+				}
 			} else {
-				result.put("username", "Too long username!");
+				result.put("username", "");
 			}
-		}
-		if (email != null) {
-			if (!userDAO.isEmailExisting(email) && email.length() <= 45 && isValidEmailAddress(email)) {
-				result.put("email", "OK");
-			} else if (!isValidEmailAddress(email)) {
-				result.put("email", "Email is not valid!");
+		if (email != null)
+			if (!email.equals("")) {
+				if (!userDAO.isEmailExisting(email) && email.length() <= 45 && isValidEmailAddress(email)) {
+					result.put("email", "OK");
+				} else if (!isValidEmailAddress(email)) {
+					result.put("email", "Email is not valid!");
+				} else {
+					result.put("email", "This email is already in use!");
+				}
 			} else {
-				result.put("email", "This email is already in use!");
+				result.put("email", "");
 			}
-		}
-		if (age != null) {
-			if (Integer.parseInt(age) > 100) {
-				result.put("age", "You can't be that old!");
-			} else if (Integer.parseInt(age) < 1) {
-				result.put("age", "You can't be that young!");
+		if (age != null)
+			if (!age.equals("")) {
+				if (Integer.parseInt(age) > 100) {
+					result.put("age", "You can't be that old!");
+				} else if (Integer.parseInt(age) < 1) {
+					result.put("age", "You can't be that young!");
+				} else {
+					result.put("age", "OK");
+				}
 			} else {
-				result.put("age", "OK");
+				result.put("age", "");
 			}
-		}
-		if (password != null) {
-			result.put("password", checkPasswordStrength(password));
-		}
-		if (oldPassword != null) {
-			if (userDAO.isUserAndPassExisting(user.getUsername(), oldPassword)) {
-				result.put("oldPassword", "OK");
+		if (password != null)
+			if (!password.equals("")) {
+				result.put("password", checkPasswordStrength(password));
 			} else {
-				result.put("oldPassword", "Incorrect password");
+				result.put("password", "");
 			}
-		}
+		if (oldPassword != null)
+			if (!oldPassword.equals("")) {
+				if (userDAO.isUserAndPassExisting(user.getUsername(), oldPassword)) {
+					result.put("oldPassword", "OK");
+				} else {
+					result.put("oldPassword", "Incorrect password");
+				}
+			} else {
+				result.put("oldPassword", "");
+			}
 
 		return result;
 	}
