@@ -10,7 +10,7 @@ import com.tinder.model.pojo.User;
 
 public class PictureDAO {
 
-	private static final String NUM_PHOTOS = "SELECT count(id) FROM tinder.pictures;";
+	private static final String LAST_PHOTO_ID = "SELECT max(id) FROM tinder.pictures;";
 	private static final String INSERT_PICTURE = 
 			"INSERT INTO tinder.pictures VALUES (null,?,?,now());";
 	private static final String DELETE_PICTURE = 
@@ -72,9 +72,9 @@ public class PictureDAO {
 		}
 	}
 	
-	public static int getNumPhotos() throws SQLException {
+	public static int getLastPhotoId() throws SQLException {
 		Connection conn = ConnectionDispatcher.getConnection();
-		ResultSet res = conn.createStatement().executeQuery(NUM_PHOTOS);
+		ResultSet res = conn.createStatement().executeQuery(LAST_PHOTO_ID);
 		res.next();
 		return res.getInt(1);
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tinder.exceptions.DBException;
 import com.tinder.exceptions.UnauthorizedException;
 import com.tinder.model.dao.MessageDAO;
-import com.tinder.model.dao.UserDAO;
+import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.Message;
 
 @RestController
 public class MessagesService{
+	
+	@Autowired
+	private IUserDAO userDAO;
 	
 	@RequestMapping(value="/MessagesService",method=RequestMethod.GET)
 	public List<Message> doPost(HttpServletRequest request){
@@ -28,8 +32,8 @@ public class MessagesService{
 			}
 			return MessageDAO.getLastMessagesFrom(
 					Integer.parseInt(request.getParameter("nummessages")),
-					UserDAO.getUser(request.getParameter("username1")),
-					UserDAO.getUser(request.getParameter("username2")),
+					userDAO.getUser(request.getParameter("username1")),
+					userDAO.getUser(request.getParameter("username2")),
 					LocalDateTime.parse(request.getParameter("fromtime")));
 		} catch (UnauthorizedException e) {
 			e.printStackTrace();
