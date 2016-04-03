@@ -21,22 +21,22 @@ import com.tinder.model.pojo.User;
 @ServerEndpoint(value = "/chat/{username}", configurator = ChatroomServerConfigurator.class)
 public class ChatEndPoint {
 	public static Map<String,Session> sessions = Collections.synchronizedMap(new HashMap<String,Session>());
-	
+	private User user;
 	@OnOpen
 	public void onOpen(EndpointConfig config, Session session,@PathParam("username") String username) {
-		//sessions.put(((User)config.getUserProperties().get("user")).getUsername(),session);
-		HttpSession httpSession = (HttpSession) config.getUserProperties()
-                .get(HttpSession.class.getName());
-		System.out.println(httpSession);
+		user = ((User)config.getUserProperties().get("user"));
+		System.out.println(user.getUsername());
+		sessions.put(user.getUsername(),session);
 	}
 
 	@OnMessage
-	public void onMessage(String message, @PathParam("username") String username,EndpointConfig config) {
-		String sender = ((User)config.getUserProperties().get("user")).getUsername();
+	public void onMessage(String message, @PathParam("username") String username) {
+		System.out.println(message + "za " + username);
+		String sender = user.getUsername();
 		Session toSend = sessions.get(username);
 		if(toSend!=null){
 			try {
-				toSend.getBasicRemote().sendText(buildJSONData(sender,message));
+				toSend.getBasicRemote().sendText(sender+ " :" + message + "/n");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
