@@ -204,8 +204,11 @@
 																			return;
 																		}
 																		// Create a new instance of the websocket
+																		if(){
 																		webSocket = new WebSocket(
-																				"ws://192.168.43.231:8080/Tinder/chat");
+																				"ws://localhost:8080/Tinder/chat/kiko");
+																		
+																		}
 
 																		/**
 																		 * Binds functions to the listeners for the websocket.
