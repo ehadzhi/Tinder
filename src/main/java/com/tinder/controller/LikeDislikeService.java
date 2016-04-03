@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tinder.exceptions.DBException;
-import com.tinder.model.dao.NotificationDAO;
+import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
@@ -23,6 +23,9 @@ public class LikeDislikeService {
 
 	@Autowired
 	private IUserDAO userDAO;
+	
+	@Autowired
+	private INotificationDAO notificationDAO;
 	
 	@RequestMapping(value = "/LikeDislikeService", method = RequestMethod.POST)
 	public Map<String,List<String>> doPost(HttpServletRequest request, HttpServletResponse response) throws DBException {
@@ -52,13 +55,13 @@ public class LikeDislikeService {
 		}
 	}
 
-	private void likeOrDislikeAndRemoveTheTopUser(HttpServletRequest request, User user, List<User> users)
-			throws DBException {
+	private void likeOrDislikeAndRemoveTheTopUser(
+			HttpServletRequest request, User user, List<User> users) {
 		if (((String) request.getParameter("action")).equals("Like")) {
 			userDAO.likeUser(user.getId(), users.get(0).getId());
-			if(NotificationDAO.checkForLike(users.get(0).getId(), user.getId())){
-				NotificationDAO.addMatch(users.get(0).getId(),  user.getId());
-				NotificationDAO.addMatch(user.getId(), users.get(0).getId());
+			if(notificationDAO.checkForLike(users.get(0).getId(), user.getId())){
+				notificationDAO.addMatch(users.get(0).getId(),  user.getId());
+				notificationDAO.addMatch(user.getId(), users.get(0).getId());
 			}
 		}
 		if (((String) request.getParameter("action")).equals("Dislike")) {
