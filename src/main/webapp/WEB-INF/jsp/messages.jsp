@@ -39,7 +39,6 @@
 
 			<jsp:include page="sideMenu.jsp" />
 
-			<jsp:include page="navMenu.jsp" />
 
 
 			<div class="right_col" role="main">
