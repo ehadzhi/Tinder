@@ -47,7 +47,7 @@ public class NotificationDAO implements INotificationDAO {
 	@Override
 	public List<String> getAllMatchNotificationsForUser(int userID){
 		final String GET_ALL_MATCH_NOTIFICATIONS_FOR_USER = 
-				"select u.username from tinder.match-notification m"
+				"select u.username from `tinder.match-notification` m"
 				+ " join tinder.users u on u.id = m.user_two where m.user_one = :user_id;";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("user_id", userID);
