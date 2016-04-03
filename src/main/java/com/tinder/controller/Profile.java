@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tinder.exceptions.DBException;
 import com.tinder.model.dao.user.IUserDAO;
-import com.tinder.model.dao.user.UserDAO;
 import com.tinder.model.pojo.User;
 
 @Controller

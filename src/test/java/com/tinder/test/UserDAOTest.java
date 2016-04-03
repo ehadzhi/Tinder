@@ -2,18 +2,14 @@ package com.tinder.test;
 
 import static org.junit.Assert.*;
 
-import java.sql.Connection;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mysql.jdbc.Statement;
 import com.tinder.BeanConfig;
 import com.tinder.exceptions.DBException;
-import com.tinder.model.dao.ConnectionDispatcher;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
@@ -27,7 +23,6 @@ public class UserDAOTest {
 	private static final String TEST_MAIL = "bacfo_testa@mail.bg";
 	private static final String TEST_PASSWORD = "imamsimnogosilnaparola";
 	private static final String TEST_USERNAME = "bacho_testa";
-	private static final String DELETE_TEST_USER = "delete from tinder.users WHERE username = '" + TEST_USERNAME + "';";
 	private static final double TEST_LATITUDE = 23.556;
 	private static final double TEST_LONGITUDE = 54.223;
 	private static final double LAMBDA = 0.1;
@@ -37,59 +32,35 @@ public class UserDAOTest {
 
 	@Test
 	public void testRegister() {
-		try {
-			deleteUser();
+			userDAO.deleteUser(TEST_USERNAME);
 			assertFalse(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
-			registerUserWithTestParam();
+			userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
 			assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
 			User testUser = userDAO.getUser(TEST_USERNAME);
-			//System.out.println(testUser);
 			assertEquals(TEST_USERNAME, testUser.getUsername());
 			assertEquals(userDAO.calculateHash(TEST_PASSWORD), testUser.getPasswordHash());
 			assertEquals(TEST_MAIL, testUser.getEmail());
 			assertEquals(TEST_GENDER, testUser.isGenderIsMale());
 			assertEquals(TEST_AGE, testUser.getAge());
 
-			deleteUser();
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			userDAO.deleteUser(TEST_USERNAME);
 	}
 
 	private void registerUserWithTestParam() throws DBException {
-		deleteUser();
+		userDAO.deleteUser(TEST_USERNAME);
 		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, KIRIL);
 	}
 
-	private void deleteUser() throws DBException {
-		Connection conn = null;
-		Statement st = null;
-		try {
-			if (userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD)) {
-				conn = ConnectionDispatcher.getConnection();
-				st = (Statement) conn.createStatement();
-				st.executeUpdate(DELETE_TEST_USER);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DBException("Something went wrong with the Database.", e);
-			// TODO
-		} finally {
-			ConnectionDispatcher.returnConnection(conn);
-		}
-	}
 	
 	@Test
 	public void testChangeLocation() throws DBException{
-		deleteUser();
+		userDAO.deleteUser(TEST_USERNAME);
 		registerUserWithTestParam();
 		userDAO.setLocation(TEST_USERNAME, TEST_LATITUDE, TEST_LONGITUDE);
 		User testUser = userDAO.getUser(TEST_USERNAME);
 		assertEquals(TEST_LATITUDE, testUser.getLatitude(), LAMBDA);
 		assertEquals(TEST_LONGITUDE, testUser.getLongitude(), LAMBDA);
-		deleteUser();
+		userDAO.deleteUser(TEST_USERNAME);
 	}
 	
 	private static final boolean WANTS_MALE = true;

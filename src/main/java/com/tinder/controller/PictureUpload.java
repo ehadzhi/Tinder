@@ -3,35 +3,30 @@ package com.tinder.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tinder.exceptions.UnauthorizedException;
-import com.tinder.model.dao.PictureDAO;
+import com.tinder.model.dao.picture.IPictureDAO;
 import com.tinder.model.pojo.User;
 
 @Controller
 @RequestMapping(value = "/PictureUpload")
 public class PictureUpload {
-	private static AtomicInteger numPictures;
-	static{
-		try {
-			numPictures = new AtomicInteger(PictureDAO.getLastPhotoId());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	
+	@Autowired
+	private AtomicInteger numPictures;
+	
+	@Autowired
+	private IPictureDAO pictureDAO;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String uploadPicture(@RequestParam("picture") MultipartFile file,
@@ -51,7 +46,7 @@ public class PictureUpload {
 						new FileOutputStream(new File("C:/resources/images/" + fileName)));
 				buffStream.write(bytes);
 				buffStream.close();
-				PictureDAO.addPicture(fileName,user.getId() );
+				pictureDAO.addPicture(fileName,user.getId() );
 				return "redirect:/Profile";
 			} catch (Exception e) {
 				e.printStackTrace();
