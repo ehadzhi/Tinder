@@ -1,13 +1,16 @@
 package com.tinder.chat.endpoint;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import javax.websocket.HandshakeResponse;
 import javax.websocket.server.*;
+
+import org.springframework.http.HttpRequest;
 
 import com.tinder.model.pojo.User;
 
 public class ChatroomServerConfigurator extends ServerEndpointConfig.Configurator {
 	
-	public void mofifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response){
-		sec.getUserProperties().put("user",(User)((HttpSession) request.getHttpSession()).getAttribute("user"));
+	public void mofifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response){
+		HttpSession httpSession = (HttpSession)(request.getHttpSession());
+        config.getUserProperties().put(HttpSession.class.getName(),httpSession);
 	}
 }  

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -22,8 +23,11 @@ public class ChatEndPoint {
 	public static Map<String,Session> sessions = Collections.synchronizedMap(new HashMap<String,Session>());
 	
 	@OnOpen
-	public void onOpen(EndpointConfig config, Session session) {
-		sessions.put(((User)config.getUserProperties().get("user")).getUsername(),session);
+	public void onOpen(EndpointConfig config, Session session,@PathParam("username") String username) {
+		//sessions.put(((User)config.getUserProperties().get("user")).getUsername(),session);
+		HttpSession httpSession = (HttpSession) config.getUserProperties()
+                .get(HttpSession.class.getName());
+		System.out.println(httpSession);
 	}
 
 	@OnMessage
@@ -41,10 +45,15 @@ public class ChatEndPoint {
 	}
 
 	@OnClose
-	public void onClose(EndpointConfig config) {
-		String username = ((User)config.getUserProperties().get("user")).getUsername();
-		if(sessions.get(username)!=null)
-			sessions.remove(username);
+	public void onClose(Session session) {
+		String toRemove=null;
+		for(String username : sessions.keySet()){
+			if(sessions.get(username)==session){
+				toRemove = username;
+			}
+		}
+		if(toRemove!=null)
+			sessions.remove(toRemove);
 	}
 	
 	private String buildJSONData(String username,String message){
