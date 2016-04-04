@@ -22,21 +22,25 @@ public class MessageDAO implements IMessageDAO {
 
 	@Override
 	public List<Message> getLastMessagesFrom(int numMessages, User user1, User user2, LocalDateTime fromTime) {
-		final String GET_MESSAGES_BEFORE_GIVEN_TIME = "SELECT * FROM tinder.messages " + "where chat_id = :chat_id and "
-				+ "created_at < :from_time limit :num_messages;";
+		final String GET_MESSAGES_BEFORE_GIVEN_TIME = 
+				"SELECT * FROM tinder.messages m "
+				+ "join tinder.users u on (m.sender_id=u.id) " 
+				+ "where m.chat_id = :chat_id and "
+				+ "m.created_at < :from_time limit :num_messages;";
 
 		Chat chat = new Chat(findChatId(user1, user2));
+		System.out.println(chat + "ei tva e " + chat.getId());
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("chat_id", chat.getId());
 		paramMap.put("from_time", Timestamp.valueOf(fromTime));
 		paramMap.put("num_messages", numMessages);
-		return jdbcTemplate.query(GET_MESSAGES_BEFORE_GIVEN_TIME, new MessageMapper());
+		return jdbcTemplate.query(GET_MESSAGES_BEFORE_GIVEN_TIME, paramMap, new MessageMapper());
 	}
 
 	@Override
 	public void sendMessage(String msg, User from, User to){
 		final String SEND_MESSAGE = 
-				"insert into tinder.messages values(null,:user_id,:chat_id,:message);";
+				"insert into tinder.messages values(null,:user_id,:chat_id,:message,now());";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("user_id", from.getId());
 		Chat chat = new Chat(findChatId(from, to));
