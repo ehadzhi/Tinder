@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.tinder.exceptions.DBException;
 import com.tinder.model.pojo.Chat;
 import com.tinder.model.pojo.Message;
 import com.tinder.model.pojo.User;
@@ -35,7 +34,7 @@ public class MessageDAO implements IMessageDAO {
 	}
 
 	@Override
-	public void sendMessage(String msg, User from, User to) throws DBException {
+	public void sendMessage(String msg, User from, User to){
 		final String SEND_MESSAGE = 
 				"insert into tinder.messages values(null,:user_id,:chat_id,:message);";
 		Map<String, Object> paramMap = new HashMap<String, Object>();

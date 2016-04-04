@@ -3,12 +3,14 @@ package com.tinder.model.dao.chat;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.tinder.model.dao.user.UserMapper;
 import com.tinder.model.pojo.Chat;
 import com.tinder.model.pojo.User;
 
@@ -45,5 +47,19 @@ public class ChatDAO implements IChatDAO {
 		paramMap.put("chat_id", toAddIn.getId());
 		paramMap.put("user_id", toAdd.getId());
 		jdbcTemplate.update(ADD_USER_TO_CHAT, paramMap);
+	}
+
+	@Override
+	public List<User> getUserChatFriends(User user) {
+		final String GET_USER_CHAT_FRIENDS = 
+				"SELECT u.* FROM tinder.users_in_chats c"
+				+ " join tinder.users u on (c.user_id = u.id)"
+				+ " where c.chat_id in (SELECT chat_id "
+				+ "FROM tinder.users_in_chats "
+				+ "where user_id = :user_id) and u.id != :user_id;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("user_id", user.getId());
+		return jdbcTemplate.query(GET_USER_CHAT_FRIENDS, paramMap,
+				new UserMapper());
 	}
 }
