@@ -22,12 +22,6 @@ public class SignIn {
 	
 	@Autowired
 	private IUserDAO userDAO;
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public String doGet() {
-		return "login";
-
-	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(HttpServletRequest request,
@@ -39,12 +33,13 @@ public class SignIn {
 		try {
 			boolean isExisting = userDAO.isUserAndPassExisting(username, password);
 			if (isExisting) {
-				HttpSession session = request.getSession(true);
+				HttpSession session = request.getSession();
 				if(latitude!=null && longitude!=null && !latitude.equals("") && !longitude.equals(""))
 					userDAO.setLocation(username, Double.parseDouble(latitude), Double.parseDouble(longitude));
-				User user = userDAO.getUser(username);
+				User user = (User) userDAO.getUser(username);
 				session.setAttribute("user", user);
 				session.setAttribute("userCandidates", new LinkedList<User>());
+				System.out.println("TUK SAM");
 				return "redirect:/Home";
 			} else {
 				throw new ServletException("Ivalid username or password! :" + username + " " + password);

@@ -44,7 +44,7 @@
 		<div id="wrapper">
 			<div id="login" class="animate form">
 				<section class="login_content">
-					<form name='f' action='/Tinder/SignIn' method='POST'>
+					<form action="SignIn" method="post">
 						<h1>Login Form</h1>
 						<div>
 							<input type="text" name="username" class="form-control"

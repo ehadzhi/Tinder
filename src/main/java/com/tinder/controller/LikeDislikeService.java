@@ -1,9 +1,7 @@
 package com.tinder.controller;
 
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,20 +28,15 @@ public class LikeDislikeService {
 	private INotificationDAO notificationDAO;
 	
 	@RequestMapping(value = "/LikeDislikeService", method = RequestMethod.POST)
-	public Map<String,List<String>> doPost(HttpServletRequest request,
-			HttpServletResponse response,Principal principal) {
-		User user = userDAO.getUser(principal.getName());
+	public Map<String,List<String>> doPost(HttpServletRequest request, HttpServletResponse response) throws DBException {
+		User user = (User) request.getSession(false).getAttribute("user");
 		@SuppressWarnings("unchecked")
 		List<User> users = (List<User>) request.getSession().getAttribute("userCandidates");
-		if( users == null){
-			request.getSession().setAttribute("userCandidates", new LinkedList<User>());
-			users = (List<User>) request.getSession().getAttribute("userCandidates");
-		}
 		if (users.size() == 0) {
-			addCandidates(request, principal, users);
+			addCandidates(request, users);
 		} else if (users.size() == 1) {
 			likeOrDislikeAndRemoveTheTopUser(request, user, users);
-			addCandidates(request, principal, users);
+			addCandidates(request, users);
 		} else {
 			likeOrDislikeAndRemoveTheTopUser(request, user, users);
 		}
@@ -53,7 +46,8 @@ public class LikeDislikeService {
 		 return result;
 	}
 
-	private List<String> retrurnPhotosOfTheFirstUser(HttpServletResponse response, List<User> users){
+	private List<String> retrurnPhotosOfTheFirstUser(HttpServletResponse response, List<User> users)
+			throws DBException {
 		if (users.size() == 0) {
 			return Arrays.asList("nousers.jpg");
 		} else {
@@ -76,9 +70,9 @@ public class LikeDislikeService {
 		users.remove(0);
 	}
 
-	private void addCandidates(HttpServletRequest request,Principal principal, List<User> users) {
+	private void addCandidates(HttpServletRequest request, List<User> users) {
 		List<User> newUsers =  userDAO.getFirstThreeNearbyUsers(
-				principal.getName());
+				((User) request.getSession().getAttribute("user")).getUsername());
 		
 		users.addAll(newUsers);
 		request.getSession().setAttribute("userCandidates", users);

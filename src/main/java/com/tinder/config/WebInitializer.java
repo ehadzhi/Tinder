@@ -1,4 +1,4 @@
-package com.tinder.config;
+package com.tinder;
 
 import org.springframework.web.servlet.support.
 AbstractAnnotationConfigDispatcherServletInitializer;
@@ -7,12 +7,12 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
  
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { BeanConfig.class };
+        return new Class[] { SpringWebConfig.class };
     }
   
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { SpringWebConfig.class };
+        return null;
     }
   
     @Override

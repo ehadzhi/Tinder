@@ -3,7 +3,6 @@ package com.tinder.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.security.Principal;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tinder.exceptions.UnauthorizedException;
 import com.tinder.model.dao.picture.IPictureDAO;
-import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
 @Controller
@@ -29,16 +27,15 @@ public class PictureUpload {
 	
 	@Autowired
 	private IPictureDAO pictureDAO;
-	
-	@Autowired
-	private IUserDAO userDAO;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String uploadPicture(@RequestParam("picture") MultipartFile file,
-			Principal principal) {
+			HttpServletRequest req) throws UnauthorizedException {
 		String fileName = null;
-		User user = userDAO.getUser(principal.getName());
-
+		User user = (User) req.getSession().getAttribute("user");
+		if( user == null){
+			throw new UnauthorizedException("Not logged in user tries to upload picture");
+		}
 		if (!file.isEmpty()) {
 			try {
 				fileName = file.getOriginalFilename();

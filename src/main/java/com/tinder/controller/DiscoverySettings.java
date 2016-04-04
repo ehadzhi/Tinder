@@ -19,12 +19,18 @@ public class DiscoverySettings {
 	private IUserDAO userDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String doGet() {
+	public String doGet(HttpServletRequest request) {
+		if( Home.checkValidSession(request) != null){
+			return Home.checkValidSession(request);
+		}
 		return "discovery-settings";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(HttpServletRequest request) {
+		if (Home.checkValidSession(request) != null) {
+			return Home.checkValidSession(request);
+		}
 		HttpSession session = request.getSession(false);
 		int dist = Integer.parseInt(request.getParameter("search-distance"));
 		int minAge = Integer.parseInt(request.getParameter("age-range").trim().split(";")[0]);

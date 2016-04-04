@@ -1,4 +1,4 @@
-package com.tinder.config;
+package com.tinder;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
