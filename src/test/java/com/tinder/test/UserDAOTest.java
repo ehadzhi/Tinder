@@ -9,12 +9,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.tinder.config.BeanConfig;
+import com.tinder.config.SecurityConfig;
 import com.tinder.exceptions.DBException;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=BeanConfig.class)
+@RunWith( SpringJUnit4ClassRunner.class )
+@ContextConfiguration(classes={ BeanConfig.class,SecurityConfig.class })
 public class UserDAOTest {
 
 	private static final String KIRIL = "Kiril";

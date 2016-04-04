@@ -39,7 +39,7 @@
 
 	})
 </script>
-<body class="nav-md" onload="openSocket();">
+<body class="nav-md" onload="">
 	<div class="container body">
 
 		<div class="main_container">
@@ -143,9 +143,9 @@
 
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/custom.js"></script>
-	<script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
-	<script th:src="@{/webjars/sockjs-client/0.3.4/sockjs.min.js}">
-</script>
+	<script src="js/stomp/stomp.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
 	<script
 		src="http://91.234.35.26/iwiki-admin/v1.0.0/admin/js/jquery.nicescroll.min.js"></script>
 	<script type="text/javascript">
@@ -195,25 +195,13 @@
 					+ "<div class='time'>5 min ago</div></div>"
 		}*/
 
-		var url = 'ws://localhost:8080/Tinder/websocket/chat';
-		var sock = new WebSocket(url);
-		sock.onopen = function() {
-			console.log('Opening');
-			sayMarco();
-		};
-		sock.onmessage = function(e) {
-			console.log('Received message: ', e.data);
-			setTimeout(function() {
-				sayMarco()
-			}, 2000);
-		};
-		sock.onclose = function() {
-			console.log('Closing');
-		};
-		function sayMarco() {
-			console.log('Sending Marco!');
-			sock.send("Marco!");
-		}
+		var url = 'http://' + window.location.host + '/Tinder/marcopolo';
+		var sock = new SockJS(url);
+		var stomp = Stomp.over(sock);
+		var payload = JSON.stringify({ 'message': 'Marco!' });
+		stomp.connect('guest', 'guest', function(frame) {
+		stomp.send("/marco", {}, payload);
+		});
 
 	</script>
 </body>
