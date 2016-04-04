@@ -39,7 +39,7 @@
 
 	})
 </script>
-<body class="nav-md" onload="openSocket();">
+<body class="nav-md">
 	<div class="container body">
 
 		<div class="main_container">
@@ -195,14 +195,14 @@
 					+ "<div class='time'>5 min ago</div></div>"
 		}*/
 
-		var url = 'ws://localhost:8080/Tinder/websocket/chat';
+		var url = 'ws://'+window.location.host+'/Tinder/chat';
 		var sock = new WebSocket(url);
 		sock.onopen = function() {
 			console.log('Opening');
 			sayMarco();
 		};
 		sock.onmessage = function(e) {
-			console.log('Received message: ', e.data);
+			console.log('Received message: ', JSON.parse(e.data).response);
 			setTimeout(function() {
 				sayMarco()
 			}, 2000);
@@ -212,9 +212,8 @@
 		};
 		function sayMarco() {
 			console.log('Sending Marco!');
-			sock.send("Marco!");
+			sock.send("{\"message\":\"Marco!\"}");
 		}
-
 	</script>
 </body>
 
