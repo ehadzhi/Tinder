@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class Messages {
 
 	@RequestMapping(method = RequestMethod.GET)
-	protected String doGet(HttpServletRequest request){
-		if( Home.checkValidSession(request) != null){
-			return Home.checkValidSession(request);
-		}
+	protected String doGet(HttpServletRequest request) {
 		return "messages";
 	}
 

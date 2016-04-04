@@ -1,5 +1,6 @@
 package com.tinder.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +23,8 @@ public class Profile {
 	private IUserDAO userDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	protected String doGet(Model model,HttpServletRequest request) throws DBException {
-		if( Home.checkValidSession(request) != null){
-			return Home.checkValidSession(request);
-		}
-		User user = (User) request.getSession().getAttribute("user");
+	protected String doGet(Model model,Principal principal) throws DBException {
+		User user = userDAO.getUser(principal.getName());
 		List<String> pictures = userDAO.getAllPhotosOfUser(user.getUsername());
 		model.addAttribute("pictures",pictures);
 		return "profile";

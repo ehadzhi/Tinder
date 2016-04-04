@@ -12,9 +12,6 @@ public class EditProfile {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String doGet(HttpServletRequest request) {
-		if (Home.checkValidSession(request) != null) {
-			return Home.checkValidSession(request);
-		}
 
 		String newEmail = request.getParameter("newEmail");
 		String newAge = request.getParameter("newAge");

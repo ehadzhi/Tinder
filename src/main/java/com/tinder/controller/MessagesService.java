@@ -27,20 +27,11 @@ public class MessagesService{
 	
 	@RequestMapping(value="/MessagesService",method=RequestMethod.GET)
 	public List<Message> doPost(HttpServletRequest request){
-		try {
-			HttpSession session = request.getSession(false);
-			if (session == null || session.getAttribute("user") == null) {
-				throw new UnauthorizedException("The user is not logged in.");
-			}
-			return messageDAO.getLastMessagesFrom(
-					Integer.parseInt(request.getParameter("nummessages")),
-					userDAO.getUser(request.getParameter("username1")),
-					userDAO.getUser(request.getParameter("username2")),
-					LocalDateTime.parse(request.getParameter("fromtime")));
-		} catch (UnauthorizedException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return messageDAO.getLastMessagesFrom(
+				Integer.parseInt(request.getParameter("nummessages")),
+				userDAO.getUser(request.getParameter("username1")),
+				userDAO.getUser(request.getParameter("username2")),
+				LocalDateTime.parse(request.getParameter("fromtime")));
 	}
 
 }
