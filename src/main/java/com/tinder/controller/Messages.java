@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(value = "/Messages")
 public class Messages {
-
 	@RequestMapping(method = RequestMethod.GET)
 	protected String doGet(HttpServletRequest request){
 		if( Home.checkValidSession(request) != null){

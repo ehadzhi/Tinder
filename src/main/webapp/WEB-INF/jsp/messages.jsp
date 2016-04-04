@@ -143,37 +143,27 @@
 
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/custom.js"></script>
-
-	<script>
-		NProgress.done();
-	</script>
+	<script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+	<script th:src="@{/webjars/sockjs-client/0.3.4/sockjs.min.js}">
+</script>
 	<script
 		src="http://91.234.35.26/iwiki-admin/v1.0.0/admin/js/jquery.nicescroll.min.js"></script>
 	<script type="text/javascript">
-		var webSocket;
+		//NProgress.done();
+		/*var webSocket;
 		var messages = document.getElementById("messages");
-
 		function openSocket() {
-			// Ensures only one connection is open at a time
 			if (webSocket !== undefined
 					&& webSocket.readyState !== WebSocket.CLOSED) {
 				writeResponse("WebSocket is already opened.");
 				return;
 			}
-			// Create a new instance of the websocket
-
-			webSocket = new WebSocket("ws://localhost:8080/Tinder/chat/kiko");
-
-			/**
-			 * Binds functions to the listeners for the websocket.
-			 */
+			webSocket = new WebSocket('ws://' + window.location.host + '/websocket/marco');
+			
 			webSocket.onopen = function(event) {
-				// For reasons I can't determine, onopen gets called twice
-				// and the first time event.data is undefined.
-				// Leave a comment if you know the answer.
 				if (event.data === undefined)
 					return;
-
+				console.log(event);
 				writeResponse(event.data);
 			};
 
@@ -185,10 +175,6 @@
 				writeResponse("Connection closed");
 			};
 		}
-
-		/**
-		 * Sends the value of the text input to the server
-		 */
 		function send() {
 			var text = document.getElementById("messageinput").value;
 			webSocket.send(text);
@@ -207,7 +193,28 @@
 					"</div><div class='name'Tuk ti e imeto</div> "
 					+ "<div class='text'>" + text + "</div>"
 					+ "<div class='time'>5 min ago</div></div>"
+		}*/
+
+		var url = 'ws://localhost:8080/Tinder/websocket/chat';
+		var sock = new WebSocket(url);
+		sock.onopen = function() {
+			console.log('Opening');
+			sayMarco();
+		};
+		sock.onmessage = function(e) {
+			console.log('Received message: ', e.data);
+			setTimeout(function() {
+				sayMarco()
+			}, 2000);
+		};
+		sock.onclose = function() {
+			console.log('Closing');
+		};
+		function sayMarco() {
+			console.log('Sending Marco!');
+			sock.send("Marco!");
 		}
+
 	</script>
 </body>
 

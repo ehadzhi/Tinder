@@ -1,4 +1,4 @@
-package com.tinder;
+package com.tinder.config;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -9,12 +9,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 import com.tinder.model.dao.picture.IPictureDAO;
 
 @Configuration
 @ComponentScan("com.tinder")
 public class BeanConfig {
+
 
 	@Bean
 	public DataSource dataSource() {

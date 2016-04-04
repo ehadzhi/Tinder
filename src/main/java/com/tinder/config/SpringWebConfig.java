@@ -1,4 +1,4 @@
-package com.tinder;
+package com.tinder.config;
 
 import java.util.Locale;
 
