@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tinder.config.UserLoader;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
@@ -18,19 +19,18 @@ public class DiscoverySettings {
 	@Autowired
 	private IUserDAO userDAO;
 	
+	@Autowired
+	private UserLoader loader;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(HttpServletRequest request) {
-		if( Home.checkValidSession(request) != null){
-			return Home.checkValidSession(request);
-		}
+		loader.loadUser(request);
 		return "discovery-settings";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(HttpServletRequest request) {
-		if (Home.checkValidSession(request) != null) {
-			return Home.checkValidSession(request);
-		}
+		loader.loadUser(request);
 		HttpSession session = request.getSession(false);
 		int dist = Integer.parseInt(request.getParameter("search-distance"));
 		int minAge = Integer.parseInt(request.getParameter("age-range").trim().split(";")[0]);
