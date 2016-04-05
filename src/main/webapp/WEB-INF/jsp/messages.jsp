@@ -39,11 +39,7 @@
 
 	})
 </script>
-<<<<<<< HEAD
 <body class="nav-md">
-=======
-<body class="nav-md" onload="">
->>>>>>> 2970236ca3b154e08545b7ef03dd4bcfdf424f24
 	<div class="container body">
 
 		<div class="main_container">

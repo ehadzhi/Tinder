@@ -14,20 +14,19 @@ import com.tinder.model.dao.user.IUserDAO;
 public class StompController {
 
 	private static final Logger logger = LoggerFactory.getLogger(StompController.class);
-	
+
 	@Autowired
 	private IUserDAO userDAO;
 
 	@MessageMapping("/marco")
 	public void handleShout(Shout incoming) {
-		logger.info("Received message: " + incoming.getMessage() + " ei " 
-				+ userDAO.getUser("pass"));
+		logger.info("Received message: " + incoming.getMessage() + " ei " + userDAO.getUser("pass"));
 	}
-	
-	@SubscribeMapping({"/marco"})
+
+	@SubscribeMapping({ "/marco" })
 	public Shout handleSubscription() {
-	Shout outgoing = new Shout();
-	outgoing.setMessage("Polo!");
-	return outgoing;
+		Shout outgoing = new Shout();
+		outgoing.setMessage("Polo!");
+		return outgoing;
 	}
 }
