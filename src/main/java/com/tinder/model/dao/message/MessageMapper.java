@@ -15,6 +15,7 @@ public class MessageMapper implements RowMapper<Message>{
 				res.getInt("sender_id"),
 				res.getInt("chat_id"),
 				res.getString("message"),
+				res.getString("username"),
 				res.getTimestamp("created_at").toLocalDateTime());
 	}
 

@@ -144,8 +144,9 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="js/stomp/stomp.js"></script>
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
 	<script
 		src="http://91.234.35.26/iwiki-admin/v1.0.0/admin/js/jquery.nicescroll.min.js"></script>
 	<script type="text/javascript">
@@ -195,15 +196,27 @@
 					+ "<div class='time'>5 min ago</div></div>"
 		}*/
 
-
-		var url = 'http://' + window.location.host + '/Tinder/marcopolo';
+		var url = 'http://' + window.location.host + '/Tinder/messageEndpoint';
 		var sock = new SockJS(url);
 		var stomp = Stomp.over(sock);
-		var payload = JSON.stringify({ 'message': 'Marco!' });
-		stomp.connect('guest', 'guest', function(frame) {
-		stomp.send("/marco", {}, payload);
+		var outgoingMessage = JSON.stringify({
+			'message' : 'Ai pak a zemi toq mesich',
+			'receiver' : 'pako'
 		});
-
+		stomp.connect('guest', 'guest', function(frame) {
+			console.log('Connected');
+			stomp.subscribe("/app/getInitialData", function(frame) {
+				stomp.subscribe("/topic/${user.username}", handleMessage);
+				//send();
+			});
+		});
+		var send = function() {
+			stomp.send("/app/dispatcher", {}, outgoingMessage);
+		};
+		function handleMessage(incomingMessage) {
+			var message = JSON.parse(incomingMessage.body);
+			console.log('Received: ', message);
+		}
 	</script>
 </body>
 
