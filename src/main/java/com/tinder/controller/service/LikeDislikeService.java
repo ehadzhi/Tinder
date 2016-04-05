@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tinder.exceptions.DBException;
+import com.tinder.info.UserParam;
 import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
@@ -28,10 +28,11 @@ public class LikeDislikeService {
 	private INotificationDAO notificationDAO;
 	
 	@RequestMapping(value = "/LikeDislikeService", method = RequestMethod.POST)
-	public Map<String,List<String>> doPost(HttpServletRequest request, HttpServletResponse response) throws DBException {
-		User user = (User) request.getSession(false).getAttribute("user");
+	public Map<String,List<String>> doPost(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession(false).getAttribute(UserParam.USER);
 		@SuppressWarnings("unchecked")
-		List<User> users = (List<User>) request.getSession().getAttribute("userCandidates");
+		List<User> users = (List<User>) request.getSession().
+				getAttribute(UserParam.USER_CANDIDATES);
 		if (users.size() == 0) {
 			addCandidates(request, users);
 		} else if (users.size() == 1) {
@@ -42,12 +43,12 @@ public class LikeDislikeService {
 		}
 		Map<String, List<String>> result =  new HashMap<String, List<String>>();
 		 result.put("photos",
-				retrurnPhotosOfTheFirstUser(response, users));
+				returnPhotosOfTheFirstUser(response, users));
 		 return result;
 	}
 
-	private List<String> retrurnPhotosOfTheFirstUser(HttpServletResponse response, List<User> users)
-			throws DBException {
+	private List<String> returnPhotosOfTheFirstUser(
+			HttpServletResponse response, List<User> users) {
 		if (users.size() == 0) {
 			return Arrays.asList("nousers.jpg");
 		} else {

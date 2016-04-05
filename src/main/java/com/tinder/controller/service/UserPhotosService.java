@@ -2,7 +2,6 @@ package com.tinder.controller.service;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tinder.exceptions.DBException;
 import com.tinder.model.dao.user.UserDAO;
 import com.tinder.model.pojo.User;
 

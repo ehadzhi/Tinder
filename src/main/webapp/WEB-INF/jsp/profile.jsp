@@ -195,7 +195,7 @@
 																<label id="new-email-label"
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-lg-5">
-																	<input id="new-email" name='newEmail' class="form-control" type="text"
+																	<input id="new-email" name='email' class="form-control" type="text"
 																		placeholder='${user.email}'>
 																</div>
 															</div>
@@ -204,7 +204,7 @@
 																	Username:</label> <label id="new-username-label"
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
-																	<input id="new-username" name='newUsername' class="form-control"
+																	<input id="new-username" name='username' class="form-control"
 																		type="text" placeholder='${user.username}'>
 																</div>
 															</div>
@@ -213,7 +213,7 @@
 																	Password:</label> <label id="new-password-label"
 																	style="font-size: 15px; color: black;"></label>
 																<div class="col-md-5">
-																	<input id="new-password" name='newPassword' class="form-control"
+																	<input id="new-password" name='password' class="form-control"
 																		type="password" value=''>
 																</div>
 															</div>
@@ -222,7 +222,8 @@
 																	New Password:</label> <label id="new-password-confirm-label"
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
-																	<input id="new-password-confirm" name='newPasswordConfirm' class="form-control"
+																	<input id="new-password-confirm"
+																		name='newPasswordConfirm' class="form-control"
 																		type="password" value=''>
 																</div>
 															</div>
@@ -232,7 +233,7 @@
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
 																	<fieldset class="form-group">
-																		<textarea id='new-description' name='newDescription' style="max-width: 100%;"class="form-control"
+																		<textarea id='new-description' name='description' style="max-width: 100%;"class="form-control"
 																			rows="4" cols="50" placeholder="Describe yourself here...">
 																		</textarea>
 																	</fieldset>
@@ -327,9 +328,9 @@
 								url : 'https://maps.googleapis.com/maps/api/geocode/json',
 								type : 'GET',
 								data : "latlng="
-										+ '<c:out value="${sessionScope.user.latitude}" />'
+										+ '${user.latitude}'
 										+ ","
-										+ '<c:out value="${sessionScope.user.longitude}"/>'
+										+ 'user.longitude}'
 										+ "&key=AIzaSyCNu5m_VtOStftb0xxeu26lK9nxWokDzl4"
 							})
 					.done(
@@ -341,27 +342,6 @@
 														+ response.results[0].formatted_address);
 							});
 		};
-		function profilePictureLoader() {
-			$
-					.ajax(
-							{
-								url : 'https://maps.googleapis.com/maps/api/geocode/json',
-								type : 'GET',
-								data : "latlng="
-										+ '<c:out value="${sessionScope.user.latitude}" />'
-										+ ","
-										+ '<c:out value="${sessionScope.user.longitude}"/>'
-										+ "&key=AIzaSyCNu5m_VtOStftb0xxeu26lK9nxWokDzl4"
-							})
-					.done(
-							function(response) {
-								$('#user-location').empty();
-								$('#user-location')
-										.append(
-												"<i class=\"fa fa-map-marker user-profile-icon\"></i> "
-														+ response.results[0].formatted_address);
-							});
-		}
 
 		var delay = (function() {
 			var timer = 0;

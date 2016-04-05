@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tinder.info.PictureParam;
+import com.tinder.info.UserParam;
 import com.tinder.model.dao.picture.IPictureDAO;
 import com.tinder.model.pojo.User;
 
@@ -19,12 +21,12 @@ public class PictureDelete {
 	private IPictureDAO pictureDAO;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String deletePicture(@PathVariable("picture_name")
+	public String deletePicture(@PathVariable(PictureParam.TO_DELETE)
 	String pictureName, HttpServletRequest request) {
-		User owner = (User) request.getSession().getAttribute("user");
+		User owner = (User) request.getSession().getAttribute(UserParam.USER);
 		
 		if(owner.getAvatarName().equals(pictureName)){
-			owner.setAvatarName("avatar_default.jpg");
+			owner.setAvatarName(UserParam.DEFAULT_AVATAR);
 		}
 		
 		pictureDAO.deletePicture(pictureName, owner);

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.tinder.info.UserParam;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
@@ -19,10 +20,10 @@ public class UserLoader {
 	
 	public void loadUser(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		if (session == null || session.getAttribute("user") == null) {
-			session.setAttribute("user", 
+		if (session == null || session.getAttribute(UserParam.USER) == null) {
+			session.setAttribute(UserParam.USER, 
 					userDAO.getUser(request.getUserPrincipal().getName()));
-			session.setAttribute("userCandidates", new LinkedList<User>());
+			session.setAttribute(UserParam.USER_CANDIDATES, new LinkedList<User>());
 		}
 	}
 }

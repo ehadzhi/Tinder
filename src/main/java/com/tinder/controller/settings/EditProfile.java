@@ -1,30 +1,24 @@
 package com.tinder.controller.settings;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tinder.config.UserLoader;
+import com.tinder.info.UserParam;
 
 @Controller
-@RequestMapping(value = { "/EditProfile" })
+@RequestMapping("/EditProfile")
 public class EditProfile {
-	
-	@Autowired
-	private UserLoader loader;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String doGet(HttpServletRequest request) {
-		loader.loadUser(request);
-
-		String newEmail = request.getParameter("newEmail");
-		String newAge = request.getParameter("newAge");
-		String newUsername = request.getParameter("newUsername");
-		String newPassword = request.getParameter("newPassword");
-		String newDescription = request.getParameter("newDescription");
+	public String doGet(
+		@RequestParam(value=UserParam.EMAIL,required = false)String newEmail,
+		@RequestParam(value=UserParam.AGE,required = false)String newAge,
+		@RequestParam(value=UserParam.USERNAME,required = false)String newUsername,
+		@RequestParam(value=UserParam.PASSWORD,required = false)String newPassword,
+		@RequestParam(value=UserParam.DESCRIPTION,required = false)String newDescription
+		) {
 
 		if (newEmail != null) {
 			

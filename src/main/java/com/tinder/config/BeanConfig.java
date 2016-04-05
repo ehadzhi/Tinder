@@ -9,26 +9,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+import com.tinder.info.DBCredentials;
 import com.tinder.model.dao.picture.IPictureDAO;
 
 @Configuration
 @ComponentScan("com.tinder")
 public class BeanConfig {
 
-
 	@Bean
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://127.0.0.1:3306" + "?autoReconnect=true&useSSL=false");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
-		dataSource.setInitialSize(5);
-		dataSource.setMaxTotal(10);
+		dataSource.setDriverClassName(DBCredentials.JDBC_DRIVER);
+		dataSource.setUrl(DBCredentials.DB_ADDRES);
+		dataSource.setUsername(DBCredentials.DB_USER);
+		dataSource.setPassword(DBCredentials.DB_PASS);
+		dataSource.setInitialSize(DBCredentials.INITIAL_POOL_SIZE);
+		dataSource.setMaxTotal(DBCredentials.MAX_POOL_SIZE);
 		return dataSource;
 	}
 
