@@ -200,14 +200,14 @@
 		var sock = new SockJS(url);
 		var stomp = Stomp.over(sock);
 		var outgoingMessage = JSON.stringify({
-			'message' : 'Ai pak a zemi toq mesich',
-			'receiver' : 'pako'
+			'message' : 'Tva sq go prashtam',
+			'receiver' : 'vaho'
 		});
 		stomp.connect('guest', 'guest', function(frame) {
 			console.log('Connected');
 			stomp.subscribe("/app/getInitialData", function(frame) {
 				stomp.subscribe("/topic/${user.username}", handleMessage);
-				//send();
+				send();
 			});
 		});
 		var send = function() {

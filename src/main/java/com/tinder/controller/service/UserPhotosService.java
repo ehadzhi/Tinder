@@ -1,4 +1,4 @@
-package com.tinder.controller;
+package com.tinder.controller.service;
 
 import org.springframework.web.bind.annotation.RestController;
 
