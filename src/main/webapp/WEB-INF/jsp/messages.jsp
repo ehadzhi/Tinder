@@ -66,8 +66,7 @@
 													<div class="col-sm-3 col-xs-12">
 														<div class="col-inside-lg decor-default chat"
 															style="overflow: hidden; outline: none;" tabindex="5000">
-															<div class="chat-users">
-																<h6>Online</h6>
+															<div id="chat-users" class="chat-users">
 																<div class="user">
 																	<div class="avatar">
 																		<img
@@ -104,7 +103,7 @@
 																			<img
 																				src="http://bootdey.com/img/Content/avatar/avatar2.png"
 																				alt="User name">
-																			<div class="status off"></div>
+																			<div class="status offline"></div>
 																		</div>
 																		<div class="name">Alexander Herthic</div>
 																		<div class="text">Hi!</div>
@@ -112,10 +111,10 @@
 																	</div>
 																</div>
 																<div class="answer-add">
-																	<input type="text" placeholder="Write a message"
+																	<input id="messageToSend" type="text" placeholder="Write a message"
 																		id="messageinput">
 																	<div>
-																		<button type="button" onclick="send();">Send</button>
+																		<button id='send-button' type="button" onclick="send();">Send</button>
 																	</div>
 																</div>
 															</div>
@@ -150,73 +149,93 @@
 	<script
 		src="http://91.234.35.26/iwiki-admin/v1.0.0/admin/js/jquery.nicescroll.min.js"></script>
 	<script type="text/javascript">
-		//NProgress.done();
-		/*var webSocket;
-		var messages = document.getElementById("messages");
-		function openSocket() {
-			if (webSocket !== undefined
-					&& webSocket.readyState !== WebSocket.CLOSED) {
-				writeResponse("WebSocket is already opened.");
-				return;
-			}
-			webSocket = new WebSocket('ws://' + window.location.host + '/websocket/marco');
-			
-			webSocket.onopen = function(event) {
-				if (event.data === undefined)
-					return;
-				console.log(event);
-				writeResponse(event.data);
-			};
-
-			webSocket.onmessage = function(event) {
-				writeResponse(event.data);
-			};
-
-			webSocket.onclose = function(event) {
-				writeResponse("Connection closed");
-			};
-		}
-		function send() {
-			var text = document.getElementById("messageinput").value;
-			webSocket.send(text);
-		}
-
-		function closeSocket() {
-			webSocket.close();
-		}
-
-		function writeResponse(text) {
-			messages.innerHTML += "<div class='answer right'>"
-					+ "<div class='avatar'>"
-					+ "<img src='http://bootdey.com/img/Content/avatar/avatar2.png' alt='User name'>"
-					+ "<div class='status off'></div>" +
-
-					"</div><div class='name'Tuk ti e imeto</div> "
-					+ "<div class='text'>" + text + "</div>"
-					+ "<div class='time'>5 min ago</div></div>"
-		}*/
-
+		
 		var url = 'http://' + window.location.host + '/Tinder/messageEndpoint';
 		var sock = new SockJS(url);
 		var stomp = Stomp.over(sock);
-		var outgoingMessage = JSON.stringify({
-			'message' : 'Ai pak a zemi toq mesich',
-			'receiver' : 'pako'
-		});
 		stomp.connect('guest', 'guest', function(frame) {
 			console.log('Connected');
 			stomp.subscribe("/app/getInitialData", function(frame) {
+				$('#chat-users').empty();
+				chats = JSON.parse(frame.body);
+				for(var chat in chats){
+					$('#chat-users').append(
+							"<div class='user' onclick='loadMessages(\""+chat+"\")'>"
+							+ "<div class='avatar'>"
+							+ "<img "
+							+ "src=\"images/"+chats[chat].picture+"\" "
+							+ "alt='User name'>"
+							+ "<div class='status off'></div>"
+							+ "</div>"
+							+ "<div class='name'>"+chat+"</div>"
+							+ "<div class='mood'>User mood</div>"
+							+ "</div>"
+					);
+				}
 				stomp.subscribe("/topic/${user.username}", handleMessage);
-				//send();
 			});
 		});
 		var send = function() {
+			var outgoingMessage = JSON.stringify({
+				'message' : $('#messageToSend').val(),
+				'receiver' : toSend
+			});
 			stomp.send("/app/dispatcher", {}, outgoingMessage);
+			var value = getMessage('right','${user.username}', $('#messageToSend').val(),"${user.avatarName}",'');
+			$('#messages').append(value);
+			$('#messageToSend').val('');
+			
 		};
 		function handleMessage(incomingMessage) {
+			var currentUser = "${user.username}";
 			var message = JSON.parse(incomingMessage.body);
+			if(currentUser==message.senderUsername){
+				var value = getMessage('right',message.senderUsername,message.message,"${user.avatarName}",'');
+				$('#messages').append(value);
+			}
+			else{
+				var value = getMessage('left',message.senderUsername,
+						message.message,message.picture,'');
+				$('#messages').append(value);
+			}
 			console.log('Received: ', message);
 		}
+		function loadMessages(chat){
+			toSend = chat;
+			var currentUser = "${user.username}";
+			var messages = chats[chat].messages;
+			$('#messages').empty();
+			for(var message in messages){
+				console.log(messages[message]);
+				console.log(currentUser);
+				console.log(messages[message].senderUsername);
+				if(currentUser==messages[message].senderUsername){
+					var value = getMessage('right',messages[message].senderUsername,messages[message].message,"${user.avatarName}",'');
+					$('#messages').append(value);
+				}
+				else{
+					var value = getMessage('left',messages[message].senderUsername,
+							messages[message].message,chats[chat].picture,'');
+					$('#messages').append(value);
+				}
+			}
+		} 
+		
+		function getMessage(side,senderUsername,senderMessage,picture,time){
+			return "<div class='answer "+side+"'>"
+			+ "	<div class='avatar'>"
+			+ "		<img "
+			+ "			src='images/"+picture+"' "
+			+ "			alt='User name'>"
+			+ "		<div class='status offline'></div>"
+			+ "		</div>"
+			+ "		<div class='name'>"+senderUsername+"</div>"
+			+ "		<div class='text'>"+senderMessage+"</div>"
+			+ "		<div class='time'>"+time+"</div>"
+			+ " </div>"
+			;
+		}
+		
 	</script>
 </body>
 

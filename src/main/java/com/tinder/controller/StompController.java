@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,16 +43,20 @@ public class StompController {
 	private SimpMessageSendingOperations messageSender;
 
 	@SubscribeMapping({ "/getInitialData" })
-	public Map<String, List<Message>> handleSubscription(Principal principal) {
+	public Map<String, Map<String, Object>> handleSubscription(Principal principal) {
 
-		Map<String, List<Message>> toReturn = new HashMap<String, List<Message>>();
+		Map<String, Map<String,Object>> toReturn = new HashMap<String, Map<String,Object>>();
 		User whoWantsIt = userDAO.getUser(principal.getName());
 		List<User> users = chatDAO.getUserChatFriends(whoWantsIt);
 		for (User user : users) {
-			toReturn.put(user.getUsername(),
-				messageDAO.getLastMessagesFrom(
-				INITIAL_LOAD_MESSAGE_COUNT, whoWantsIt, user, LocalDateTime.now()));
+			Map<String,Object> value = new HashMap<String,Object>();
+			value.put("messages",
+					messageDAO.getLastMessagesFrom(INITIAL_LOAD_MESSAGE_COUNT,
+							whoWantsIt, user, LocalDateTime.now()));
+			value.put("picture", user.getAvatarName());
+			toReturn.put(user.getUsername(),value);
 		}
+		
 		return toReturn;
 	}
 
