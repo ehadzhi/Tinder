@@ -1,4 +1,4 @@
-package com.tinder.controller;
+package com.tinder.controller.chat;
 
 import java.security.Principal;
 import java.time.LocalDateTime;

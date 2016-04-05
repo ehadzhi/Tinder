@@ -1,4 +1,4 @@
-package com.tinder.controller;
+package com.tinder.controller.chat;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.tinder.config.UserLoader;
 
 @Controller
-@RequestMapping(value = "/AppSettings")
-public class AppSettings {
-
+@RequestMapping(value = "/Messages")
+public class Messages {
+	
 	@Autowired
 	private UserLoader loader;
-	
+
 	@RequestMapping(method = RequestMethod.GET)
-	public String appSettings(HttpServletRequest request) {
+	protected String doGet(HttpServletRequest request){
 		loader.loadUser(request);
-		return "app-settings";
+		return "messages";
 	}
 
 }

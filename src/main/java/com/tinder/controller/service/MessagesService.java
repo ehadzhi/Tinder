@@ -1,4 +1,4 @@
-package com.tinder.controller;
+package com.tinder.controller.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
