@@ -36,7 +36,7 @@ public class DiscoverySettings {
 		int minAge = Integer.parseInt(ageRange.split(";")[0]);
 		int maxAge = Integer.parseInt(ageRange.split(";")[1]);
 		User user = (User) session.getAttribute(UserParam.USER);
-		userDAO.setUserDiscoverySettings(user.getId(),
+		userDAO.setUserDiscoverySettings(user.getUsername(),
 				showMale, showFemale,dist,minAge,maxAge);
 		
 		User renewedUser = userDAO.getUser(user.getUsername());

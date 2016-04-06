@@ -84,7 +84,16 @@ public class UserDAOTest {
 
 	@Test
 	public void testSetUserDiscoverySettings() {
-		fail("Not yet implemented");
+		registerUserWithTestParam();
+		userDAO.setUserDiscoverySettings(TestUser.TEST_USERNAME, TestUser.WANTS_MALE,
+				TestUser.WANTS_FEMALE, TestUser.SEARCH_DISTANCE, TestUser.MAX_DESIRED_AGE, TestUser.MIN_DESIRED_AGE);
+		User afterUpdate = userDAO.getUser(TestUser.TEST_USERNAME);
+		assertEquals(TestUser.WANTS_MALE, afterUpdate.isWantsMale());
+		assertEquals(TestUser.WANTS_FEMALE, afterUpdate.isWantsFemale());
+		assertEquals(TestUser.SEARCH_DISTANCE, afterUpdate.getSearchDistance());
+		assertEquals(TestUser.MAX_DESIRED_AGE, afterUpdate.getMaxDesiredAge());
+		assertEquals(TestUser.MIN_DESIRED_AGE, afterUpdate.getMinDesiredAge());
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 	}
 
 	@Test
@@ -124,9 +133,9 @@ public class UserDAOTest {
 		User testUser3 = userDAO.getUser("testUser3");
 
 		// setting discovery settings
-		userDAO.setUserDiscoverySettings(testUser1.getId(), true, true, 500, 18, 50);
-		userDAO.setUserDiscoverySettings(testUser2.getId(), true, true, 500, 18, 50);
-		userDAO.setUserDiscoverySettings(testUser3.getId(), true, true, 500, 18, 50);
+		userDAO.setUserDiscoverySettings(testUser1.getUsername(), true, true, 500, 18, 50);
+		userDAO.setUserDiscoverySettings(testUser2.getUsername(), true, true, 500, 18, 50);
+		userDAO.setUserDiscoverySettings(testUser3.getUsername(), true, true, 500, 18, 50);
 
 		assertEquals(userDAO.getFirstThreeNearbyUsers(testUser1.getUsername()).size(), 2);
 
@@ -134,11 +143,6 @@ public class UserDAOTest {
 		userDAO.deleteUser(testUser1.getUsername());
 		userDAO.deleteUser(testUser2.getUsername());
 		userDAO.deleteUser(testUser3.getUsername());
-	}
-
-	@Test
-	public void testGetAllPhotosOfUser() {
-		fail("Not yet implemented");
 	}
 
 	@Test

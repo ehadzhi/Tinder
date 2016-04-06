@@ -13,6 +13,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Login</title>
+<link rel="shortcut icon" type="image/x-icon"
+	href="/Tinder/images/shortcut-icon.png" />
 
 <!-- Bootstrap core CSS -->
 
@@ -53,11 +55,6 @@
 						<div>
 							<input type="password" name="password" class="form-control"
 								placeholder="Password" required>
-						</div>
-						<div>
-							<input id="hiddenLatitude" type="hidden" name="latitude" value="">
-							<input id="hiddenLongitude" type="hidden" name="longitude"
-								value="">
 						</div>
 						<input type="submit" class="btn btn-default submit" value="Log in">
 						<div class="clearfix"></div>
@@ -146,41 +143,6 @@
 	</div>
 
 	<script type="text/javascript">
-		function setLocation(position) {
-			var latitude = position.coords.latitude;
-			var longitude = position.coords.longitude;
-			document.getElementById("hiddenLatitude").setAttribute("value",
-					latitude);
-			document.getElementById("hiddenLongitude").setAttribute("value",
-					longitude);
-		}
-
-		function errorHandler(err) {
-			if (err.code == 1) {
-				alert("Error: Access is denied!");
-			}
-
-			else if (err.code == 2) {
-				alert("Error: Position is unavailable!");
-			}
-		}
-
-		function getLocation() {
-
-			if (navigator.geolocation) {
-				// timeout at 60000 milliseconds (60 seconds)
-				var options = {
-					timeout : 60000
-				};
-				navigator.geolocation.getCurrentPosition(setLocation,
-						errorHandler, options);
-			}
-
-			else {
-				alert("Sorry, browser does not support geolocation!");
-			}
-		}
-
 		var delay = (function() {
 			var timer = 0;
 			return function(callback, ms) {

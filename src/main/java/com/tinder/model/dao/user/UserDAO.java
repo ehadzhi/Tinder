@@ -72,8 +72,9 @@ public class UserDAO implements IUserDAO {
 	}
 
 	@Override
-	public void setUserDiscoverySettings(int id, boolean wantsMale, boolean wantsFemale, int searchdistance, int minAge,
+	public void setUserDiscoverySettings(String username, boolean wantsMale, boolean wantsFemale, int searchdistance, int minAge,
 			int maxAge) {
+		int id = getUser(username).getId();
 		final String SET_DISCOVERY_SETTINGS = "UPDATE tinder.users SET wants_male=:wants_male, wants_female=:wants_female,"
 				+ " search_distance=:search_distance, min_desired_age=:min_desired_age,"
 				+ " max_desired_age=:max_desired_age WHERE id=:user_id ;";

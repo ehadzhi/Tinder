@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title></title>
+<title>Tinder</title>
+<link rel="shortcut icon" type="image/x-icon"
+	href="/Tinder/images/shortcut-icon.png" />
 </head>
 <body onload="getLocation();">
+
 	<form id="location-form" action="/Tinder/LocationSetter" method="post">
 		<div>
 			<input id="hiddenLatitude" type="hidden" name="latitude" value="">

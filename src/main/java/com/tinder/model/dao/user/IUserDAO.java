@@ -15,9 +15,6 @@ public interface IUserDAO {
 
 	void registerUser(String username, String password, String email, boolean gender, int age, String fullName);
 
-	void setUserDiscoverySettings(int id, boolean wantsMale, boolean wantsFemale, int searchdistance, int minAge,
-			int maxAge);
-
 	void deleteUser(String username);
 
 	String calculateHash(String password);
@@ -33,5 +30,8 @@ public interface IUserDAO {
 	boolean isUsernameExisting(String username);
 
 	boolean isEmailExisting(String email);
+
+	void setUserDiscoverySettings(String username, boolean wantsMale, boolean wantsFemale, int searchdistance,
+			int minAge, int maxAge);
 
 }
