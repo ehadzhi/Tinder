@@ -16,6 +16,6 @@ public interface INotificationDAO {
 
 	List<User> getAllMessageNotificationsForUser(User user);
 
-	void deleteAllMessageNotificationsForUser(User user);
+	void deleteAllMessageNotificationsForUser(User user,User withUser);
 
 }

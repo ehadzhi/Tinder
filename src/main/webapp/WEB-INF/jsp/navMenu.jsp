@@ -4,7 +4,7 @@
 <%@ page isELIgnored="false"%>
 
 <!-- top navigation -->
-<div class="top_nav" >
+<div class="top_nav">
 
 	<div class="nav_menu">
 		<nav class="" role="navigation">
@@ -14,62 +14,26 @@
 
 			<ul class="nav navbar-nav navbar-right">
 
-				<li role="presentatio" class="dropdown"><a href="javascript:;" 
+				<li role="presentatio" class="dropdown"><a href="javascript:;"
 					class="dropdown-toggle info-number" data-toggle="dropdown"
-					aria-expanded="false"> <i class="fa fa-comment"></i> <span
-						class="badge bg-green">6</span>
+					aria-expanded="false"> <i class="fa fa-comment"></i> 
+					<span id="number-messages" class="badge bg-green">6</span>
 				</a>
 					<ul id="message-notifications"
 						class="dropdown-menu list-unstyled msg_list animated fadeInDown"
 						role="menu">
-						<li><a> <span class="image"> <img
-									src="images/img.jpg" alt="Profile Image" />
-							</span> <span> <span>John Smith</span> <span class="time">3
-										mins ago</span>
-							</span> <span class="message"> Film festivals used to be
-									do-or-die moments for movie makers. They were where... </span>
-						</a></li>
-						<li><a> <span class="image"> <img
-									src="images/img.jpg" alt="Profile Image" />
-							</span> <span> <span>John Smith</span> <span class="time">3
-										mins ago</span>
-							</span> <span class="message"> Film festivals used to be
-									do-or-die moments for movie makers. They were where... </span>
-						</a></li>
-						<li><a> <span class="image"> <img
-									src="images/img.jpg" alt="Profile Image" />
-							</span> <span> <span>John Smith</span> <span class="time">3
-										mins ago</span>
-							</span> <span class="message"> Film festivals used to be
-									do-or-die moments for movie makers. They were where... </span>
-						</a></li>
-						<li><a> <span class="image"> <img
-									src="images/img.jpg" alt="Profile Image" />
-							</span> <span> <span>John Smith</span> <span class="time">3
-										mins ago</span>
-							</span> <span class="message"> Film festivals used to be
-									do-or-die moments for movie makers. They were where... </span>
-						</a></li>
-						<li>
-							<div class="text-center">
-								<a href="inbox.html"> <strong>See All Messages</strong> <i
-									class="fa fa-angle-right"></i>
-								</a>
-							</div>
-
-						</li>
+						
 					</ul></li>
 				<li role="presentatio" class="dropdown"><a href=""
 					class="dropdown-toggle info-number" data-toggle="dropdown"
-					aria-expanded="false"> <i class="fa fa-heart"></i> <span id='number-of-matches'
-						class="badge bg-green"></span>
+					aria-expanded="false"> <i class="fa fa-heart"></i> <span
+						id='number-of-matches' class="badge bg-green"></span>
 				</a>
 					<ul id="match-notifications"
 						class="dropdown-menu list-unstyled msg_list animated fadeInDown"
 						role="menu">
-						
-					</ul>
-				</li>
+
+					</ul></li>
 
 			</ul>
 		</nav>
@@ -92,9 +56,9 @@
 			for(i = 0 ; i<response.matchNotifications.length ; i+=1){
 				$('#match-notifications').append(
 						"<li><a> <span class='image'> <img" +
-						"			src='images/avatar_default.jpg' alt='Profile Image' />"+
-						"	</span> <span> <span>"+response.matchNotifications[i]+"</span> <span class='time'>3 " +
-						"				mins ago</span> " +
+						"			src='images/"+response.matchNotifications[i].avatarName+"' alt='Profile Image' />"+
+						"	</span> <span> <span>"+response.matchNotifications[i].username+"</span> <span class='time'> " +
+						"				A while ago.</span> " +
 						"	</span> <span class='message'>It's a match!</span> " +
 						"</a></li>"
 						);
@@ -113,7 +77,49 @@
 			url : 'MatchNotificationsService',
 			type : 'DELETE'
 		}).done(function() {
-			getMatchNotifications();
+		});
+	};
+	(function getMessageNotifications() {
+		$.ajax({
+			url : 'MessageNotificationService',
+			type : 'POST'
+		}).done(function(response) {
+			$('#message-notifications').empty();
+			$('#number-messages').empty();
+			$('#number-messages').append(response.messageNotifications.length);
+			var i;
+			for(i=0;i<response.messageNotifications.length;i++){
+				$('#message-notifications').append(
+						 "<li>"
+						+"	<a> "
+						+"		<span class='image'> "
+						+"			<img src='images/"+response.messageNotifications[i].avatarName+"' alt='Profile Image' />"
+						+"		</span> "
+						+"		<span> "
+						+"			<span>"+response.messageNotifications[i].username+"</span>"
+						+"			<span class='time'>Just some time</span>"
+						+"		</span> "
+						+"		<span class='message'> "
+						+"			Send you a message "
+						+"		</span>"
+						+"	</a>"
+					 	+"</li>"
+				);
+			}
+			$('#message-notifications').append(
+					"<li><div class='text-center'>"+
+							"<a onclick='deleteMessageNotifications();'> <strong>Remove these notifications</strong> <i"+
+							"	class='fa fa-angle-up'></i>"+
+							"</a>"+
+					"</div></li>");
+			setTimeout(getMessageNotifications, 10000);
+		});
+	})();
+	function deleteMessageNotifications() {
+		$.ajax({
+			url : 'MessageNotificationsService' + '?' + $.param({"withUser": 'none'}),
+			type : 'DELETE'
+		}).done(function() {
 		});
 	};
 </script>

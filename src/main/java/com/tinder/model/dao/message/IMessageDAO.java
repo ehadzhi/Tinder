@@ -17,5 +17,7 @@ public interface IMessageDAO {
 	void deletAllMessagesBetweenUsers(User user1,User user2);
 	
 	void insertMessageNotification(User from, User to);
+	
+	boolean isMessageNotificationExisting(User firstUser, User secondUser);
 
 }

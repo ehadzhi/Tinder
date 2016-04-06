@@ -39,6 +39,8 @@
 		<div class="main_container">
 
 			<jsp:include page="sideMenu.jsp" />
+			
+			<jsp:include page="navMenu.jsp" />
 
 			<div class="right_col" role="main">
 
@@ -210,6 +212,7 @@
 			}
 			$(".chat").niceScroll();
 			$(".chat").scrollTop($('.chat')[0].scrollHeight * 10);
+			deleteMessageNotifications(chat);
 		}
 		function getMessage(side, senderUsername, senderMessage, picture, time) {
 			return "<div class='answer "+side+"'>"
@@ -227,6 +230,14 @@
 				send();
 			}
 		});
+		function deleteMessageNotifications(user) {
+			console.log(user);
+			$.ajax({
+				url : 'MessageNotificationsService' + '?' + $.param({"withUser": user}),
+				type : 'DELETE'
+			}).done(function() {
+			});
+		};
 	</script>
 </body>
 

@@ -62,14 +62,7 @@ public class MessageDAO implements IMessageDAO {
 		paramMap.put("message", msg);
 		jdbcTemplate.update(SEND_MESSAGE, paramMap);
 		
-		List<User> list = notificationDAO.getAllMatchNotificationsForUser(to);
-		boolean flag = true;
-		for(User u : list){
-			if(u.getUsername() == from.getUsername()){
-				flag=false;
-			}
-		}
-		if(flag){
+		if(isMessageNotificationExisting(from,to)){
 			insertMessageNotification(from,to);
 		}
 	}
@@ -88,6 +81,18 @@ public class MessageDAO implements IMessageDAO {
 				return resultSet.getInt(1);
 			}
 			return -1;
+		});
+	}
+	
+	public boolean isMessageNotificationExisting(User firstUser, User secondUser) {
+		final String FIND_CHAT_ID = "SELECT count(id) FROM tinder.`message-notifications` "
+				+ "where from_user_id = :from_id and to_user_id=:to_id; ";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("from_id", firstUser.getId());
+		paramMap.put("to_id", secondUser.getId());
+		return jdbcTemplate.query(FIND_CHAT_ID, paramMap, resultSet -> {
+			resultSet.next();
+			return resultSet.getInt(1)==0;
 		});
 	}
 

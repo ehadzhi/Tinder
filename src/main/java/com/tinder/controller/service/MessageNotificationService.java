@@ -25,18 +25,22 @@ public class MessageNotificationService {
 	@Autowired
 	private IUserDAO userDAO;
 	
-	@RequestMapping(value = "/MessageNotificationsService", method = RequestMethod.POST)
+	@RequestMapping(value = "/MessageNotificationService", method = RequestMethod.POST)
 	public Map<String, List<User>> getMessageNotifications(Principal principal){
 		User user = userDAO.getUser(principal.getName());
 		Map<String,List<User>> result = new HashMap<String,List<User>>();
-		result.put("message-notifications", notificationDAO.getAllMessageNotificationsForUser(user));
+		result.put("messageNotifications", notificationDAO.getAllMessageNotificationsForUser(user));
 		return result;
 	}
 	
 	@RequestMapping(value = "/MessageNotificationsService", method = RequestMethod.DELETE)
-	public void deleteMessageNotifications(Principal principal){
+	public void deleteMessageNotifications(Principal principal,@RequestParam("withUser") String username){
+		User withUser = null;
+		if(!username.equals("none"))
+			withUser = userDAO.getUser(username);
+		
 		User user = userDAO.getUser(principal.getName());
-		notificationDAO.deleteAllMessageNotificationsForUser(user);
+		notificationDAO.deleteAllMessageNotificationsForUser(user,withUser);
 	}
 	
 }
