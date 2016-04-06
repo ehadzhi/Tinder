@@ -2,6 +2,7 @@ package com.tinder.model.dao.message;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 import com.tinder.model.pojo.Chat;
 import com.tinder.model.pojo.Message;
 import com.tinder.model.pojo.User;
+
+import scala.collection.immutable.ListSet;
 
 @Component
 public class MessageDAO implements IMessageDAO {
@@ -35,7 +38,10 @@ public class MessageDAO implements IMessageDAO {
 		paramMap.put("chat_id", chat.getId());
 		paramMap.put("from_time", Timestamp.valueOf(fromTime));
 		paramMap.put("num_messages", numMessages);
-		return jdbcTemplate.query(GET_MESSAGES_BEFORE_GIVEN_TIME, paramMap, new MessageMapper());
+		List<Message> toReturn = jdbcTemplate.query(GET_MESSAGES_BEFORE_GIVEN_TIME,
+				paramMap, new MessageMapper());
+		Collections.reverse(toReturn);
+		return toReturn;
 	}
 
 	@Override
