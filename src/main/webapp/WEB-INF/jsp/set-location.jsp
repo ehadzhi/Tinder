@@ -7,6 +7,7 @@
 <title></title>
 </head>
 <body onload="getLocation();">
+
 	<form id="location-form" action="/Tinder/LocationSetter" method="post">
 		<div>
 			<input id="hiddenLatitude" type="hidden" name="latitude" value="">

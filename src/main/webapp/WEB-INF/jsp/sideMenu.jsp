@@ -7,7 +7,7 @@
 	<div class="left_col scroll-view">
 
 		<div class="navbar nav_title" style="border: 0;">
-			<a href="index.html" class="site_title"><i class="fa fa-fire"></i>
+			<a href="index.html" class="site_title"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span></i>
 				<span>Tinder</span></a>
 		</div>
 		<div class="clearfix"></div>

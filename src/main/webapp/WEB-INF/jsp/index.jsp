@@ -63,8 +63,9 @@
 								<br>
 								<div class="card">
 									<div class="card-block">
-										<h4 class="card-title">Candidate name</h4>
-										<h6 class="card-subtitle text-muted">Candidate age</h6>
+										<h4 id="name" class="card-title">Candidate name</h4>
+										<h6 id="age" class="card-subtitle text-muted">Candidate
+											age</h6>
 									</div>
 									<div id="myCarousel" class="carousel slide"
 										data-ride="carousel">
@@ -87,16 +88,16 @@
 										</a>
 									</div>
 									<div class="card-block">
-										<p class="card-text">Description: Some quick example text
-											to build on the card title and make up the bulk of the card's
-											content.</p>
-										</div>
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<button onclick="worker('Like')" class="btn btn-success btn-block">Like</button>
-										</div>
-										<div class="col-md-6 col-sm-6 col-xs-12">
-											<button onclick="worker('disLike');getMatchNotifications();"
-												class="btn btn-danger btn-block">Dislike</button>
+									<div id="description" class="alert alert-info" role="alert">...</div>
+			
+									</div>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<button onclick="worker('Like')"
+											class="btn btn-success btn-block">Like</button>
+									</div>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<button onclick="worker('disLike');getMatchNotifications();"
+											class="btn btn-danger btn-block">Dislike</button>
 									</div>
 								</div>
 							</div>
@@ -106,7 +107,7 @@
 									<h4 class="card-title">Current candidate location</h4>
 									<h6 class="card-subtitle text-muted">the closer the better</h6>
 								</div>
-								<div class="col-md-6 col-sm-6 col-xs-12">
+								<div id="location" class="col-md-6 col-sm-6 col-xs-12">
 									<iframe
 										src="http://maps.google.com/maps?q=42.6505753,23.3564571&z=15&output=embed"
 										width="500" height="300" frameborder="0" style="border: 0"></iframe>
@@ -145,9 +146,34 @@
 					.done(
 							function(response) {
 								console.log(response);
+								$('#name').empty();
+								$('#name').append('<span class="glyphicon glyphicon-user" aria-hidden="true"></span>'+response.user.fullName);
+								$('#age').empty();
+								$('#age').append('<span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>'+ response.user.age);
+								$('#description').empty();
+								$('#description').append(
+										'<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>'+response.user.description);
+								$('#location').empty();
+								$('#location')
+										.append(
+												'<iframe src="http://maps.google.com/maps?q='+response.user.latitude+','+response.user.longitude+'&z=15&output=embed" width="500" height="300" frameborder="0" style="border: 0"></iframe>');
 								$('#gallery-slides').empty();
 								$('#gallery-images').empty();
 								var i;
+								if (response.photos.length === 0) {
+									$('#gallery-slides')
+											.append(
+													"<li data-target=\"#myCarousel\" data-slide-to=\""+
+											0 +"\" class=\"active\"></li>");
+									$('#gallery-images').append(
+											"<div class=\"item active\">"
+													+ "<img src=\"images/"
+													+ "no-photo-availiable.jpg"
+													+ "\" alt=\"" + (i + 1)
+													+ "\" width=\"460\""
+													+ "height=\"345\">"
+													+ "</div>");
+								}
 								for (i = 0; i < response.photos.length; i += 1) {
 									if (i == 0) {
 										$('#gallery-slides')

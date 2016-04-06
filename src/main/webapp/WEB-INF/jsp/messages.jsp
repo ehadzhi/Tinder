@@ -172,14 +172,13 @@
 			var currentUser = "${user.username}";
 			var message = JSON.parse(incomingMessage.body);
 			console.log(message);
-			console.log("tvaaa");
 			if (currentUser == message.senderUsername) {
 				var value = getMessage('right', message.senderUsername,
-						message.message, "${user.avatarName}", message.createdAt.hour+':'+message.createdAt.minute);
+						message.message, "${user.avatarName}", message.timeOfSending.hour+':'+message.timeOfSending.minute);
 				$('#messages').append(value);
 			} else {
 				var value = getMessage('left', message.sender,
-						message.message, chats[clickedChat].picture, message.createdAt.hour+':'+message.createdAt.minute);
+						message.message, chats[clickedChat].picture, message.timeOfSending.hour+':'+message.timeOfSending.minute);
 				$('#messages').append(value);
 			}
 			$(".chat").niceScroll();
