@@ -64,7 +64,7 @@
 														</div>
 													</div>
 													<div class="col-sm-9 col-xs-12 chat"
-														>
+														style="overflow: hidden; outline: none;" tabindex="5001">
 														<div class="col-inside-lg decor-default">
 															<div id='chat-body' class="chat-body">
 																<div id="messages">
@@ -81,16 +81,6 @@
 																	</span>
 																</div>
 															</div>
-															<div style='display: inline;'>
-																<input id='messageToSend' placeholder='Write a message'
-																	type='text' class='form-control'> <span
-																	class='input-group-btn'>
-																	<button id='send-button' style='width: 100%'
-																		onclick='send();' type='button'
-																		class='btn btn-primary'>Send</button>
-																</span>
-															</div>
-
 														</div>
 													</div>
 												</div>
@@ -177,7 +167,6 @@
 			$('#messageToSend').val('');
 			$(".chat").niceScroll();
 			$(".chat").scrollTop($('.chat')[0].scrollHeight * 10);
-
 		};
 		function handleMessage(incomingMessage) {
 			var currentUser = "${user.username}";
@@ -222,19 +211,9 @@
 			$(".chat").niceScroll();
 			$(".chat").scrollTop($('.chat')[0].scrollHeight * 10);
 		}
-
 		function getMessage(side, senderUsername, senderMessage, picture, time) {
 			return "<div class='answer "+side+"'>"
 					+ "	<div class='avatar'>"
-<<<<<<< HEAD
-					+ "		<img src='images/"+picture+"' alt='User name'> "
-					+ "		<div class='status offline'></div>" + 
-					   "</div>"
-					+ "		<div class='name'>" + senderUsername + "</div>"
-					+ "		<div class='text'>" + senderMessage + "</div>"
-					+ "		<div class='time'>" + time + "</div>"+
-					   "</div>";
-=======
 					+ "		<img "
 					+ "			src='images/"+picture+"' "
 					+ "			alt='User name'>"
@@ -242,9 +221,7 @@
 					+ "		<div class='name'>" + senderUsername + "</div>"
 					+ "		<div class='text'>" + senderMessage + "</div>"
 					+ "		<div style=\"font-size:small;\" class='time'>" + time + "</div>" + " </div>";
->>>>>>> 278fc0b802bc3bb6e6a5294d40f7a16b11281474
 		}
-
 		$("#messageToSend").keyup(function(e) {
 			if (e.keyCode == 13) {
 				send();

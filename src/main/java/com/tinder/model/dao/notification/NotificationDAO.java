@@ -16,11 +16,11 @@ public class NotificationDAO implements INotificationDAO {
 
 	@Override
 	public void addMatch(int userOneId, int userTwoId) {
-		final String ADD_MATCH_NOTIFICATION = "INSERT INTO tinder.match-notification "
-				+ "VALUES (null, :user1_id, user2_id);";
+		final String ADD_MATCH_NOTIFICATION = "INSERT INTO `tinder`.`match-notification` "
+				+ "VALUES (null, :user1_id, :user2_id);";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("user1_id", userOneId);
-		paramMap.put("user1_id", userTwoId);
+		paramMap.put("user2_id", userTwoId);
 		jdbcTemplate.update(ADD_MATCH_NOTIFICATION, paramMap);
 	}
 

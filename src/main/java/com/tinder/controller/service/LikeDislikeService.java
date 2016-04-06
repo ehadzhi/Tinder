@@ -66,6 +66,7 @@ public class LikeDislikeService {
 		if (((String) request.getParameter("action")).equals("Like")) {
 			userDAO.likeUser(user.getId(), users.get(0).getId());
 			if(notificationDAO.checkForLike(users.get(0).getId(), user.getId())){
+				System.out.println("OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 				notificationDAO.addMatch(users.get(0).getId(),  user.getId());
 				notificationDAO.addMatch(user.getId(), users.get(0).getId());
 				chatDAO.createChat(user, users.get(0));
