@@ -26,7 +26,8 @@ public class MessageDAO implements IMessageDAO {
 				"SELECT * FROM tinder.messages m "
 				+ "join tinder.users u on (m.sender_id=u.id) " 
 				+ "where m.chat_id = :chat_id and "
-				+ "m.created_at < :from_time limit :num_messages;";
+				+ "m.created_at < :from_time "
+				+ "order by created_at desc limit :num_messages;";
 
 		Chat chat = new Chat(findChatId(user1, user2));
 		System.out.println(chat + "ei tva e " + chat.getId());

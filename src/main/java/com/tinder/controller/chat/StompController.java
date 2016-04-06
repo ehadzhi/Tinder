@@ -24,7 +24,7 @@ import com.tinder.model.pojo.User;
 @Controller
 public class StompController {
 
-	private static final int INITIAL_LOAD_MESSAGE_COUNT = 5;
+	private static final int INITIAL_LOAD_MESSAGE_COUNT = 20;
 
 	private static final Logger logger = LoggerFactory.getLogger(StompController.class);
 
