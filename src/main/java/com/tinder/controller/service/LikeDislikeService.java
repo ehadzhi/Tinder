@@ -1,6 +1,7 @@
 package com.tinder.controller.service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tinder.info.UserParam;
+import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
@@ -23,6 +25,9 @@ public class LikeDislikeService {
 
 	@Autowired
 	private IUserDAO userDAO;
+	
+	@Autowired
+	private IChatDAO chatDAO;
 	
 	@Autowired
 	private INotificationDAO notificationDAO;
@@ -63,6 +68,7 @@ public class LikeDislikeService {
 			if(notificationDAO.checkForLike(users.get(0).getId(), user.getId())){
 				notificationDAO.addMatch(users.get(0).getId(),  user.getId());
 				notificationDAO.addMatch(user.getId(), users.get(0).getId());
+				chatDAO.createChat(user, users.get(0));
 			}
 		}
 		if (((String) request.getParameter("action")).equals("Dislike")) {
@@ -77,6 +83,7 @@ public class LikeDislikeService {
 		
 		users.addAll(newUsers);
 		request.getSession().setAttribute("userCandidates", users);
+		System.out.println(users.toString());
 	}
 
 }

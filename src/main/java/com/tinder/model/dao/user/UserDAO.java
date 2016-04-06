@@ -43,7 +43,7 @@ public class UserDAO implements IUserDAO {
 		final String LIKE_USER = "insert into tinder.likes values(null,:liker_id,:liked_id);";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("liker_id", likerId);
-		paramMap.put("liked_id", likerId);
+		paramMap.put("liked_id", likedId);
 		jdbcTemplate.update(LIKE_USER, paramMap);
 	}
 

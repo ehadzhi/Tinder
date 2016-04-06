@@ -96,7 +96,7 @@
 										</div>
 										<div class="col-md-6 col-sm-6 col-xs-12">
 											<button onclick="worker('disLike');getMatchNotifications();"
-												class="btn btn-danger btn-block"">Dislike</button>
+												class="btn btn-danger btn-block">Dislike</button>
 									</div>
 								</div>
 							</div>
