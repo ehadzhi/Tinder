@@ -77,8 +77,12 @@
 										<h3>${user.username}</h3>
 
 										<ul class="list-unstyled user_data">
-											<li id="user-location"></li>
 
+											<li><div
+													id="user-location"></div> <iframe id="tooltip"
+													style="display: none;"
+													src="http://maps.google.com/maps?q=${user.latitude},${user.longitude}&z=15&output=embed"
+													width="200" height="200" frameborder="0"></iframe></li>
 											<li><i class="fa fa-briefcase user-profile-icon"></i>${user.email}</li>
 											<li><i class="fa fa-briefcase fa-user-profile-icon"></i>${user.fullName}</li>
 											<li><i class="fa fa-briefcase user-profile-icon"></i>${user.description}</li>
@@ -168,17 +172,16 @@
 											role="dialog" aria-hidden="true" style="display: none">
 											<div class="modal-dialog modal-lg">
 												<div class="modal-content">
-													<form class="form-horizontal" role="form" method="post" action="EditProfile">
+													<form class="form-horizontal" role="form" method="post"
+														action="EditProfile">
 														<div class="modal-header">
 															<button type="button" class="close" data-dismiss="modal">
 																<span aria-hidden="true">×</span>
 															</button>
-															<h4 class="modal-title" id="myModalLabel">
-																Edit profile:
-															</h4>
-															<h5>
-																Enter your password to be able to save the new settings.
-															</h5>
+															<h4 class="modal-title" id="myModalLabel">Edit
+																profile:</h4>
+															<h5>Enter your password to be able to save the new
+																settings.</h5>
 														</div>
 														<div class="modal-body">
 															<div class="form-group">
@@ -195,8 +198,8 @@
 																<label id="new-email-label"
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-lg-5">
-																	<input id="new-email" name='email' class="form-control" type="text"
-																		placeholder='${user.email}'>
+																	<input id="new-email" name='email' class="form-control"
+																		type="text" placeholder='${user.email}'>
 																</div>
 															</div>
 															<div class="form-group">
@@ -204,8 +207,9 @@
 																	Username:</label> <label id="new-username-label"
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
-																	<input id="new-username" name='username' class="form-control"
-																		type="text" placeholder='${user.username}'>
+																	<input id="new-username" name='username'
+																		class="form-control" type="text"
+																		placeholder='${user.username}'>
 																</div>
 															</div>
 															<div class="form-group">
@@ -213,8 +217,8 @@
 																	Password:</label> <label id="new-password-label"
 																	style="font-size: 15px; color: black;"></label>
 																<div class="col-md-5">
-																	<input id="new-password" name='password' class="form-control"
-																		type="password" value=''>
+																	<input id="new-password" name='password'
+																		class="form-control" type="password" value=''>
 																</div>
 															</div>
 															<div class="form-group">
@@ -233,8 +237,10 @@
 																	style="font-size: 15px; color: red;"></label>
 																<div class="col-md-5">
 																	<fieldset class="form-group">
-																		<textarea id='new-description' name='description' style="max-width: 100%;"class="form-control"
-																			rows="4" cols="50" placeholder="Describe yourself here...">
+																		<textarea id='new-description' name='description'
+																			style="max-width: 100%;" class="form-control"
+																			rows="4" cols="50"
+																			placeholder="Describe yourself here...">
 																		</textarea>
 																	</fieldset>
 																</div>
@@ -338,8 +344,7 @@
 								$('#user-location').empty();
 								$('#user-location')
 										.append(
-												"<i class=\"fa fa-map-marker user-profile-icon\"></i> "
-														+ response.results[0].formatted_address);
+												'<i class="fa fa-location-arrow"></i>'+response.results[0].formatted_address);
 							});
 		};
 
@@ -380,11 +385,16 @@
 				emailChecker($('#new-email').val());
 			}, 500);
 		});
-		
+
 		$('#new-description').keyup(function() {
 			delay(function() {
 				descriptionChecker($('#new-description').val());
 			}, 500);
+		});
+		$('#user-location').hover(function() {
+			$('#tooltip').stop().fadeIn();
+		}, function() {
+			$('#tooltip').stop().fadeOut();
 		});
 
 		function usernameChecker(username) {
@@ -435,22 +445,23 @@
 		};
 		function descriptionChecker(pass) {
 			$('#new-description-label').empty();
-			if ($('#new-description').length < 200 && $('#new-description').length>=0)
+			if ($('#new-description').length < 200
+					&& $('#new-description').length >= 0)
 				$('#new-description-label').append('OK');
-			else 
+			else
 				$('#new-description-label').append('Too much symbols!');
 			checkForSubmit();
 		};
 		function newPassConfirmator(pass) {
 			$('#new-password-confirm-label').empty();
-			if($('#new-password').val() == '')
+			if ($('#new-password').val() == '')
 				$('#new-password-confirm-label').append('');
+			else if ($('#new-password-confirm').val() == $('#new-password')
+					.val())
+				$('#new-password-confirm-label').append('OK');
 			else
-				if ($('#new-password-confirm').val() == $('#new-password').val())
-					$('#new-password-confirm-label').append('OK');
-				else
-					$('#new-password-confirm-label').append(
-							"The passwords doesn't match");
+				$('#new-password-confirm-label').append(
+						"The passwords doesn't match");
 			checkForSubmit();
 		};
 
@@ -462,9 +473,12 @@
 		}
 		function checkForSubmit() {
 			if ($('#old-password-label').text() == 'OK'
-					    &&	($('#new-email-label').text() == 'OK' ||  $('#new-email-label').text() == '')
-						&&  ($('#new-username-label').text() == 'OK'  || $('#new-username-label').text() == '')
-						&&  ($('#new-password-confirm-label').text() == 'OK' || $('#new-password-confirm-label').text() == ''))
+					&& ($('#new-email-label').text() == 'OK' || $(
+							'#new-email-label').text() == '')
+					&& ($('#new-username-label').text() == 'OK' || $(
+							'#new-username-label').text() == '')
+					&& ($('#new-password-confirm-label').text() == 'OK' || $(
+							'#new-password-confirm-label').text() == ''))
 				showSubmitButton();
 			else
 				hideSubmitButton();

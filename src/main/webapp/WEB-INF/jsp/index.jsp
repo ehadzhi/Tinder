@@ -57,59 +57,76 @@
 
 							<div class="row x_title">
 								<h2>Matching</h2>
-								<div class="col-md-6"></div>
 							</div>
 
-							<div class="col-md-12 col-sm-12 col-xs-12">
-								<div class="mainWrapper">
-									<div class="imageWrapper">
-										<div class="container">
-											<br>
-											<div id="myCarousel" class="carousel slide"
-												data-ride="carousel">
-												<!-- Indicators -->
-												<ol id="gallery-slides" class="carousel-indicators">
-												</ol>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<br>
+								<div class="card">
+									<div class="card-block">
+										<h4 class="card-title">Candidate name</h4>
+										<h6 class="card-subtitle text-muted">Candidate age</h6>
+									</div>
+									<div id="myCarousel" class="carousel slide"
+										data-ride="carousel">
+										<!-- Indicators -->
+										<ol id="gallery-slides" class="carousel-indicators">
+										</ol>
 
-												<!-- Wrapper for slides -->
-												<div id="gallery-images" class="carousel-inner"
-													role="listbox">
-												</div>
+										<!-- Wrapper for slides -->
+										<div id="gallery-images" class="carousel-inner" role="listbox"></div>
 
-												<!-- Left and right controls -->
-												<a class="left carousel-control" href="#myCarousel"
-													role="button" data-slide="prev"> <span
-													class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-													<span class="sr-only">Previous</span>
-												</a> <a class="right carousel-control" href="#myCarousel"
-													role="button" data-slide="next"> <span
-													class="glyphicon glyphicon-chevron-right"
-													aria-hidden="true"></span> <span class="sr-only">Next</span>
-												</a>
-											</div>
+										<!-- Left and right controls -->
+										<a class="left carousel-control" href="#myCarousel"
+											role="button" data-slide="prev"> <span
+											class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+											<span class="sr-only">Previous</span>
+										</a> <a class="right carousel-control" href="#myCarousel"
+											role="button" data-slide="next"> <span
+											class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+											<span class="sr-only">Next</span>
+										</a>
+									</div>
+									<div class="card-block">
+										<p class="card-text">Description: Some quick example text
+											to build on the card title and make up the bulk of the card's
+											content.</p>
 										</div>
-										<button onclick="worker('disLike');getMatchNotifications();" class="LDButton"
-											style="float: right;" type="button">Dislike</button>
-										<button onclick="worker('Like')" class="LDButton"
-											style="float: left;" type="button">Like</button>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<button onclick="worker('Like')" class="btn btn-success btn-block">Like</button>
+										</div>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<button onclick="worker('disLike');getMatchNotifications();"
+												class="btn btn-danger btn-block"">Dislike</button>
 									</div>
 								</div>
 							</div>
-
+							<br>
+							<div class="card">
+								<div class="card-block">
+									<h4 class="card-title">Current candidate location</h4>
+									<h6 class="card-subtitle text-muted">the closer the better</h6>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<iframe
+										src="http://maps.google.com/maps?q=42.6505753,23.3564571&z=15&output=embed"
+										width="500" height="300" frameborder="0" style="border: 0"></iframe>
+								</div>
+							</div>
 							<div class="clearfix"></div>
 						</div>
+
 					</div>
+					<br />
 
 				</div>
-				<br />
-
+				<!-- /page content -->
 				<jsp:include page="footer.jsp" />
+
 			</div>
-			<!-- /page content -->
 
 		</div>
-
 	</div>
+
 
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/custom.js"></script>
@@ -131,7 +148,7 @@
 								$('#gallery-slides').empty();
 								$('#gallery-images').empty();
 								var i;
-								for (i = 0; i < response.photos.length; i+=1) {
+								for (i = 0; i < response.photos.length; i += 1) {
 									if (i == 0) {
 										$('#gallery-slides')
 												.append(
@@ -144,23 +161,25 @@
 														i + "\"></li>");
 									}
 								}
-								for (i = 0; i < response.photos.length; i+=1) {
+								for (i = 0; i < response.photos.length; i += 1) {
 									if (i == 0) {
-										$('#gallery-images')
-												.append(
-														"<div class=\"item active\">" +
-														"<img src=\"images/" + response.photos[i] +
-														"\" alt=\"" + (i+1) +"\" width=\"460\"" +
-														"height=\"345\">" +
-														"</div>");
+										$('#gallery-images').append(
+												"<div class=\"item active\">"
+														+ "<img src=\"images/"
+														+ response.photos[i]
+														+ "\" alt=\"" + (i + 1)
+														+ "\" width=\"460\""
+														+ "height=\"345\">"
+														+ "</div>");
 									} else {
-										$('#gallery-images')
-												.append(
-														"<div class=\"item\">" +
-														"<img src=\"images/" + response.photos[i] + 
-														"\" alt=\"" + (i+1) +"\" width=\"460\"" +
-														"height=\"345\">" +
-														"</div>");
+										$('#gallery-images').append(
+												"<div class=\"item\">"
+														+ "<img src=\"images/"
+														+ response.photos[i]
+														+ "\" alt=\"" + (i + 1)
+														+ "\" width=\"460\""
+														+ "height=\"345\">"
+														+ "</div>");
 									}
 								}
 							});
