@@ -69,7 +69,28 @@ public class MessageDAOTest {
 
 	@Test
 	public void testSendMessage() {
-		fail("Not yet implemented");
+		if (userDAO.isUsernameExisting(TestUser.TEST_USERNAME)) {
+			userDAO.deleteUser(TestUser.TEST_USERNAME);
+		}
+		if (userDAO.isUsernameExisting(TestUser.KIRIL)) {
+			userDAO.deleteUser(TestUser.KIRIL);
+		}
+		assertFalse(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
+		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER,
+				TestUser.TEST_AGE, TestUser.TEST_USERNAME);
+		assertFalse(userDAO.isUserAndPassExisting(TestUser.KIRIL, TestUser.TEST_PASSWORD));
+		userDAO.registerUser(TestUser.KIRIL, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL + "k", TestUser.TEST_GENDER,
+				TestUser.TEST_AGE, TestUser.TEST_USERNAME);
+		
+		User user1 = userDAO.getUser(TestUser.TEST_USERNAME);
+		User user2 = userDAO.getUser(TestUser.KIRIL);
+		int chatId = chatDAO.createChat(user1, user2);
+		
+		assertEquals(chatId, messageDAO.findChatId(user1, user2));
+		messageDAO.deletAllMessagesBetweenUsers(user1, user2);
+		chatDAO.deleteChat(user1, user2);
+		userDAO.deleteUser(user1.getUsername());
+		userDAO.deleteUser(user2.getUsername());
 	}
 
 	@Test
