@@ -64,24 +64,23 @@
 														</div>
 													</div>
 													<div class="col-sm-9 col-xs-12 chat"
-														style="overflow: hidden; outline: none;" tabindex="5001">
+														>
 														<div class="col-inside-lg decor-default">
 															<div class="chat-body">
-																<div id="messages">
-																	<h6>Mini Chat</h6>
-																	
+																<div id="messages" class="chat-body">
+																
 																</div>
-																<div style='display: inline;'>
-																		<input id='messageToSend'
-																			placeholder='Write a message' type='text'
-																			class='form-control'> <span
-																			class='input-group-btn'>
-																			<button id='send-button' style='width: 100%'
-																				onclick='send();' type='button'
-																				class='btn btn-primary'>Send</button>
-																		</span>
-																	</div>
 															</div>
+															<div style='display: inline;'>
+																<input id='messageToSend' placeholder='Write a message'
+																	type='text' class='form-control'> <span
+																	class='input-group-btn'>
+																	<button id='send-button' style='width: 100%'
+																		onclick='send();' type='button'
+																		class='btn btn-primary'>Send</button>
+																</span>
+															</div>
+
 														</div>
 													</div>
 												</div>
@@ -203,13 +202,13 @@
 		function getMessage(side, senderUsername, senderMessage, picture, time) {
 			return "<div class='answer "+side+"'>"
 					+ "	<div class='avatar'>"
-					+ "		<img "
-			+ "			src='images/"+picture+"' "
-			+ "			alt='User name'>"
-					+ "		<div class='status offline'></div>" + "		</div>"
+					+ "		<img src='images/"+picture+"' alt='User name'> "
+					+ "		<div class='status offline'></div>" + 
+					   "</div>"
 					+ "		<div class='name'>" + senderUsername + "</div>"
 					+ "		<div class='text'>" + senderMessage + "</div>"
-					+ "		<div class='time'>" + time + "</div>" + " </div>";
+					+ "		<div class='time'>" + time + "</div>"+
+					   "</div>";
 		}
 
 		function getInput() {

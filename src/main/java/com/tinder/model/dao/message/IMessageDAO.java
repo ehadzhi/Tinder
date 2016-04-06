@@ -13,5 +13,7 @@ public interface IMessageDAO {
 	void sendMessage(String msg, User from, User to);
 
 	int findChatId(User firstUser, User secondUser);
+	
+	void deletAllMessagesBetweenUsers(User user1,User user2);
 
 }

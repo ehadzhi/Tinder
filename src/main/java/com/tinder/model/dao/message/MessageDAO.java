@@ -11,17 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.pojo.Chat;
 import com.tinder.model.pojo.Message;
 import com.tinder.model.pojo.User;
 
-import scala.collection.immutable.ListSet;
 
 @Component
 public class MessageDAO implements IMessageDAO {
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private IChatDAO chatDAO;
 
 	@Override
 	public List<Message> getLastMessagesFrom(int numMessages, User user1, User user2, LocalDateTime fromTime) {
@@ -71,5 +74,20 @@ public class MessageDAO implements IMessageDAO {
 			}
 			return -1;
 		});
+	}
+
+	@Override
+	public void deletAllMessagesBetweenUsers(User user1, User user2) {
+		final String DELETE_MESSAGES = "DELETE from tinder.messages"
+				+ " where chat_id = :chat_id;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("chat_id", findChatId(user1, user2));
+		jdbcTemplate.update(DELETE_MESSAGES, paramMap);
+		final String REMOVE_FROM_CHAT = "DELETE FROM tinder.users_in_chats "
+				+ "WHERE user_id in (:user1_id,:user2_id) and chat_id=:chat_id;";
+		paramMap.put("user1_id",user1.getId());
+		paramMap.put("user2_id",user2.getId());
+		jdbcTemplate.update(REMOVE_FROM_CHAT, paramMap);
+		
 	}
 }

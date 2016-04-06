@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tinder.config.BeanConfig;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
+import com.tinder.test.info.TestUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { BeanConfig.class })
@@ -23,30 +24,31 @@ public class UserDAOTest {
 	@Autowired
 	private IUserDAO userDAO;
 
-	private static final String KIRIL = "Kiril";
-	private static final int TEST_AGE = 135;
-	private static final boolean TEST_GENDER = false;
-	private static final String TEST_MAIL = "bacfo_testa@mail.bg";
-	private static final String TEST_PASSWORD = "imamsimnogosilnaparola";
-	private static final String TEST_USERNAME = "bacho_testa";
-	private static final double TEST_LATITUDE = 23.556;
-	private static final double TEST_LONGITUDE = 54.223;
-	private static final double LAMBDA = 0.1;
-
 	@Test
 	public void testIsUserAndPassExisting() {
-		assertFalse(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
-		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
-		assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
-		userDAO.deleteUser(TEST_USERNAME);
+		assertFalse(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME,TestUser.TEST_PASSWORD));
+		userDAO.registerUser(
+				TestUser.TEST_USERNAME,
+				TestUser.TEST_PASSWORD,
+				TestUser.TEST_MAIL,
+				TestUser.TEST_GENDER, 
+				TestUser.TEST_AGE, 
+				TestUser.TEST_USERNAME);
+		assertTrue(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 	}
 
 	@Test
 	public void testIsUserExisting() {
-		assertFalse(userDAO.isUserExisting(TEST_USERNAME,TEST_PASSWORD));
-		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
-		assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
-		userDAO.deleteUser(TEST_USERNAME);
+		assertFalse(userDAO.isUserExisting(TestUser.TEST_USERNAME,TestUser.TEST_PASSWORD));
+		userDAO.registerUser(TestUser.TEST_USERNAME,
+				TestUser.TEST_PASSWORD,
+				TestUser.TEST_MAIL,
+				TestUser.TEST_GENDER,
+				TestUser.TEST_AGE,
+				TestUser.TEST_USERNAME);
+		assertTrue(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 	}
 
 	@Test
@@ -60,24 +62,24 @@ public class UserDAOTest {
 	}
 
 	private void registerUserWithTestParam() {
-		userDAO.deleteUser(TEST_USERNAME);
-		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, KIRIL);
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
+		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.KIRIL);
 	}
 
 	@Test
 	public void testRegisterUser() {
 		
-		assertFalse(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
-		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
-		assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
-		User testUser = userDAO.getUser(TEST_USERNAME);
-		assertEquals(TEST_USERNAME, testUser.getUsername());
-		assertEquals(userDAO.calculateHash(TEST_PASSWORD), testUser.getPasswordHash());
-		assertEquals(TEST_MAIL, testUser.getEmail());
-		assertEquals(TEST_GENDER, testUser.isGenderIsMale());
-		assertEquals(TEST_AGE, testUser.getAge());
+		assertFalse(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
+		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.TEST_USERNAME);
+		assertTrue(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
+		User testUser = userDAO.getUser(TestUser.TEST_USERNAME);
+		assertEquals(TestUser.TEST_USERNAME, testUser.getUsername());
+		assertEquals(userDAO.calculateHash(TestUser.TEST_PASSWORD), testUser.getPasswordHash());
+		assertEquals(TestUser.TEST_MAIL, testUser.getEmail());
+		assertEquals(TestUser.TEST_GENDER, testUser.isGenderIsMale());
+		assertEquals(TestUser.TEST_AGE, testUser.getAge());
 
-		userDAO.deleteUser(TEST_USERNAME);
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 	}
 
 	@Test
@@ -87,33 +89,33 @@ public class UserDAOTest {
 
 	@Test
 	public void testDeleteUser() {
-		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
-		assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
-		userDAO.deleteUser(TEST_USERNAME);
-		assertFalse(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
+		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.TEST_USERNAME);
+		assertTrue(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
+		assertFalse(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
 	}
 
 	@Test
 	public void testSetLocation() {
-		userDAO.deleteUser(TEST_USERNAME);
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 		registerUserWithTestParam();
-		userDAO.setLocation(TEST_USERNAME, TEST_LATITUDE, TEST_LONGITUDE);
-		User testUser = userDAO.getUser(TEST_USERNAME);
-		assertEquals(TEST_LATITUDE, testUser.getLatitude(), LAMBDA);
-		assertEquals(TEST_LONGITUDE, testUser.getLongitude(), LAMBDA);
-		userDAO.deleteUser(TEST_USERNAME);
+		userDAO.setLocation(TestUser.TEST_USERNAME, TestUser.TEST_LATITUDE, TestUser.TEST_LONGITUDE);
+		User testUser = userDAO.getUser(TestUser.TEST_USERNAME);
+		assertEquals(TestUser.TEST_LATITUDE, testUser.getLatitude(), TestUser.LAMBDA);
+		assertEquals(TestUser.TEST_LONGITUDE, testUser.getLongitude(), TestUser.LAMBDA);
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 	}
 
 	@Test
 	public void testGetFirstThreeNearbyUsers() {
 		// user1 from Sofia
-		userDAO.registerUser("testUser1", "pass", "testUser1@abv.bg", true, 22, KIRIL);
+		userDAO.registerUser("testUser1", "pass", "testUser1@abv.bg", true, 22, TestUser.KIRIL);
 		userDAO.setLocation("testUser1", 65, 17);
 		// User2 from Pleven
-		userDAO.registerUser("testUser2", "pass", "testUser2@abv.bg", true, 22, KIRIL);
+		userDAO.registerUser("testUser2", "pass", "testUser2@abv.bg", true, 22, TestUser.KIRIL);
 		userDAO.setLocation("testUser2", 65, 17);
 		// User3 from Varna
-		userDAO.registerUser("testUser3", "pass", "testUser3@abv.bg", true, 22, KIRIL);
+		userDAO.registerUser("testUser3", "pass", "testUser3@abv.bg", true, 22, TestUser.KIRIL);
 		userDAO.setLocation("testUser3", 65, 17);
 
 		// getting users
@@ -141,32 +143,32 @@ public class UserDAOTest {
 
 	@Test
 	public void testGetUser() {
-		assertFalse(userDAO.isUserExisting(TEST_USERNAME,TEST_PASSWORD));
-		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD,
-				TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
-		assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
-		User newUser = userDAO.getUser(TEST_USERNAME);
-		assertEquals(TEST_USERNAME, newUser.getUsername());
-		assertEquals(TEST_MAIL, newUser.getEmail());
-		assertEquals(TEST_AGE, newUser.getAge());
-		assertEquals(userDAO.calculateHash(TEST_PASSWORD), newUser.getPasswordHash());
-		userDAO.deleteUser(TEST_USERNAME);
+		assertFalse(userDAO.isUserExisting(TestUser.TEST_USERNAME,TestUser.TEST_PASSWORD));
+		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD,
+				TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.TEST_USERNAME);
+		assertTrue(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
+		User newUser = userDAO.getUser(TestUser.TEST_USERNAME);
+		assertEquals(TestUser.TEST_USERNAME, newUser.getUsername());
+		assertEquals(TestUser.TEST_MAIL, newUser.getEmail());
+		assertEquals(TestUser.TEST_AGE, newUser.getAge());
+		assertEquals(userDAO.calculateHash(TestUser.TEST_PASSWORD), newUser.getPasswordHash());
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 	}
 
 	@Test
 	public void testIsUsernameExisting() {
-		assertFalse(userDAO.isUsernameExisting(TEST_USERNAME));
-		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
-		assertTrue(userDAO.isUsernameExisting(TEST_USERNAME));
-		userDAO.deleteUser(TEST_USERNAME);
+		assertFalse(userDAO.isUsernameExisting(TestUser.TEST_USERNAME));
+		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.TEST_USERNAME);
+		assertTrue(userDAO.isUsernameExisting(TestUser.TEST_USERNAME));
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 	}
 
 	@Test
 	public void testIsEmailExisting() {
-		assertFalse(userDAO.isEmailExisting(TEST_MAIL));
-		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
-		assertTrue(userDAO.isEmailExisting(TEST_MAIL));
-		userDAO.deleteUser(TEST_USERNAME);
+		assertFalse(userDAO.isEmailExisting(TestUser.TEST_MAIL));
+		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.TEST_USERNAME);
+		assertTrue(userDAO.isEmailExisting(TestUser.TEST_MAIL));
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 	}
 
 }
