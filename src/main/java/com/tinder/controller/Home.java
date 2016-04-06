@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.tinder.config.UserLoader;
 
 @Controller
-@RequestMapping(value = { "/Home", "/" })
+@RequestMapping(value = { "/Home", "/index" })
 public class Home {
 	
 	@Autowired

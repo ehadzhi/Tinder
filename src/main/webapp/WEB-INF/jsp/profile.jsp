@@ -330,7 +330,7 @@
 								data : "latlng="
 										+ '${user.latitude}'
 										+ ","
-										+ 'user.longitude}'
+										+ '${user.longitude}'
 										+ "&key=AIzaSyCNu5m_VtOStftb0xxeu26lK9nxWokDzl4"
 							})
 					.done(

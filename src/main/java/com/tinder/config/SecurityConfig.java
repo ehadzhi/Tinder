@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/SignUpValidationService/**").permitAll()
 		.anyRequest().authenticated()
 		.and().formLogin().loginPage("/login").permitAll()
-		.defaultSuccessUrl("/Home", true)
+		.defaultSuccessUrl("/LocationSetter", true)
 		.and().httpBasic()
 		.and().csrf().disable();
 	}

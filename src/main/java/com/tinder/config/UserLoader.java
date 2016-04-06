@@ -19,8 +19,8 @@ public class UserLoader {
 	private IUserDAO userDAO;
 	
 	public void loadUser(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		if (session == null || session.getAttribute(UserParam.USER) == null) {
+		HttpSession session = request.getSession();
+		if (session.getAttribute(UserParam.USER) == null) {
 			session.setAttribute(UserParam.USER, 
 					userDAO.getUser(request.getUserPrincipal().getName()));
 			session.setAttribute(UserParam.USER_CANDIDATES, new LinkedList<User>());
