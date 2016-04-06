@@ -35,12 +35,18 @@ public class UserDAOTest {
 
 	@Test
 	public void testIsUserAndPassExisting() {
-		fail("Not yet implemented");
+		assertFalse(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
+		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
+		assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
+		userDAO.deleteUser(TEST_USERNAME);
 	}
 
 	@Test
 	public void testIsUserExisting() {
-		fail("Not yet implemented");
+		assertFalse(userDAO.isUserExisting(TEST_USERNAME,TEST_PASSWORD));
+		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
+		assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
+		userDAO.deleteUser(TEST_USERNAME);
 	}
 
 	@Test
@@ -81,12 +87,10 @@ public class UserDAOTest {
 
 	@Test
 	public void testDeleteUser() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCalculateHash() {
-		fail("Not yet implemented");
+		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
+		assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
+		userDAO.deleteUser(TEST_USERNAME);
+		assertFalse(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
 	}
 
 	@Test
@@ -137,17 +141,32 @@ public class UserDAOTest {
 
 	@Test
 	public void testGetUser() {
-		fail("Not yet implemented");
+		assertFalse(userDAO.isUserExisting(TEST_USERNAME,TEST_PASSWORD));
+		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD,
+				TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
+		assertTrue(userDAO.isUserAndPassExisting(TEST_USERNAME, TEST_PASSWORD));
+		User newUser = userDAO.getUser(TEST_USERNAME);
+		assertEquals(TEST_USERNAME, newUser.getUsername());
+		assertEquals(TEST_MAIL, newUser.getEmail());
+		assertEquals(TEST_AGE, newUser.getAge());
+		assertEquals(userDAO.calculateHash(TEST_PASSWORD), newUser.getPasswordHash());
+		userDAO.deleteUser(TEST_USERNAME);
 	}
 
 	@Test
 	public void testIsUsernameExisting() {
-		fail("Not yet implemented");
+		assertFalse(userDAO.isUsernameExisting(TEST_USERNAME));
+		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
+		assertTrue(userDAO.isUsernameExisting(TEST_USERNAME));
+		userDAO.deleteUser(TEST_USERNAME);
 	}
 
 	@Test
 	public void testIsEmailExisting() {
-		fail("Not yet implemented");
+		assertFalse(userDAO.isEmailExisting(TEST_MAIL));
+		userDAO.registerUser(TEST_USERNAME, TEST_PASSWORD, TEST_MAIL, TEST_GENDER, TEST_AGE, TEST_USERNAME);
+		assertTrue(userDAO.isEmailExisting(TEST_MAIL));
+		userDAO.deleteUser(TEST_USERNAME);
 	}
 
 }

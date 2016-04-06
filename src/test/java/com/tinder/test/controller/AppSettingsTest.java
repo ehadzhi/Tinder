@@ -23,9 +23,6 @@ import com.tinder.controller.settings.AppSettings;
 		SecurityConfig.class,WebSocketStompConfig.class })
 @WebAppConfiguration
 public class AppSettingsTest {
-
-	@InjectMocks
-	private UserLoader loader;
 	
 	@Test
 	public void testAppSettings() throws Exception {
