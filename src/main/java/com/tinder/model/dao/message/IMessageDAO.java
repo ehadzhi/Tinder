@@ -15,5 +15,7 @@ public interface IMessageDAO {
 	int findChatId(User firstUser, User secondUser);
 	
 	void deletAllMessagesBetweenUsers(User user1,User user2);
+	
+	void insertMessageNotification(User from, User to);
 
 }

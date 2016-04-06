@@ -59,7 +59,7 @@ public class StompController {
 	}
 
 	@MessageMapping("/dispatcher")
-	public void handleShout(IncomingMessage incoming, Principal sender) {
+	public void handleMessage(IncomingMessage incoming, Principal sender) {
 		logger.info("Received message: " + incoming.getMessage() + " from " + sender.getName() + " to "
 				+ incoming.getReceiver());
 

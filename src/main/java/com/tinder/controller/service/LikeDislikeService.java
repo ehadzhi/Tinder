@@ -33,7 +33,7 @@ public class LikeDislikeService {
 	private INotificationDAO notificationDAO;
 	
 	@RequestMapping(value = "/LikeDislikeService", method = RequestMethod.POST)
-	public Map<String,List<String>> doPost(HttpServletRequest request, HttpServletResponse response) {
+	public Map<String,Object> doPost(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getSession(false).getAttribute(UserParam.USER);
 		@SuppressWarnings("unchecked")
 		List<User> users = (List<User>) request.getSession().
@@ -46,9 +46,10 @@ public class LikeDislikeService {
 		} else {
 			likeOrDislikeAndRemoveTheTopUser(request, user, users);
 		}
-		Map<String, List<String>> result =  new HashMap<String, List<String>>();
+		Map<String, Object> result =  new HashMap<String, Object>();
 		 result.put("photos",
 				returnPhotosOfTheFirstUser(response, users));
+		 result.put("user", users.get(0));
 		 return result;
 	}
 
@@ -66,7 +67,6 @@ public class LikeDislikeService {
 		if (((String) request.getParameter("action")).equals("Like")) {
 			userDAO.likeUser(user.getId(), users.get(0).getId());
 			if(notificationDAO.checkForLike(users.get(0).getId(), user.getId())){
-				System.out.println("OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 				notificationDAO.addMatch(users.get(0).getId(),  user.getId());
 				notificationDAO.addMatch(user.getId(), users.get(0).getId());
 				chatDAO.createChat(user, users.get(0));

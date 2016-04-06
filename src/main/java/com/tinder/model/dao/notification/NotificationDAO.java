@@ -8,8 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.tinder.model.dao.user.IUserDAO;
+import com.tinder.model.pojo.User;
+
 @Component
 public class NotificationDAO implements INotificationDAO {
+	
+	@Autowired
+	private IUserDAO userDAO;
 	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
@@ -36,23 +42,44 @@ public class NotificationDAO implements INotificationDAO {
 	}
 
 	@Override
-	public void deleteAllMatchNotificationsForUser(int userID) {
+	public void deleteAllMatchNotificationsForUser(User user) {
 		final String DELETE_ALL_USER_MATCH_NOTIFICATIONS = 
 				"DELETE FROM `tinder`.`match-notification` WHERE user_one=:user_id ;";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("user_id", userID);
+		paramMap.put("user_id", user.getId());
 		jdbcTemplate.update(DELETE_ALL_USER_MATCH_NOTIFICATIONS, paramMap);
 	}
 
 	@Override
-	public List<String> getAllMatchNotificationsForUser(int userID){
+	public List<User> getAllMatchNotificationsForUser(User user){
 		final String GET_ALL_MATCH_NOTIFICATIONS_FOR_USER = 
 				"select u.username from tinder.`match-notification` m"
 				+ " join tinder.users u on u.id = m.user_two where m.user_one = :user_id;";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("user_id", userID);
-		return jdbcTemplate.query(GET_ALL_MATCH_NOTIFICATIONS_FOR_USER, paramMap, 
-				 (resultSet, numRow) -> resultSet.getString(1));
+		paramMap.put("user_id", user.getId());
+		return (List<User>) jdbcTemplate.query(GET_ALL_MATCH_NOTIFICATIONS_FOR_USER, paramMap, 
+				 (resultSet, numRow) -> userDAO.getUser(resultSet.getString(1)));
 	}
 
+	@Override
+	public List<User> getAllMessageNotificationsForUser(User user) {
+		final String GET_ALL_MESSAGE_NOTIFICATIONS_FOR_USER = 
+				"select u.username from tinder.`message-notification` m"
+				+ " join tinder.users u on u.id = from_user_id"
+				+ " where to_user_id = :user_id;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("user_id", user.getId());
+		return (List<User>) jdbcTemplate.query(GET_ALL_MESSAGE_NOTIFICATIONS_FOR_USER, paramMap, 
+				 (resultSet, numRow) -> userDAO.getUser(resultSet.getString(1)));
+	}
+	
+	
+	@Override
+	public void deleteAllMessageNotificationsForUser(User user) {
+		final String DELETE_ALL_USER_MESSAGE_NOTIFICATIONS = 
+				"DELETE FROM `tinder`.`message-notification` WHERE to_user_id=:user_id ;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("user_id", user.getId());
+		jdbcTemplate.update(DELETE_ALL_USER_MESSAGE_NOTIFICATIONS, paramMap);
+	}
 }

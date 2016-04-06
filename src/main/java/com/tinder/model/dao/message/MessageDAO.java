@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.tinder.model.dao.chat.IChatDAO;
+import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.pojo.Chat;
 import com.tinder.model.pojo.Message;
 import com.tinder.model.pojo.User;
@@ -25,6 +26,9 @@ public class MessageDAO implements IMessageDAO {
 	
 	@Autowired
 	private IChatDAO chatDAO;
+	
+	@Autowired
+	private INotificationDAO notificationDAO;
 
 	@Override
 	public List<Message> getLastMessagesFrom(int numMessages, User user1, User user2, LocalDateTime fromTime) {
@@ -57,6 +61,17 @@ public class MessageDAO implements IMessageDAO {
 		paramMap.put("chat_id", chat.getId());
 		paramMap.put("message", msg);
 		jdbcTemplate.update(SEND_MESSAGE, paramMap);
+		
+		List<User> list = notificationDAO.getAllMatchNotificationsForUser(to);
+		boolean flag = true;
+		for(User u : list){
+			if(u.getUsername() == from.getUsername()){
+				flag=false;
+			}
+		}
+		if(flag){
+			insertMessageNotification(from,to);
+		}
 	}
 
 	@Override
@@ -89,5 +104,16 @@ public class MessageDAO implements IMessageDAO {
 		paramMap.put("user2_id",user2.getId());
 		jdbcTemplate.update(REMOVE_FROM_CHAT, paramMap);
 		
+	}
+
+	@Override
+	public void insertMessageNotification(User from, User to) {
+		final String ADD_MESSAGE_NOTIFICATION = 
+				"INSERT INTO `tinder`.`message-notifications` (`id`, `from_user_id`, `to_user_id`)"
+				+ " VALUES (NULL, :from_id, :to_id);";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("from_id", from.getId());
+		paramMap.put("to_id", to.getId());
+		jdbcTemplate.update(ADD_MESSAGE_NOTIFICATION, paramMap);
 	}
 }
