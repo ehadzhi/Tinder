@@ -33,12 +33,6 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/nprogress.js"></script>
 </head>
-<script type="text/javascript">
-	$(function() {
-		$(".chat").niceScroll();
-
-	})
-</script>
 <body class="nav-md">
 	<div class="container body">
 
@@ -66,18 +60,7 @@
 													<div class="col-sm-3 col-xs-12">
 														<div class="col-inside-lg decor-default chat"
 															style="overflow: hidden; outline: none;" tabindex="5000">
-															<div id="chat-users" class="chat-users">
-																<div class="user">
-																	<div class="avatar">
-																		<img
-																			src="http://bootdey.com/img/Content/avatar/avatar2.png"
-																			alt="User name">
-																		<div class="status off"></div>
-																	</div>
-																	<div class="name">User name</div>
-																	<div class="mood">User mood</div>
-																</div>
-															</div>
+															<div id="chat-users" class="chat-users"></div>
 														</div>
 													</div>
 													<div class="col-sm-9 col-xs-12 chat"
@@ -86,37 +69,18 @@
 															<div class="chat-body">
 																<div id="messages">
 																	<h6>Mini Chat</h6>
-
-																	<div class="answer left">
-																		<div class="avatar">
-																			<img
-																				src="http://bootdey.com/img/Content/avatar/avatar1.png"
-																				alt="User name">
-																			<div class="status offline"></div>
-																		</div>
-																		<div class="name">Alexander Herthic</div>
-																		<div class="text">Hello</div>
-																		<div class="time">5 min ago</div>
-																	</div>
-																	<div class="answer right">
-																		<div class="avatar">
-																			<img
-																				src="http://bootdey.com/img/Content/avatar/avatar2.png"
-																				alt="User name">
-																			<div class="status offline"></div>
-																		</div>
-																		<div class="name">Alexander Herthic</div>
-																		<div class="text">Hi!</div>
-																		<div class="time">5 min ago</div>
-																	</div>
+																	
 																</div>
-																<div class="answer-add">
-																	<input id="messageToSend" type="text" placeholder="Write a message"
-																		id="messageinput">
-																	<div>
-																		<button id='send-button' type="button" onclick="send();">Send</button>
+																<div style='display: inline;'>
+																		<input id='messageToSend'
+																			placeholder='Write a message' type='text'
+																			class='form-control'> <span
+																			class='input-group-btn'>
+																			<button id='send-button' style='width: 100%'
+																				onclick='send();' type='button'
+																				class='btn btn-primary'>Send</button>
+																		</span>
 																	</div>
-																</div>
 															</div>
 														</div>
 													</div>
@@ -149,93 +113,112 @@
 	<script
 		src="http://91.234.35.26/iwiki-admin/v1.0.0/admin/js/jquery.nicescroll.min.js"></script>
 	<script type="text/javascript">
-		
+		//$(".chat").niceScroll();
 		var url = 'http://' + window.location.host + '/Tinder/messageEndpoint';
 		var sock = new SockJS(url);
 		var stomp = Stomp.over(sock);
-		stomp.connect('guest', 'guest', function(frame) {
-			console.log('Connected');
-			stomp.subscribe("/app/getInitialData", function(frame) {
-				$('#chat-users').empty();
-				chats = JSON.parse(frame.body);
-				for(var chat in chats){
-					$('#chat-users').append(
-							"<div class='user' onclick='loadMessages(\""+chat+"\")'>"
-							+ "<div class='avatar'>"
-							+ "<img "
+		stomp
+				.connect(
+						'guest',
+						'guest',
+						function(frame) {
+							console.log('Connected');
+							stomp
+									.subscribe(
+											"/app/getInitialData",
+											function(frame) {
+												$('#chat-users').empty();
+												chats = JSON.parse(frame.body);
+												for ( var chat in chats) {
+													$('#chat-users')
+															.append(
+																	"<div class='user' onclick='loadMessages(\""
+																			+ chat
+																			+ "\")'>"
+																			+ "<div class='avatar'>"
+																			+ "<img "
 							+ "src=\"images/"+chats[chat].picture+"\" "
 							+ "alt='User name'>"
-							+ "<div class='status off'></div>"
-							+ "</div>"
-							+ "<div class='name'>"+chat+"</div>"
-							+ "<div class='mood'>User mood</div>"
-							+ "</div>"
-					);
-				}
-				stomp.subscribe("/topic/${user.username}", handleMessage);
-			});
-		});
+																			+ "<div class='status off'></div>"
+																			+ "</div>"
+																			+ "<div class='name'>"
+																			+ chat
+																			+ "</div>"
+																			+ "<div class='mood'>User mood</div>"
+																			+ "</div>");
+												}
+												stomp
+														.subscribe(
+																"/topic/${user.username}",
+																handleMessage);
+											});
+						});
 		var send = function() {
 			var outgoingMessage = JSON.stringify({
 				'message' : $('#messageToSend').val(),
 				'receiver' : toSend
 			});
 			stomp.send("/app/dispatcher", {}, outgoingMessage);
-			var value = getMessage('right','${user.username}', $('#messageToSend').val(),"${user.avatarName}",'');
+			var value = getMessage('right', '${user.username}', $(
+					'#messageToSend').val(), "${user.avatarName}", '');
 			$('#messages').append(value);
 			$('#messageToSend').val('');
-			
+
 		};
 		function handleMessage(incomingMessage) {
 			var currentUser = "${user.username}";
 			var message = JSON.parse(incomingMessage.body);
-			if(currentUser==message.senderUsername){
-				var value = getMessage('right',message.senderUsername,message.message,"${user.avatarName}",'');
+			if (currentUser == message.senderUsername) {
+				var value = getMessage('right', message.senderUsername,
+						message.message, "${user.avatarName}", '');
 				$('#messages').append(value);
-			}
-			else{
-				var value = getMessage('left',message.senderUsername,
-						message.message,message.picture,'');
+			} else {
+				var value = getMessage('left', message.senderUsername,
+						message.message, message.picture, '');
 				$('#messages').append(value);
 			}
 			console.log('Received: ', message);
 		}
-		function loadMessages(chat){
+		function loadMessages(chat) {
 			toSend = chat;
 			var currentUser = "${user.username}";
 			var messages = chats[chat].messages;
 			$('#messages').empty();
-			for(var message in messages){
-				console.log(messages[message]);
-				console.log(currentUser);
-				console.log(messages[message].senderUsername);
-				if(currentUser==messages[message].senderUsername){
-					var value = getMessage('right',messages[message].senderUsername,messages[message].message,"${user.avatarName}",'');
+			for ( var message in messages) {
+				if (currentUser == messages[message].senderUsername) {
+					var value = getMessage('right',
+							messages[message].senderUsername,
+							messages[message].message, "${user.avatarName}", '');
 					$('#messages').append(value);
-				}
-				else{
-					var value = getMessage('left',messages[message].senderUsername,
-							messages[message].message,chats[chat].picture,'');
+				} else {
+					var value = getMessage('left',
+							messages[message].senderUsername,
+							messages[message].message, chats[chat].picture, '');
 					$('#messages').append(value);
 				}
 			}
-		} 
-		
-		function getMessage(side,senderUsername,senderMessage,picture,time){
+			$(".chat").niceScroll();
+		}
+
+		function getMessage(side, senderUsername, senderMessage, picture, time) {
 			return "<div class='answer "+side+"'>"
-			+ "	<div class='avatar'>"
-			+ "		<img "
+					+ "	<div class='avatar'>"
+					+ "		<img "
 			+ "			src='images/"+picture+"' "
 			+ "			alt='User name'>"
-			+ "		<div class='status offline'></div>"
-			+ "		</div>"
-			+ "		<div class='name'>"+senderUsername+"</div>"
-			+ "		<div class='text'>"+senderMessage+"</div>"
-			+ "		<div class='time'>"+time+"</div>"
-			+ " </div>"
-			;
+					+ "		<div class='status offline'></div>" + "		</div>"
+					+ "		<div class='name'>" + senderUsername + "</div>"
+					+ "		<div class='text'>" + senderMessage + "</div>"
+					+ "		<div class='time'>" + time + "</div>" + " </div>";
 		}
-		
+
+		function getInput() {
+			return "<div style=' display: inline;'> "
+					+ "	<input id='messageToSend' placeholder='Write a message' type='text' class='form-control'> <span"
+				+"		class='input-group-btn'>"
+					+ "		<button id='send-button' style='width: 100%' onclick='send();' type='button' class='btn btn-primary'>Send</button>"
+					+ "	</span>" + "</div>"
+		}
 	</script>
 </body>
 
