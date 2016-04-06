@@ -66,21 +66,20 @@
 													<div class="col-sm-9 col-xs-12 chat"
 														style="overflow: hidden; outline: none;" tabindex="5001">
 														<div class="col-inside-lg decor-default">
-															<div class="chat-body">
+															<div id='chat-body' class="chat-body">
 																<div id="messages">
 																	<h6>Mini Chat</h6>
-																	
+
 																</div>
 																<div style='display: inline;'>
-																		<input id='messageToSend'
-																			placeholder='Write a message' type='text'
-																			class='form-control'> <span
-																			class='input-group-btn'>
-																			<button id='send-button' style='width: 100%'
-																				onclick='send();' type='button'
-																				class='btn btn-primary'>Send</button>
-																		</span>
-																	</div>
+																	<input id='messageToSend' placeholder='Write a message'
+																		type='text' class='form-control'> <span
+																		class='input-group-btn'>
+																		<button id='send' style='width: 100%'
+																			onclick='send();' type='button'
+																			class='btn btn-primary'>Send</button>
+																	</span>
+																</div>
 															</div>
 														</div>
 													</div>
@@ -117,12 +116,12 @@
 		var url = 'http://' + window.location.host + '/Tinder/messageEndpoint';
 		var sock = new SockJS(url);
 		var stomp = Stomp.over(sock);
+		var clickedChat;
 		stomp
 				.connect(
 						'guest',
 						'guest',
 						function(frame) {
-							console.log('Connected');
 							stomp
 									.subscribe(
 											"/app/getInitialData",
@@ -132,13 +131,13 @@
 												for ( var chat in chats) {
 													$('#chat-users')
 															.append(
-																	"<div class='user' onclick='loadMessages(\""
+																	"<div id='"+chat+"' class='user' onclick='loadMessages(\""
 																			+ chat
 																			+ "\")'>"
 																			+ "<div class='avatar'>"
 																			+ "<img "
-							+ "src=\"images/"+chats[chat].picture+"\" "
-							+ "alt='User name'>"
+																			+ "src=\"images/"+chats[chat].picture+"\" "
+																			+ "alt='User name'>"
 																			+ "<div class='status off'></div>"
 																			+ "</div>"
 																			+ "<div class='name'>"
@@ -154,32 +153,45 @@
 											});
 						});
 		var send = function() {
+			var date = new Date();
+		    var hours = date.getHours();
+			var minutes = date.getMinutes();
 			var outgoingMessage = JSON.stringify({
 				'message' : $('#messageToSend').val(),
 				'receiver' : toSend
 			});
 			stomp.send("/app/dispatcher", {}, outgoingMessage);
 			var value = getMessage('right', '${user.username}', $(
-					'#messageToSend').val(), "${user.avatarName}", '');
+					'#messageToSend').val(), "${user.avatarName}", hours+":"+minutes);
 			$('#messages').append(value);
 			$('#messageToSend').val('');
+			$(".chat").niceScroll();
+			$(".chat").scrollTop($('.chat')[0].scrollHeight * 10);
 
 		};
 		function handleMessage(incomingMessage) {
 			var currentUser = "${user.username}";
 			var message = JSON.parse(incomingMessage.body);
+			console.log(message);
+			console.log("tvaaa");
 			if (currentUser == message.senderUsername) {
 				var value = getMessage('right', message.senderUsername,
-						message.message, "${user.avatarName}", '');
+						message.message, "${user.avatarName}", message.createdAt.hour+':'+message.createdAt.minute);
 				$('#messages').append(value);
 			} else {
-				var value = getMessage('left', message.senderUsername,
-						message.message, message.picture, '');
+				var value = getMessage('left', message.sender,
+						message.message, chats[clickedChat].picture, message.createdAt.hour+':'+message.createdAt.minute);
 				$('#messages').append(value);
 			}
-			console.log('Received: ', message);
+			$(".chat").niceScroll();
+			$(".chat").scrollTop($('.chat')[0].scrollHeight * 10);
 		}
 		function loadMessages(chat) {
+			clickedChat=chat;
+			for(var v in chats){
+				$("#"+v).removeClass("clickedUser");
+			}
+			$("#"+chat).addClass("clickedUser");
 			toSend = chat;
 			var currentUser = "${user.username}";
 			var messages = chats[chat].messages;
@@ -188,37 +200,36 @@
 				if (currentUser == messages[message].senderUsername) {
 					var value = getMessage('right',
 							messages[message].senderUsername,
-							messages[message].message, "${user.avatarName}", '');
+							messages[message].message, "${user.avatarName}", messages[message].createdAt.hour+':'+messages[message].createdAt.minute);
 					$('#messages').append(value);
 				} else {
 					var value = getMessage('left',
 							messages[message].senderUsername,
-							messages[message].message, chats[chat].picture, '');
+							messages[message].message, chats[chat].picture, messages[message].createdAt.hour+':'+messages[message].createdAt.minute);
 					$('#messages').append(value);
 				}
 			}
 			$(".chat").niceScroll();
+			$(".chat").scrollTop($('.chat')[0].scrollHeight * 10);
 		}
 
 		function getMessage(side, senderUsername, senderMessage, picture, time) {
 			return "<div class='answer "+side+"'>"
 					+ "	<div class='avatar'>"
 					+ "		<img "
-			+ "			src='images/"+picture+"' "
-			+ "			alt='User name'>"
+					+ "			src='images/"+picture+"' "
+					+ "			alt='User name'>"
 					+ "		<div class='status offline'></div>" + "		</div>"
 					+ "		<div class='name'>" + senderUsername + "</div>"
 					+ "		<div class='text'>" + senderMessage + "</div>"
-					+ "		<div class='time'>" + time + "</div>" + " </div>";
+					+ "		<div style=\"font-size:small;\" class='time'>" + time + "</div>" + " </div>";
 		}
 
-		function getInput() {
-			return "<div style=' display: inline;'> "
-					+ "	<input id='messageToSend' placeholder='Write a message' type='text' class='form-control'> <span"
-				+"		class='input-group-btn'>"
-					+ "		<button id='send-button' style='width: 100%' onclick='send();' type='button' class='btn btn-primary'>Send</button>"
-					+ "	</span>" + "</div>"
-		}
+		$("#messageToSend").keyup(function(e) {
+			if (e.keyCode == 13) {
+				send();
+			}
+		});
 	</script>
 </body>
 
