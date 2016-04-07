@@ -72,6 +72,54 @@ public class User implements Serializable{
 		this.maxDesiredAge = maxDesiredAge;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
+	}
+
+
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+
+
+	public void setGenderIsMale(boolean genderIsMale) {
+		this.genderIsMale = genderIsMale;
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
 	public int getMinDesiredAge() {
 		return minDesiredAge;
 	}
