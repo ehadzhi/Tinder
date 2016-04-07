@@ -56,7 +56,9 @@
 							<input type="password" name="password" class="form-control"
 								placeholder="Password" required>
 						</div>
-						<input type="submit" class="btn btn-default submit" value="Log in">
+						<input type="submit"
+							class="btn btn-default submit" value="Log in">
+							<button id="facebook-login" type="button" class="btn btn-primary"><i class="fa fa-facebook"></i>Log in with Facebook</button>
 						<div class="clearfix"></div>
 						<div class="separator">
 
@@ -141,6 +143,76 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId : '253179738353044',
+			xfbml : true,
+			version : 'v2.5'
+		});
+	};
+	(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	
+	$("#facebook-login").click(function() {
+		FB.login(function(response) {
+			if (response.authResponse) {
+				var authRes = response.authResponse;
+				var connected = response.connected;
+				FB.api('/Tinder', function(response) { 
+					$.ajax({
+						type: "POST",
+						url: "/Tinder/FacebookLogin",
+						data: { 
+							accessToken: authRes.accessToken,
+							expiresIn: authRes.expiresIn,
+							signedRequest: authRes.signedRequest,
+							connected: connected,
+							email: response.email,
+							firstName: response.first_name,
+							gender: response.gender,
+							id: response.id,
+							lastName: response.last_name,
+							name: response.name,
+							timezone: response.timezone,
+							verified: response.verified 
+						},
+						success: function(){
+							location.reload();
+						},
+						headers : { 
+							'X-CSRF-Token' : $("meta[name='_csrf']").attr("content") 
+						}
+					});
+				});
+			} else {
+				//user hit cancel button
+				console.log('User cancelled login or did not fully authorize.');
+			}
+		}, {
+			scope: 'public_profile,email'
+		});
+	});
+	 
+	 
+	$("#facebook-logout").click(function(){
+		$.ajax({
+			type: "GET",
+			url: "/account/facebook-logout",
+			success: function(){ 
+				location.reload(); 
+			},
+			headers : { 
+				'X-CSRF-Token' : $("meta[name='_csrf']").attr("content") 
+			}
+		});
+	});
+</script>
 
 	<script type="text/javascript">
 		var delay = (function() {

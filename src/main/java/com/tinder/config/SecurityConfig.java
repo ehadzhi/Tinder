@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import com.tinder.info.DBAuthParam;
 
@@ -29,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/css/**").permitAll()
 		.antMatchers("/SignUp/**").permitAll()
 		.antMatchers("/SignUpValidationService/**").permitAll()
+		.antMatchers("/FacebookLogin/**").permitAll()
 		.anyRequest().authenticated()
 		.and().formLogin().loginPage("/login").permitAll()
 		.defaultSuccessUrl("/LocationSetter", true)
