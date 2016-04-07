@@ -16,6 +16,8 @@ public interface UserParam {
 	static final String DESCRIPTION = "description";
 	static final String GENDER = "gender";
 	static final String FULL_NAME = "fullName";
+	static final String S3ACCESSKEY = "AKIAJFLBQNS6WEO3LSUA";
+	static final String S2SECRETKEY = "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";
 	
 	static boolean parseGender(String gender) {
 		return gender.equals("male");
