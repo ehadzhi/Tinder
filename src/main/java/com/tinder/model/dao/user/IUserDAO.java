@@ -15,6 +15,8 @@ public interface IUserDAO {
 
 	void registerUser(String username, String password, String email, boolean gender, int age, String fullName);
 
+	void updateUser(User user);
+	
 	void deleteUser(String username);
 
 	String calculateHash(String password);

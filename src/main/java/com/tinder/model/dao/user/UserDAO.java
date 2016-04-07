@@ -194,4 +194,18 @@ public class UserDAO implements IUserDAO {
 		return jdbcTemplate.query(CHECK_EXISTING_EMAIL, paramMap,
 				resultSet -> resultSet.next() && resultSet.getInt(1) > 0);
 	}
+
+	@Override
+	public void updateUser(User user) {
+			final String UPDATE_USER = "UPDATE `tinder`.`users` SET `username`=:username,"
+					+ "`password_hash`=:password_hash, `age`=:age,"
+					+ "`description`=:description WHERE `id`=:id;";
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("username", user.getUsername());
+			paramMap.put("password_hash", calculateHash(user.getPasswordHash()));
+			paramMap.put("age", user.getAge());
+			paramMap.put("email", user.getEmail());
+			paramMap.put("description",user.getDescription());
+			jdbcTemplate.update(UPDATE_USER, paramMap);
+	}
 }
