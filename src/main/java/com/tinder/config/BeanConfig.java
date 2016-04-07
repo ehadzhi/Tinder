@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
+import org.springframework.social.connect.ConnectionFactory;
 
 import com.tinder.info.DBCredentials;
 import com.tinder.model.dao.picture.IPictureDAO;
