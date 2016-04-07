@@ -141,7 +141,7 @@ public class UserDAO implements IUserDAO {
 				+ " right join tinder.users u on (d.disliked_id=u.id)" + " where d.disliker_id = :user_id)"
 				+ " and username not in (" + " select username from tinder.likes l"
 				+ " right join tinder.users u on (l.liked_id=u.id)" + " where l.liker_id = :user_id)"
-				+ " and id != :user_id limit 3;";
+				+ " and id != :user_id ((:wants_male and gender_is_male) or (:wants_female and !gender_is_male)) limit 3;";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		User user = getUser(username);
 		paramMap.put("min_desired_age", user.getMinDesiredAge());
@@ -150,6 +150,8 @@ public class UserDAO implements IUserDAO {
 		paramMap.put("longitude", user.getLongitude());
 		paramMap.put("search_distance", user.getSearchDistance());
 		paramMap.put("user_id", user.getId());
+		paramMap.put("wants_male", user.isWantsMale());
+		paramMap.put("wants_female", user.isWantsFemale());
 		return (List<User>) jdbcTemplate.query(FIND_CLOSE_USERS, paramMap,
 				(resultSet, currentRow) -> getUser(resultSet.getString(1)));
 	}
