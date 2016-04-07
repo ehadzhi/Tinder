@@ -90,8 +90,8 @@
 										</a>
 									</div>
 									<div class="card-block">
-									<div id="description" class="alert alert-info" role="alert">...</div>
-			
+										<div id="description" class="alert alert-info" role="alert">...</div>
+
 									</div>
 									<div class="col-md-6 col-sm-6 col-xs-12">
 										<button onclick="worker('Like')"
@@ -148,17 +148,29 @@
 					.done(
 							function(response) {
 								console.log(response);
-								$('#name').empty();
-								$('#name').append('<span class="glyphicon glyphicon-user" aria-hidden="true"></span>'+response.user.fullName);
-								$('#age').empty();
-								$('#age').append('<span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>'+ response.user.age);
-								$('#description').empty();
-								$('#description').append(
-										'<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>'+response.user.description);
-								$('#location').empty();
-								$('#location')
-										.append(
-												'<iframe src="http://maps.google.com/maps?q='+response.user.latitude+','+response.user.longitude+'&z=15&output=embed" width="500" height="300" frameborder="0" style="border: 0"></iframe>');
+									$('#name').empty();
+									$('#age').empty();
+									$('#location').empty();
+									$('#description').empty();
+								if ((response.photos.length != 0 && response.photos[0] != "nousers.jpg") || response.photos.length === 0) {
+									$('#name').append(
+											'<span class="glyphicon glyphicon-user" aria-hidden="true"></span>'
+													+ response.user.fullName);
+									$('#age').append(
+											'<span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>'
+													+ response.user.age);
+									$('#description')
+											.append(
+													'<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>'
+															+ response.user.description);
+									$('#location')
+											.append(
+													'<iframe src="http://maps.google.com/maps?q='
+															+ response.user.latitude
+															+ ','
+															+ response.user.longitude
+															+ '&z=15&output=embed" width="500" height="300" frameborder="0" style="border: 0"></iframe>');
+								}
 								$('#gallery-slides').empty();
 								$('#gallery-images').empty();
 								var i;

@@ -7,10 +7,11 @@
 	<div class="left_col scroll-view">
 
 		<div class="navbar nav_title" style="border: 0;">
-			<a href="index.html" class="site_title"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span></i>
+			<a href="index.html" class="site_title"><i class="glyphicon glyphicon-fire"></i>
 				<span>Tinder</span></a>
 		</div>
-		<div class="clearfix"></div>
+		<div class="clearfix">
+		</div>
 
 		<!-- menu prile quick info -->
 		<a href="Profile">
@@ -41,7 +42,7 @@
 					<li><a href="DiscoverySettings"><i
 							class="fa fa-heart-o"></i> Discovery settings</a></li>
 					<li><a href="AppSettings"><i class="fa fa-fire"></i>
-							App settings</span></a></li>
+							App settings</a></li>
 					<li><a><i class="fa fa-info"></i> Help and Info <span
 							class="fa fa-chevron-down"></span></a>
 						<ul class="nav child_menu" style="display: none">
