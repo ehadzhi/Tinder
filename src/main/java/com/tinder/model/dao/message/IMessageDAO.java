@@ -3,8 +3,8 @@ package com.tinder.model.dao.message;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.tinder.model.pojo.Message;
 import com.tinder.model.pojo.User;
+import com.tinder.model.pojo.chat.Message;
 
 public interface IMessageDAO {
 

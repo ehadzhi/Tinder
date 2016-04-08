@@ -14,12 +14,12 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
-import com.tinder.config.chat.IncomingMessage;
-import com.tinder.config.chat.OutgoingMessage;
 import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.dao.message.IMessageDAO;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
+import com.tinder.model.pojo.chat.IncomingMessage;
+import com.tinder.model.pojo.chat.OutgoingMessage;
 
 @Controller
 public class StompController {
@@ -67,11 +67,6 @@ public class StompController {
 		toSend.setMessage(incoming.getMessage());
 		toSend.setSender(sender.getName());
 		toSend.setTimeOfSending(LocalDateTime.now());
-
-		User senderUser = userDAO.getUser(toSend.getSender());
-		User receiverUser = userDAO.getUser(incoming.getReceiver());
-		System.out.println(senderUser);
-		System.out.println(receiverUser);
 
 		messageDAO.sendMessage(incoming.getMessage(), userDAO.getUser(toSend.getSender()),
 				userDAO.getUser(incoming.getReceiver()));

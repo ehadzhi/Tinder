@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tinder.info.UserParam;
-import com.tinder.info.PictureParam;
+import com.tinder.info.UserViewParam;
+import com.tinder.info.PictureViewParam;
 import com.tinder.model.dao.picture.IPictureDAO;
 import com.tinder.model.pojo.User;
 
@@ -47,9 +47,9 @@ public class PictureUpload {
 	private IPictureDAO pictureDAO;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String uploadPicture(@RequestParam(PictureParam.TO_UPOAD) MultipartFile file, HttpServletRequest req)
+	public String uploadPicture(@RequestParam(PictureViewParam.TO_UPOAD) MultipartFile file, HttpServletRequest req)
 			throws IllegalStateException, IOException, S3ServiceException {
-		User user = (User) req.getSession().getAttribute(UserParam.USER);
+		User user = (User) req.getSession().getAttribute(UserViewParam.USER);
 		if (!file.isEmpty()) {
 			return saveFile(file, user);
 		}
@@ -66,7 +66,7 @@ public class PictureUpload {
 	}
 
 	private void saveImageInAmazon(MultipartFile image, String filename) throws IOException, S3ServiceException {
-			AWSCredentials awsCredentials = new AWSCredentials(UserParam.S3ACCESSKEY, UserParam.S2SECRETKEY);
+			AWSCredentials awsCredentials = new AWSCredentials(UserViewParam.S3ACCESSKEY, UserViewParam.S2SECRETKEY);
 			S3Service s3 = new RestS3Service( awsCredentials);
 			S3Bucket bucket = s3.getBucket("tinderbucket");
 			S3Object imageObject = new S3Object(filename);

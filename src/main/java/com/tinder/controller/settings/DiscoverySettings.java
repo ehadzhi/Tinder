@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tinder.info.UserParam;
+import com.tinder.info.UserViewParam;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
@@ -27,20 +27,20 @@ public class DiscoverySettings {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(HttpServletRequest request,
-		@RequestParam(UserParam.SEARCH_DISTANCE)int dist,
-		@RequestParam(value=UserParam.SHOW_WOMEN,required = false)boolean showFemale,
-		@RequestParam(value=UserParam.SHOW_MEN,required = false)boolean showMale,
-		@RequestParam(UserParam.AGE_RANGE)String ageRange) {
+		@RequestParam(UserViewParam.SEARCH_DISTANCE)int dist,
+		@RequestParam(value=UserViewParam.SHOW_WOMEN,required = false)boolean showFemale,
+		@RequestParam(value=UserViewParam.SHOW_MEN,required = false)boolean showMale,
+		@RequestParam(UserViewParam.AGE_RANGE)String ageRange) {
 		
 		HttpSession session = request.getSession(false);
 		int minAge = Integer.parseInt(ageRange.split(";")[0]);
 		int maxAge = Integer.parseInt(ageRange.split(";")[1]);
-		User user = (User) session.getAttribute(UserParam.USER);
+		User user = (User) session.getAttribute(UserViewParam.USER);
 		userDAO.setUserDiscoverySettings(user.getUsername(),
 				showMale, showFemale,dist,minAge,maxAge);
 		
 		User renewedUser = userDAO.getUser(user.getUsername());
-			session.setAttribute(UserParam.USER, renewedUser);
+			session.setAttribute(UserViewParam.USER, renewedUser);
 
 		return "redirect:DiscoverySettings";
 	}

@@ -11,13 +11,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tinder.config.BeanConfig;
+import com.tinder.config.persistance.PersistanceConfig;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 import com.tinder.test.info.TestUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { BeanConfig.class })
+@ContextConfiguration(classes = { PersistanceConfig.class })
 @WebAppConfiguration
 public class UserDAOTest {
 

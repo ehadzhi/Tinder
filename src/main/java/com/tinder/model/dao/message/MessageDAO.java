@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 
 import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.dao.notification.INotificationDAO;
-import com.tinder.model.pojo.Chat;
-import com.tinder.model.pojo.Message;
 import com.tinder.model.pojo.User;
+import com.tinder.model.pojo.chat.Chat;
+import com.tinder.model.pojo.chat.Message;
 
 
 @Component

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.tinder.model.pojo.Message;
+import com.tinder.model.pojo.chat.Message;
 
 public class MessageMapper implements RowMapper<Message>{
 

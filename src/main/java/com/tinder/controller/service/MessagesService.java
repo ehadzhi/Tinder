@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tinder.model.dao.message.IMessageDAO;
 import com.tinder.model.dao.user.IUserDAO;
-import com.tinder.model.pojo.Message;
+import com.tinder.model.pojo.chat.Message;
 
 @RestController
 public class MessagesService{

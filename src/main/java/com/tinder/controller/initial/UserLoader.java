@@ -1,4 +1,4 @@
-package com.tinder.config;
+package com.tinder.controller.initial;
 
 import java.util.LinkedList;
 
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tinder.info.UserParam;
+import com.tinder.info.UserViewParam;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
@@ -20,10 +20,10 @@ public class UserLoader {
 	
 	public void loadUser(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		if (session.getAttribute(UserParam.USER) == null) {
-			session.setAttribute(UserParam.USER, 
+		if (session.getAttribute(UserViewParam.USER) == null) {
+			session.setAttribute(UserViewParam.USER, 
 					userDAO.getUser(request.getUserPrincipal().getName()));
-			session.setAttribute(UserParam.USER_CANDIDATES, new LinkedList<User>());
+			session.setAttribute(UserViewParam.USER_CANDIDATES, new LinkedList<User>());
 		}
 	}
 }

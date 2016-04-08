@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 
 import com.tinder.model.dao.message.IMessageDAO;
 import com.tinder.model.dao.user.UserMapper;
-import com.tinder.model.pojo.Chat;
 import com.tinder.model.pojo.User;
+import com.tinder.model.pojo.chat.Chat;
 
 @Component
 public class ChatDAO implements IChatDAO {

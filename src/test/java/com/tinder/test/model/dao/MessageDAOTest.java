@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.tinder.config.BeanConfig;
+import com.tinder.config.persistance.PersistanceConfig;
 import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.dao.message.IMessageDAO;
 import com.tinder.model.dao.user.IUserDAO;
@@ -22,7 +22,7 @@ import com.tinder.test.info.TestMessage;
 import com.tinder.test.info.TestUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { BeanConfig.class })
+@ContextConfiguration(classes = { PersistanceConfig.class })
 @WebAppConfiguration
 public class MessageDAOTest {
 

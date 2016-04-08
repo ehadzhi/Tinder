@@ -57,14 +57,6 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 	}
 
-	// localization configuration
-	@Bean
-	public MessageSource messageSource() {
-		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-		messageSource.setBasename("messages");
-		return messageSource;
-	}
-
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver createMultipartResolver() {
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
@@ -72,20 +64,6 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 		resolver.setMaxUploadSize(1024*1024*1024);
 		resolver.setMaxUploadSizePerFile(1024*1024*1024);
 		return resolver;
-	}
-
-	@Bean
-	public LocaleResolver localeResolver() {
-		SessionLocaleResolver resolver = new SessionLocaleResolver();
-		resolver.setDefaultLocale(Locale.ENGLISH);
-		return resolver;
-	}
-
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		LocaleChangeInterceptor changeInterceptor = new LocaleChangeInterceptor();
-		changeInterceptor.setParamName("language");
-		registry.addInterceptor(changeInterceptor);
 	}
 
 }

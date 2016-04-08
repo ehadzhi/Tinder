@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.tinder.info.PictureParam;
+import com.tinder.info.PictureViewParam;
 import com.tinder.model.dao.picture.IPictureDAO;
 import com.tinder.model.pojo.User;
 
@@ -20,7 +20,7 @@ public class SetProfilePicture {
 	private IPictureDAO pictureDAO;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String setPicture(@PathVariable(PictureParam.NEW_AVATAR)
+	public String setPicture(@PathVariable(PictureViewParam.NEW_AVATAR)
 	String pictureName, HttpServletRequest request) {
 		
 		User toSet = (User) request.getSession().getAttribute("user");

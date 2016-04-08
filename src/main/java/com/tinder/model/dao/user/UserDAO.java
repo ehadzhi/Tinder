@@ -183,9 +183,11 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public User getUser(String username) {
-		final String GET_USER = "select * from tinder.users where username = :username";
+		final String GET_USER = "select * from tinder.users "
+				+ "where username = :username or email = :email";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("username", username);
+		paramMap.put("email", username);
 		List<User> toReturn = jdbcTemplate.query(GET_USER, paramMap, new UserMapper());
 		if (toReturn.size() > 0) {
 			return toReturn.get(0);
