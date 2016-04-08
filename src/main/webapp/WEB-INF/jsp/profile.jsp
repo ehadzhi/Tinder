@@ -310,6 +310,7 @@
 		NProgress.done();
 	</script>
 	<script type="text/javascript">
+		$('#new-description').val('');
 		function photoLoader() {
 			$
 					.ajax({

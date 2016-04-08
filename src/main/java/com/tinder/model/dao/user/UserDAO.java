@@ -202,10 +202,11 @@ public class UserDAO implements IUserDAO {
 					+ "`description`=:description WHERE `id`=:id;";
 			Map<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("username", user.getUsername());
-			paramMap.put("password_hash", calculateHash(user.getPasswordHash()));
+			paramMap.put("password_hash", user.getPasswordHash());
 			paramMap.put("age", user.getAge());
 			paramMap.put("email", user.getEmail());
 			paramMap.put("description",user.getDescription());
+			paramMap.put("id",user.getId());
 			jdbcTemplate.update(UPDATE_USER, paramMap);
 	}
 }

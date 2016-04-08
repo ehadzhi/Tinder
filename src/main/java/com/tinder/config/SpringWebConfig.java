@@ -34,6 +34,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/pdfs/**").addResourceLocations("/static/pdf/");
 		registry.addResourceHandler("/fonts/**").addResourceLocations("/static/fonts/");
 		registry.addResourceHandler("/images/**").addResourceLocations("file:///C:/resources/images/")
+				.addResourceLocations("http://s3-eu-west-1.amazonaws.com/tinderbucket/")
 				.addResourceLocations("/static/images/");
 		registry.addResourceHandler("/js/**").addResourceLocations("/static/js/");
 		registry.addResourceHandler("/less/**").addResourceLocations("/static/less/");
@@ -68,6 +69,8 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	public CommonsMultipartResolver createMultipartResolver() {
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 		resolver.setDefaultEncoding("utf-8");
+		resolver.setMaxUploadSize(1024*1024*1024);
+		resolver.setMaxUploadSizePerFile(1024*1024*1024);
 		return resolver;
 	}
 
