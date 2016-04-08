@@ -44,12 +44,6 @@ public class LocationSetter {
 			Principal principal) {
 		userDAO.setLocation(principal.getName(), latitude, longitude);
 
-//		SimpleMailMessage message = new SimpleMailMessage();
-//		message.setFrom("it.talents.tinder@gmail.com");
-//		message.setTo("erol.hadzhi@gmail.com");
-//		message.setSubject("New spittle from ");
-//		message.setText(" says: " );
-//		mailSender.send(message);
 	   
 		return "redirect:/Home";
 	}

@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page session="false"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,6 +49,9 @@
 				<section class="login_content">
 					<form action="/Tinder/login" method="post">
 						<h1>Login Form</h1>
+						<p style="color:red;">
+							<c:out value="${error}"></c:out>
+						</p>
 						<div>
 							<input type="text" name="username" class="form-control"
 								placeholder="Username" required>
@@ -221,30 +225,30 @@
 		$('#username').keyup(function() {
 			delay(function() {
 				usernameChecker($('#username').val());
-			}, 1000);
+			}, 100);
 		});
 
 		$('#password').keyup(function() {
 			delay(function() {
 				passChecker($('#password').val());
-			}, 1000);
+			}, 100);
 		});
 
 		$('#age').keyup(function() {
 			delay(function() {
 				ageChecker($('#age').val());
-			}, 1000);
+			}, 100);
 		});
 		$('#age').change(function() {
 			delay(function() {
 				ageChecker($('#age').val());
-			}, 1000);
+			}, 100);
 		});
 
 		$('#email').keyup(function() {
 			delay(function() {
 				emailChecker($('#email').val());
-			}, 1000);
+			}, 100);
 		});
 
 		function usernameChecker(username) {

@@ -360,31 +360,31 @@
 		$('#new-username').keyup(function() {
 			delay(function() {
 				usernameChecker($('#new-username').val());
-			}, 500);
+			}, 100);
 		});
 
 		$('#new-password-confirm').keyup(function() {
 			delay(function() {
 				newPassConfirmator($('#new-password-confirm').val());
-			}, 500);
+			}, 100);
 		});
 
 		$('#new-password').keyup(function() {
 			delay(function() {
 				newPassChecker($('#new-password').val());
-			}, 500);
+			}, 100);
 		});
 
 		$('#old-password').keyup(function() {
 			delay(function() {
 				passChecker($('#old-password').val());
-			}, 500);
+			}, 100);
 		});
 
 		$('#new-email').keyup(function() {
 			delay(function() {
 				emailChecker($('#new-email').val());
-			}, 500);
+			}, 100);
 		});
 
 		$('#new-description').keyup(function() {

@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/js/**").permitAll()
 		.antMatchers("/css/**").permitAll()
 		.antMatchers("/SignUp/**").permitAll()
+		.antMatchers("/ConfirmEmail**").permitAll()
 		.antMatchers("/SignUpValidationService/**").permitAll()
 		.antMatchers("/FacebookLogin/**").permitAll()
 		.anyRequest().authenticated()
