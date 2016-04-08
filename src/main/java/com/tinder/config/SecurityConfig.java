@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.social.security.SpringSocialConfigurer;
 
 import com.tinder.info.DBAuthParam;
 
@@ -21,7 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private DataSource dataSource;
-
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -34,7 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest().authenticated()
 		.and().formLogin().loginPage("/login").permitAll()
 		.defaultSuccessUrl("/LocationSetter", true)
-		.and().httpBasic()
 		.and().csrf().disable();
 	}
 

@@ -164,26 +164,21 @@
 			if (response.authResponse) {
 				var authRes = response.authResponse;
 				var connected = response.connected;
-				FB.api('/Tinder', function(response) { 
+				FB.api('/me?fields=email,gender,name,about,id', function(response) { 
+					console.log(JSON.stringify(response));
 					$.ajax({
 						type: "POST",
 						url: "/Tinder/FacebookLogin",
 						data: { 
-							accessToken: authRes.accessToken,
-							expiresIn: authRes.expiresIn,
-							signedRequest: authRes.signedRequest,
-							connected: connected,
 							email: response.email,
-							firstName: response.first_name,
+							fullName: response.name,
 							gender: response.gender,
-							id: response.id,
+							facebookId: response.id,
 							lastName: response.last_name,
-							name: response.name,
-							timezone: response.timezone,
-							verified: response.verified 
+							description: response.about
 						},
 						success: function(){
-							location.reload();
+							window.location.replace("LocationSetter");
 						},
 						headers : { 
 							'X-CSRF-Token' : $("meta[name='_csrf']").attr("content") 

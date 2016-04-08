@@ -28,12 +28,16 @@ public interface IUserDAO {
 	List<String> getAllPhotosOfUser(String username);
 
 	User getUser(String username);
-
+	
 	boolean isUsernameExisting(String username);
 
 	boolean isEmailExisting(String email);
+	
+	String getUsernameFromFacebookId(String facebookId);
 
 	void setUserDiscoverySettings(String username, boolean wantsMale, boolean wantsFemale, int searchdistance,
 			int minAge, int maxAge);
+
+	void addFacebookConnection(String username, String facebookId);
 
 }
