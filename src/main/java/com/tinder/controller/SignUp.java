@@ -37,13 +37,14 @@ public class SignUp {
 		
 		String uuid = generateUUID();
 		userDAO.registerUnconfirmedUser(username, password, email,
-			UserParam.parseGender(gender),age , fullName, uuid);
+			UserParam.parseGender(gender), age, fullName, uuid);
 		
 		UnconfirmedUser user = userDAO.getUnconfirmedUser(uuid);
 		
 		sendConfirmationEmail(user.getEmail(),uuid);
-
-		return "redirect:/login";
+		request.setAttribute("error", "Please confirm your email!");
+		
+		return "forward:/login";
 	}
 	
 	private String generateUUID(){
