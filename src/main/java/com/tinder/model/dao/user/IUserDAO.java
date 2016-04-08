@@ -1,6 +1,8 @@
 package com.tinder.model.dao.user;
 
 import java.util.List;
+
+import com.tinder.model.pojo.UnconfirmedUser;
 import com.tinder.model.pojo.User;
 
 public interface IUserDAO {
@@ -39,5 +41,16 @@ public interface IUserDAO {
 			int minAge, int maxAge);
 
 	void addFacebookConnection(String username, String facebookId);
+
+	void registerUnconfirmedUser(String username, String password, String email, boolean gender, int age,
+			String fullName, String UUID);
+
+	UnconfirmedUser getUnconfirmedUser(String UUID);
+
+	void deleteUnconfirmedUser(String uuid);
+
+	void registerUserWithHashedPassword(String username, String password, String email, boolean gender, int age,
+			String fullName);
+
 
 }

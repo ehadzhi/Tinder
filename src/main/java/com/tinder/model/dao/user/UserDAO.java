@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.tinder.model.pojo.UnconfirmedUser;
 import com.tinder.model.pojo.User;
 
 @Component
@@ -64,6 +65,21 @@ public class UserDAO implements IUserDAO {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("username", username);
 		paramMap.put("password_hash", calculateHash(password));
+		paramMap.put("age", age);
+		paramMap.put("gender", gender);
+		paramMap.put("email", email);
+		paramMap.put("full_name", fullName);
+		jdbcTemplate.update(REGISTER_USER, paramMap);
+	}
+	
+	@Override
+	public void registerUserWithHashedPassword(String username, String password, String email, boolean gender, int age, String fullName) {
+		final String REGISTER_USER = "INSERT INTO tinder.users "
+				+ "values(null,:username,:password_hash,:age,:gender,'avatar_default.jpg'"
+				+ ",:email,false,false,null,null,null,null,null,:full_name,NULL);";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("username", username);
+		paramMap.put("password_hash", password);
 		paramMap.put("age", age);
 		paramMap.put("gender", gender);
 		paramMap.put("email", email);
@@ -232,5 +248,41 @@ public class UserDAO implements IUserDAO {
 		paramMap.put("facebook_id", facebookId);
 		paramMap.put("user_id",user.getId());
 		jdbcTemplate.update(ADD_FACEBOOK_CONNECTION, paramMap);
+	}
+	
+	
+	@Override
+	public void registerUnconfirmedUser(String username, String password, String email, boolean gender, int age, String fullName, String UUID) {
+		final String REGISTER_USER = "INSERT INTO tinder.`unconfirmed_users` "
+				+ "values(:uuid,:username,:password_hash,:email,:gender,:age,:full_name) ;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("uuid", UUID);
+		paramMap.put("username", username);
+		paramMap.put("password_hash", calculateHash(password));
+		paramMap.put("age", age);
+		paramMap.put("gender", gender);
+		paramMap.put("email", email);
+		paramMap.put("full_name", fullName);
+		jdbcTemplate.update(REGISTER_USER, paramMap);
+	}
+	
+	@Override
+	public UnconfirmedUser getUnconfirmedUser(String UUID) {
+		final String GET_USER = "select * from tinder.`unconfirmed_users` where uuid = :uuid";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("uuid", UUID);
+		List<UnconfirmedUser> toReturn = jdbcTemplate.query(GET_USER, paramMap, new UnconfirmedUserMapper());
+		if (toReturn.size() > 0) {
+			return toReturn.get(0);
+		}
+		return null;
+	}
+	
+	@Override
+	public void deleteUnconfirmedUser(String uuid) {
+		final String DELETE_USER = "delete from tinder.`unconfirmed_users` WHERE uuid = :uuid;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("uuid", uuid);
+		jdbcTemplate.update(DELETE_USER, paramMap);
 	}
 }
