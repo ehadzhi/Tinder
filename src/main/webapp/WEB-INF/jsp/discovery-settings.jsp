@@ -22,8 +22,6 @@
 <link href="fonts/css/font-awesome.min.css" rel="stylesheet">
 <link href="css/animate.min.css" rel="stylesheet">
 <link href="css/custom.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css"
-	href="css/maps/jquery-jvectormap-2.0.3.css" />
 <link href="css/icheck/flat/green.css" rel="stylesheet" />
 <link href="css/floatexamples.css" rel="stylesheet" type="text/css" />
 
@@ -139,7 +137,6 @@
 	<script src="js/bootstrap.min.js"></script>
 
 	<!-- bootstrap progress js -->
-	<script src="js/progressbar/bootstrap-progressbar.min.js"></script>
 	<script src="js/nicescroll/jquery.nicescroll.min.js"></script>
 	<script src="js/icheck/icheck.min.js"></script>
 	<script src="js/custom.js"></script>
