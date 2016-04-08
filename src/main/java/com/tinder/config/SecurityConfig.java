@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/css/**").permitAll()
 		.antMatchers("/SignUp/**").permitAll()
 		.antMatchers("/SignUpValidationService/**").permitAll()
+		.antMatchers("/FacebookLogin/**").permitAll()
 		.anyRequest().authenticated()
 		.and().formLogin().loginPage("/login").permitAll()
 		.defaultSuccessUrl("/LocationSetter", true)

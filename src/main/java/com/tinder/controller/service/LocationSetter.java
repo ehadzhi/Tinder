@@ -41,16 +41,16 @@ public class LocationSetter {
 	public String doPost(
 			@RequestParam("latitude")double latitude,
 			@RequestParam("longitude")double longitude,
-			Principal prinacipal) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("it.talents.tinder@gmail.com");
-		message.setTo("erol.hadzhi@gmail.com");
-		message.setSubject("New spittle from ");
-		message.setText(" says: " );
-		mailSender.send(message);
+			Principal principal) {
+		userDAO.setLocation(principal.getName(), latitude, longitude);
 
+//		SimpleMailMessage message = new SimpleMailMessage();
+//		message.setFrom("it.talents.tinder@gmail.com");
+//		message.setTo("erol.hadzhi@gmail.com");
+//		message.setSubject("New spittle from ");
+//		message.setText(" says: " );
+//		mailSender.send(message);
 	   
-				userDAO.setLocation(prinacipal.getName(), latitude, longitude);
 		return "redirect:/Home";
 	}
 }

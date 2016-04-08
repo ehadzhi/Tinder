@@ -72,8 +72,8 @@ public class UserDAO implements IUserDAO {
 	}
 
 	@Override
-	public void setUserDiscoverySettings(String username, boolean wantsMale, boolean wantsFemale, int searchdistance, int minAge,
-			int maxAge) {
+	public void setUserDiscoverySettings(String username, boolean wantsMale, boolean wantsFemale, int searchdistance,
+			int minAge, int maxAge) {
 		int id = getUser(username).getId();
 		final String SET_DISCOVERY_SETTINGS = "UPDATE tinder.users SET wants_male=:wants_male, wants_female=:wants_female,"
 				+ " search_distance=:search_distance, min_desired_age=:min_desired_age,"
@@ -171,7 +171,7 @@ public class UserDAO implements IUserDAO {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("username", username);
 		List<User> toReturn = jdbcTemplate.query(GET_USER, paramMap, new UserMapper());
-		if (toReturn.size() > 0){
+		if (toReturn.size() > 0) {
 			return toReturn.get(0);
 		}
 		return null;
@@ -197,16 +197,40 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public void updateUser(User user) {
-			final String UPDATE_USER = "UPDATE `tinder`.`users` SET `username`=:username,"
-					+ "`password_hash`=:password_hash, `age`=:age,"
-					+ "`description`=:description WHERE `id`=:id;";
-			Map<String, Object> paramMap = new HashMap<String, Object>();
-			paramMap.put("username", user.getUsername());
-			paramMap.put("password_hash", user.getPasswordHash());
-			paramMap.put("age", user.getAge());
-			paramMap.put("email", user.getEmail());
-			paramMap.put("description",user.getDescription());
-			paramMap.put("id",user.getId());
-			jdbcTemplate.update(UPDATE_USER, paramMap);
+		final String UPDATE_USER = "UPDATE `tinder`.`users` SET `username`=:username,"
+				+ "`password_hash`=:password_hash, `age`=:age," + "`description`=:description WHERE `id`=:id;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("username", user.getUsername());
+		paramMap.put("password_hash", user.getPasswordHash());
+		paramMap.put("age", user.getAge());
+		paramMap.put("email", user.getEmail());
+		paramMap.put("description", user.getDescription());
+		paramMap.put("id", user.getId());
+		jdbcTemplate.update(UPDATE_USER, paramMap);
+	}
+
+	@Override
+	public String getUsernameFromFacebookId(String facebookId) {
+		final String GET_USERNAME = "SELECT u.username FROM tinder.facebook_users f"
+				+ " join tinder.users u on (f.user_id=u.id) where f.id = :facebook_id;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("facebook_id", facebookId);
+		return jdbcTemplate.query(GET_USERNAME, paramMap, resultSet -> {
+			if (resultSet.next()) {
+				return resultSet.getString(1);
+			}
+			return null;
+		});
+	}
+
+	@Override
+	public void addFacebookConnection(String username,String facebookId) {
+		final String ADD_FACEBOOK_CONNECTION = "INSERT INTO `tinder`.`facebook_users`"
+				+ " VALUES (:facebook_id, :user_id);";
+		User user = getUser(username);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("facebook_id", facebookId);
+		paramMap.put("user_id",user.getId());
+		jdbcTemplate.update(ADD_FACEBOOK_CONNECTION, paramMap);
 	}
 }

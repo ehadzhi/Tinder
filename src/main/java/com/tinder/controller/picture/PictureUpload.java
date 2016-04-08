@@ -56,7 +56,7 @@ public class PictureUpload {
 		return "redirect:/Profile?error=empty-file";
 	}
 
-	private String saveFile(MultipartFile file, User user) throws IOException, S3ServiceException {
+	 public String saveFile(MultipartFile file, User user) throws IOException, S3ServiceException {
 		String fileName = file.getOriginalFilename();
 		fileName = fileName.substring(fileName.lastIndexOf('.'));
 		fileName = numPictures.incrementAndGet() + fileName;
@@ -80,13 +80,6 @@ public class PictureUpload {
 			s3.putObject(bucket, imageObject);
 	}
 
-	public File convert(MultipartFile file) throws IOException {
-		File convFile = new File(file.getOriginalFilename());
-		convFile.createNewFile();
-		FileOutputStream fos = new FileOutputStream(convFile);
-		fos.write(file.getBytes());
-		fos.close();
-		return convFile;
-	}
+	
 
 }
