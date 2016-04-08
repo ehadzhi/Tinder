@@ -13,6 +13,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
+import org.springframework.social.connect.ConnectionFactory;
 
 import com.tinder.info.DBCredentials;
 import com.tinder.model.dao.picture.IPictureDAO;
