@@ -1,6 +1,6 @@
 package com.tinder.info;
 
-public interface PictureParam {
+public interface PictureViewParam {
 
 	String NEW_AVATAR = "picture_name";
 	String TO_UPOAD = "picture";

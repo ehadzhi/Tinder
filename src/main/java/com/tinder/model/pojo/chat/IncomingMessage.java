@@ -1,4 +1,4 @@
-package com.tinder.config.chat;
+package com.tinder.model.pojo.chat;
 
 public class IncomingMessage {
 	private String message;

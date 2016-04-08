@@ -2,8 +2,8 @@ package com.tinder.model.dao.chat;
 
 import java.util.List;
 
-import com.tinder.model.pojo.Chat;
 import com.tinder.model.pojo.User;
+import com.tinder.model.pojo.chat.Chat;
 
 public interface IChatDAO {
 

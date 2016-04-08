@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tinder.info.UserParam;
+import com.tinder.info.UserViewParam;
 import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.dao.user.IUserDAO;
@@ -34,9 +34,9 @@ public class LikeDislikeService {
 
 	@RequestMapping(value = "/LikeDislikeService", method = RequestMethod.POST)
 	public Map<String, Object> doPost(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession(false).getAttribute(UserParam.USER);
+		User user = (User) request.getSession(false).getAttribute(UserViewParam.USER);
 		@SuppressWarnings("unchecked")
-		List<User> users = (List<User>) request.getSession().getAttribute(UserParam.USER_CANDIDATES);
+		List<User> users = (List<User>) request.getSession().getAttribute(UserViewParam.USER_CANDIDATES);
 		if (users.size() == 0) {
 			addCandidates(request, users);
 		} else if (users.size() == 1) {

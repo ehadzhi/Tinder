@@ -1,6 +1,6 @@
 package com.tinder.info;
 
-public interface UserParam {
+public interface UserViewParam {
 
 	static final String USER = "user";
 	static final String USER_CANDIDATES = "userCandidates";

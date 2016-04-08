@@ -12,14 +12,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
-import com.tinder.config.BeanConfig;
-import com.tinder.config.SecurityConfig;
-import com.tinder.config.UserLoader;
 import com.tinder.config.chat.WebSocketStompConfig;
+import com.tinder.config.persistance.PersistanceConfig;
+import com.tinder.config.security.SecurityConfig;
+import com.tinder.controller.initial.UserLoader;
 import com.tinder.controller.settings.AppSettings;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { BeanConfig.class,
+@ContextConfiguration(classes = { PersistanceConfig.class,
 		SecurityConfig.class,WebSocketStompConfig.class })
 @WebAppConfiguration
 public class AppSettingsTest {

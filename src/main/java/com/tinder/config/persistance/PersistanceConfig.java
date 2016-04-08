@@ -1,4 +1,4 @@
-package com.tinder.config;
+package com.tinder.config.persistance;
 
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,22 +21,7 @@ import com.tinder.model.dao.picture.IPictureDAO;
 
 @Configuration
 @ComponentScan("com.tinder")
-public class BeanConfig {
-
-	@Bean
-	public MailSender mailSender(Environment env) {
-		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		mailSender.setHost("smtp.gmail.com");
-		mailSender.setPort(587);
-		mailSender.setUsername("it.talents.tinder@gmail.com");
-		mailSender.setPassword("radiator");
-		Properties prop = mailSender.getJavaMailProperties();
-		prop.put("mail.transport.protocol", "smtp");
-		prop.put("mail.smtp.auth", "true");
-		prop.put("mail.smtp.starttls.enable", "true");
-		prop.put("mail.debug", "true");
-		return mailSender;
-	}
+public class PersistanceConfig {
 
 	@Bean
 	public DataSource dataSource() {

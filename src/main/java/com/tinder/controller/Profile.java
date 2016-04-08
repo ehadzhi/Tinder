@@ -11,9 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.tinder.config.UserLoader;
-import com.tinder.info.PictureParam;
-import com.tinder.info.UserParam;
+import com.tinder.controller.initial.UserLoader;
+import com.tinder.info.PictureViewParam;
+import com.tinder.info.UserViewParam;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
@@ -30,9 +30,9 @@ public class Profile {
 	@RequestMapping(method = RequestMethod.GET)
 	protected String doGet(Model model,HttpServletRequest request) throws MessagingException {
 		loader.loadUser(request);
-		User user = (User) request.getSession().getAttribute(UserParam.USER);
+		User user = (User) request.getSession().getAttribute(UserViewParam.USER);
 		List<String> pictures = userDAO.getAllPhotosOfUser(user.getUsername());
-		model.addAttribute(PictureParam.PICTURES,pictures);
+		model.addAttribute(PictureViewParam.PICTURES,pictures);
 		return "profile";
 	}
 

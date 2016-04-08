@@ -1,4 +1,4 @@
-package com.tinder.controller.service;
+package com.tinder.controller.initial;
 
 import java.security.Principal;
 import java.util.Properties;

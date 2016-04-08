@@ -1,4 +1,4 @@
-package com.tinder.model.pojo;
+package com.tinder.model.pojo.chat;
 
 import java.time.LocalDateTime;
 

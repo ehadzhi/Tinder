@@ -6,13 +6,13 @@ import org.springframework.web.servlet.support.
 AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.tinder.config.chat.WebSocketStompConfig;
+import com.tinder.config.security.SecurityConfig;
  
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
  
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { BeanConfig.class,
-        		SecurityConfig.class,WebSocketStompConfig.class };
+        return new Class[] {};
     }
   
     @Override
