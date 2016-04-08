@@ -164,7 +164,8 @@
 			if (response.authResponse) {
 				var authRes = response.authResponse;
 				var connected = response.connected;
-				FB.api('/Tinder', function(response) { 
+				FB.api('/me?fields=email,name,gender,first_name,last_name,picture,id', function(response) { 
+					console.log(JSON.stringify(response));
 					$.ajax({
 						type: "POST",
 						url: "/Tinder/FacebookLogin",
