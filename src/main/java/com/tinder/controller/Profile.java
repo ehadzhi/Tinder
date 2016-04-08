@@ -2,6 +2,7 @@ package com.tinder.controller;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class Profile {
 	private UserLoader loader;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	protected String doGet(Model model,HttpServletRequest request) {
+	protected String doGet(Model model,HttpServletRequest request) throws MessagingException {
 		loader.loadUser(request);
 		User user = (User) request.getSession().getAttribute(UserParam.USER);
 		List<String> pictures = userDAO.getAllPhotosOfUser(user.getUsername());
