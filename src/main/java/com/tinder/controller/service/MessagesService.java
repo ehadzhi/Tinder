@@ -1,13 +1,19 @@
 package com.tinder.controller.service;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tinder.model.dao.message.IMessageDAO;
@@ -24,13 +30,19 @@ public class MessagesService{
 	private IUserDAO userDAO;
 	
 	@RequestMapping(value="/MessagesService",method=RequestMethod.GET)
-	public List<Message> doPost(HttpServletRequest request){
+	public List<Message> doPost(@RequestParam("nummessages")int numMessages,
+			@RequestParam("username")String username,
+			@RequestParam("fromtime") String fromTime,
+			Principal principal) throws JSONException{
+		
+		JSONObject jsontime = new JSONObject(fromTime);
+		LocalDateTime time = LocalDateTime.of(2016, 4, jsontime.getInt("dayOfMonth"),
+				jsontime.getInt("hour"), jsontime.getInt("minute"), 
+				jsontime.getInt("second"), jsontime.getInt("nano"));
 
 		return messageDAO.getLastMessagesFrom(
-			Integer.parseInt(request.getParameter("nummessages")),
-			userDAO.getUser(request.getParameter("username1")),
-			userDAO.getUser(request.getParameter("username2")),
-			LocalDateTime.parse(request.getParameter("fromtime")));
+			numMessages, userDAO.getUser(principal.getName()),
+			userDAO.getUser(username), time);
 	}
 
 }

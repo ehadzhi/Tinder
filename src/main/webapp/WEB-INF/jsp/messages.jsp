@@ -37,7 +37,7 @@
 		<div class="main_container">
 
 			<jsp:include page="sideMenu.jsp" />
-			
+
 			<jsp:include page="navMenu.jsp" />
 
 			<div class="right_col" role="main">
@@ -66,11 +66,12 @@
 													<div class="col-sm-9 col-xs-12 chat"
 														style="overflow: hidden; outline: none;" tabindex="5001">
 														<div class="col-inside-lg decor-default">
+															<div style="text-align: center">
+																<a href="#" onclick="getOlderMessages()"><i
+																	class="fa fa-chevron-up"></i></a>
+															</div>
 															<div id='chat-body' class="chat-body">
-																<div id="messages">
-																	<h6>Mini Chat</h6>
-
-																</div>
+																<div id="messages"></div>
 																<div style='display: inline;'>
 																	<input id='messageToSend' placeholder='Write a message'
 																		type='text' class='form-control'> <span
@@ -131,7 +132,9 @@
 												for ( var chat in chats) {
 													$('#chat-users')
 															.append(
-																	"<div id='"+chat+"' class='user' onclick='loadMessages(\""
+																	"<div id='"
+																			+ chat
+																			+ "' class='user' onclick='loadMessages(\""
 																			+ chat
 																			+ "\")'>"
 																			+ "<div class='avatar'>"
@@ -154,7 +157,7 @@
 						});
 		var send = function() {
 			var date = new Date();
-		    var hours = date.getHours();
+			var hours = date.getHours();
 			var minutes = date.getMinutes();
 			var outgoingMessage = JSON.stringify({
 				'message' : $('#messageToSend').val(),
@@ -162,14 +165,15 @@
 				'createdAt' : {
 					'date' : date,
 					'hour' : hours,
-					'minute': minutes
+					'minute' : minutes
 				},
-				'senderUsername': '${user.username}'
+				'senderUsername' : '${user.username}'
 			});
 			chats[toSend].messages.push(JSON.parse(outgoingMessage));
 			stomp.send("/app/dispatcher", {}, outgoingMessage);
 			var value = getMessage('right', '${user.username}', $(
-					'#messageToSend').val(), "${user.avatarName}", hours+":"+minutes);
+					'#messageToSend').val(), "${user.avatarName}", hours + ":"
+					+ minutes);
 			$('#messages').append(value);
 			$('#messageToSend').val('');
 			$(".chat").niceScroll();
@@ -178,19 +182,23 @@
 		function handleMessage(incomingMessage) {
 			var currentUser = "${user.username}";
 			var message = JSON.parse(incomingMessage.body);
-			message.senderUsername=message.sender;
-			message.createdAt=message.timeOfSending;
+			message.senderUsername = message.sender;
+			message.createdAt = message.timeOfSending;
 			chats[message.sender].messages.push(message);
-			if(clickedChat == message.sender){
+			if (clickedChat == message.sender) {
 				if (currentUser == message.senderUsername) {
 					var value = getMessage('right', message.senderUsername,
-							message.message, "${user.avatarName}", message.timeOfSending.hour+':'+message.timeOfSending.minute);
+							message.message, "${user.avatarName}",
+							message.timeOfSending.hour + ':'
+									+ message.timeOfSending.minute);
 					$('#messages').append(value);
 				} else {
 					var value = getMessage('left', message.sender,
-							message.message, chats[clickedChat].picture, message.timeOfSending.hour+':'+message.timeOfSending.minute);
+							message.message, chats[clickedChat].picture,
+							message.timeOfSending.hour + ':'
+									+ message.timeOfSending.minute);
 					$('#messages').append(value);
-					
+
 				}
 			}
 			$(".chat").niceScroll();
@@ -198,11 +206,11 @@
 		}
 		function loadMessages(chat) {
 			console.log(chats[chat]);
-			clickedChat=chat;
-			for(var v in chats){
-				$("#"+v).removeClass("clickedUser");
+			clickedChat = chat;
+			for ( var v in chats) {
+				$("#" + v).removeClass("clickedUser");
 			}
-			$("#"+chat).addClass("clickedUser");
+			$("#" + chat).addClass("clickedUser");
 			toSend = chat;
 			var currentUser = "${user.username}";
 			var messages = chats[chat].messages;
@@ -212,12 +220,16 @@
 				if (currentUser == messages[message].senderUsername) {
 					var value = getMessage('right',
 							messages[message].senderUsername,
-							messages[message].message, "${user.avatarName}", messages[message].createdAt.hour+':'+messages[message].createdAt.minute);
+							messages[message].message, "${user.avatarName}",
+							messages[message].createdAt.hour + ':'
+									+ messages[message].createdAt.minute);
 					$('#messages').append(value);
 				} else {
 					var value = getMessage('left',
 							messages[message].senderUsername,
-							messages[message].message, chats[chat].picture, messages[message].createdAt.hour+':'+messages[message].createdAt.minute);
+							messages[message].message, chats[chat].picture,
+							messages[message].createdAt.hour + ':'
+									+ messages[message].createdAt.minute);
 					$('#messages').append(value);
 				}
 			}
@@ -234,7 +246,8 @@
 					+ "		<div class='status offline'></div>" + "		</div>"
 					+ "		<div class='name'>" + senderUsername + "</div>"
 					+ "		<div class='text'>" + senderMessage + "</div>"
-					+ "		<div style=\"font-size:small;\" class='time'>" + time + "</div>" + " </div>";
+					+ "		<div style=\"font-size:small;\" class='time'>" + time
+					+ "</div>" + " </div>";
 		}
 		$("#messageToSend").keyup(function(e) {
 			if (e.keyCode == 13) {
@@ -244,10 +257,68 @@
 		function deleteMessageNotifications(user) {
 			console.log(user);
 			$.ajax({
-				url : 'MessageNotificationsService' + '?' + $.param({"withUser": user}),
+				url : 'MessageNotificationsService' + '?' + $.param({
+					"withUser" : user
+				}),
 				type : 'DELETE'
 			}).done(function() {
 			});
+		};
+		function getOlderMessages() {
+			$
+					.ajax(
+							{
+								url : 'MessagesService'
+										+ '?'
+										+ $
+												.param({
+													"fromtime" : JSON
+															.stringify(chats[clickedChat].messages[0].createdAt),
+													"nummessages" : 10,
+													"username" : clickedChat
+												}),
+								type : 'GET'
+							})
+					.done(
+							function(newMessages) {
+								$('#messages').empty();
+								console.log(newMessages);
+								var currentUser = "${user.username}";
+								for ( var message in newMessages.reverse()) {
+									console.log(chats);
+									chats[clickedChat].messages
+											.unshift(newMessages[message]);
+								}
+								var chat = clickedChat;
+								var messages = chats[chat].messages;
+								for ( var message in messages) {
+									console
+											.log(messages[message].senderUsername);
+									if (currentUser == messages[message].senderUsername) {
+										var value = getMessage(
+												'right',
+												messages[message].senderUsername,
+												messages[message].message,
+												"${user.avatarName}",
+												messages[message].createdAt.hour
+														+ ':'
+														+ messages[message].createdAt.minute);
+										$('#messages').append(value);
+									} else {
+										var value = getMessage(
+												'left',
+												messages[message].senderUsername,
+												messages[message].message,
+												chats[chat].picture,
+												messages[message].createdAt.hour
+														+ ':'
+														+ messages[message].createdAt.minute);
+										$('#messages').append(value);
+									}
+								}
+								$(".chat").niceScroll();
+
+							});
 		};
 	</script>
 </body>
