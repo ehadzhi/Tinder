@@ -23,8 +23,10 @@ public class ConfirmEmail {
 		if (uuid != null) {
 			UnconfirmedUser user = userDAO.getUnconfirmedUser(uuid);
 			if (user != null) {
+				
 				userDAO.deleteUnconfirmedUser(uuid);
-				userDAO.registerUserWithHashedPassword(user.getUsername(), user.getPasswordHash(), user.getEmail(),
+				userDAO.registerUserWithHashedPassword(user.getUsername(),
+						user.getPasswordHash(), user.getEmail(),
 						user.isGenderIsMale(), user.getAge(), user.getFullName());
 			}
 		}

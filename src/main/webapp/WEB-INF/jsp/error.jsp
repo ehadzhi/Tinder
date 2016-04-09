@@ -42,6 +42,9 @@
 					<div class="text-center text-center">
 						<h1 class="error-number">${statusCode}</h1>
 						<h2>${message}</h2>
+						<p>
+							<a href="/Tinder/Home">Back to home page</a>
+						</p>
 						<!--
    						Exception:  ${exception}
    						<c:forEach items="${exception.stackTrace}" var="trace">
