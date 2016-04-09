@@ -160,8 +160,15 @@
 			var minutes = date.getMinutes();
 			var outgoingMessage = JSON.stringify({
 				'message' : $('#messageToSend').val(),
-				'receiver' : toSend
+				'receiver' : toSend,
+				'createdAt' : {
+					'date' : date,
+					'hour' : hours,
+					'minute': minutes
+				},
+				'senderUsername': '${user.username}'
 			});
+			chats[toSend].messages.push(JSON.parse(outgoingMessage));
 			stomp.send("/app/dispatcher", {}, outgoingMessage);
 			var value = getMessage('right', '${user.username}', $(
 					'#messageToSend').val(), "${user.avatarName}", hours+":"+minutes);
@@ -173,20 +180,26 @@
 		function handleMessage(incomingMessage) {
 			var currentUser = "${user.username}";
 			var message = JSON.parse(incomingMessage.body);
-			console.log(message);
-			if (currentUser == message.senderUsername) {
-				var value = getMessage('right', message.senderUsername,
-						message.message, "${user.avatarName}", message.timeOfSending.hour+':'+message.timeOfSending.minute);
-				$('#messages').append(value);
-			} else {
-				var value = getMessage('left', message.sender,
-						message.message, chats[clickedChat].picture, message.timeOfSending.hour+':'+message.timeOfSending.minute);
-				$('#messages').append(value);
+			message.senderUsername=message.sender;
+			message.createdAt=message.timeOfSending;
+			chats[message.sender].messages.push(message);
+			if(clickedChat == message.sender){
+				if (currentUser == message.senderUsername) {
+					var value = getMessage('right', message.senderUsername,
+							message.message, "${user.avatarName}", message.timeOfSending.hour+':'+message.timeOfSending.minute);
+					$('#messages').append(value);
+				} else {
+					var value = getMessage('left', message.sender,
+							message.message, chats[clickedChat].picture, message.timeOfSending.hour+':'+message.timeOfSending.minute);
+					$('#messages').append(value);
+					
+				}
 			}
 			$(".chat").niceScroll();
 			$(".chat").scrollTop($('.chat')[0].scrollHeight * 10);
 		}
 		function loadMessages(chat) {
+			console.log(chats[chat]);
 			clickedChat=chat;
 			for(var v in chats){
 				$("#"+v).removeClass("clickedUser");
@@ -197,6 +210,7 @@
 			var messages = chats[chat].messages;
 			$('#messages').empty();
 			for ( var message in messages) {
+				console.log(messages[message].senderUsername);
 				if (currentUser == messages[message].senderUsername) {
 					var value = getMessage('right',
 							messages[message].senderUsername,
