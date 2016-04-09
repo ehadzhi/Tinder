@@ -203,7 +203,7 @@
 									if (i == 0) {
 										$('#gallery-images').append(
 												"<div class=\"item active\">"
-														+ "<img src=\"images/"
+														+ "<img  style=\"width: auto; height: 225px; max-height: 225px;\" src=\"images/"
 														+ response.photos[i]
 														+ "\" alt=\"" + (i + 1)
 														+ "\" width=\"460\""
@@ -212,7 +212,7 @@
 									} else {
 										$('#gallery-images').append(
 												"<div class=\"item\">"
-														+ "<img src=\"images/"
+														+ "<img style=\"width: auto; height: 225px; max-height: 225px;\" src=\"images/"
 														+ response.photos[i]
 														+ "\" alt=\"" + (i + 1)
 														+ "\" width=\"460\""

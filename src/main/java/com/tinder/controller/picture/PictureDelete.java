@@ -23,6 +23,7 @@ public class PictureDelete {
 	@RequestMapping(method = RequestMethod.POST)
 	public String deletePicture(@PathVariable(PictureViewParam.TO_DELETE)
 	String pictureName, HttpServletRequest request) {
+		
 		User owner = (User) request.getSession().getAttribute(UserViewParam.USER);
 		
 		if(owner.getAvatarName().equals(pictureName)){

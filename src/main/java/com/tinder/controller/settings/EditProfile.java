@@ -29,9 +29,8 @@ public class EditProfile {
 		@RequestParam("email")String newEmail,
 		@RequestParam("username")String newUsername,
 		@RequestParam("password")String newPassword,
-		@RequestParam("description")String newDescription
-		) 
-	{
+		@RequestParam("description")String newDescription) {
+		
 		boolean logout = false;
 		
 		User user = userDAO.getUser(principal.getName());

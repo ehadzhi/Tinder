@@ -26,8 +26,6 @@ public class StompController {
 
 	private static final int INITIAL_LOAD_MESSAGE_COUNT = 20;
 
-	private static final Logger logger = LoggerFactory.getLogger(StompController.class);
-
 	@Autowired
 	private IUserDAO userDAO;
 
@@ -41,11 +39,40 @@ public class StompController {
 	private SimpMessageSendingOperations messageSender;
 
 	@SubscribeMapping({ "/getInitialData" })
-	public Map<String, Map<String, Object>> handleSubscription(Principal principal) {
+	public Map<String, Map<String, Object>> sendInitialData(Principal principal) {
 
-		Map<String, Map<String,Object>> toReturn = new HashMap<String, Map<String,Object>>();
 		User whoWantsIt = userDAO.getUser(principal.getName());
+		Map<String, Map<String,Object>> toReturn = new HashMap<String, Map<String,Object>>();
+		
 		List<User> users = chatDAO.getUserChatFriends(whoWantsIt);
+		putAllMessagesFromUserFriends(whoWantsIt, toReturn, users);
+		
+		return toReturn;
+	}
+
+
+	@MessageMapping("/dispatcher")
+	public void handleMessage(IncomingMessage incoming, Principal sender) {
+
+		OutgoingMessage toSend = prepareOutgoingMessage(incoming, sender);
+
+		messageDAO.sendMessage(incoming.getMessage(), userDAO.getUser(toSend.getSender()),
+				userDAO.getUser(incoming.getReceiver()));
+
+		messageSender.convertAndSend("/topic/" + incoming.getReceiver(), toSend);
+	}
+
+
+	private OutgoingMessage prepareOutgoingMessage(IncomingMessage incoming, Principal sender) {
+		OutgoingMessage toSend = new OutgoingMessage();
+		toSend.setMessage(incoming.getMessage());
+		toSend.setSender(sender.getName());
+		toSend.setTimeOfSending(LocalDateTime.now());
+		return toSend;
+	}
+
+	private void putAllMessagesFromUserFriends(User whoWantsIt, Map<String, Map<String, Object>> toReturn,
+			List<User> users) {
 		for (User user : users) {
 			Map<String,Object> value = new HashMap<String,Object>();
 			value.put("messages",
@@ -54,24 +81,5 @@ public class StompController {
 			value.put("picture", user.getAvatarName());
 			toReturn.put(user.getUsername(),value);
 		}
-		
-		return toReturn;
 	}
-
-	@MessageMapping("/dispatcher")
-	public void handleMessage(IncomingMessage incoming, Principal sender) {
-		logger.info("Received message: " + incoming.getMessage() + " from " + sender.getName() + " to "
-				+ incoming.getReceiver());
-
-		OutgoingMessage toSend = new OutgoingMessage();
-		toSend.setMessage(incoming.getMessage());
-		toSend.setSender(sender.getName());
-		toSend.setTimeOfSending(LocalDateTime.now());
-
-		messageDAO.sendMessage(incoming.getMessage(), userDAO.getUser(toSend.getSender()),
-				userDAO.getUser(incoming.getReceiver()));
-
-		messageSender.convertAndSend("/topic/" + incoming.getReceiver(), toSend);
-	}
-
 }

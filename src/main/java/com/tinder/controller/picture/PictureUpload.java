@@ -37,9 +37,6 @@ import java.io.InputStream;
 @RequestMapping(value = "/PictureUpload")
 public class PictureUpload {
 
-	private static String bucketName = "tinderbucket";
-	private static String keyName = "AKIAJFLBQNS6WEO3LSUA";
-
 	@Autowired
 	private AtomicInteger numPictures;
 

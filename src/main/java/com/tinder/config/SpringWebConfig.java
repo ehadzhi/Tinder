@@ -31,7 +31,6 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/css/**").addResourceLocations("/static/css/");
-		registry.addResourceHandler("/pdfs/**").addResourceLocations("/static/pdf/");
 		registry.addResourceHandler("/fonts/**").addResourceLocations("/static/fonts/");
 		registry.addResourceHandler("/images/**").addResourceLocations("file:///C:/resources/images/")
 				.addResourceLocations("http://s3-eu-west-1.amazonaws.com/tinderbucket/")
