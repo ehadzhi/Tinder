@@ -22,9 +22,7 @@
 <link href="css/custom.css" rel="stylesheet">
 <link href="css/icheck/flat/green.css" rel="stylesheet" />
 <link href="css/floatexamples.css" rel="stylesheet" type="text/css" />
-<script src="http://code.jquery.com/jquery-2.2.2.js"
-	integrity="sha256-4/zUCqiq0kqxhZIyp4G0Gk+AOtCJsY1TA00k5ClsZYE="
-	crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-2.2.2.js"></script>
 
 <script src="js/jquery.min.js"></script>
 <script src="js/nprogress.js"></script>

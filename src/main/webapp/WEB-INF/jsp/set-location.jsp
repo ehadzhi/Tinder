@@ -35,6 +35,8 @@
 			else if (err.code == 2) {
 				alert("Error: Position is unavailable!");
 			}
+			window.location.replace("Home");
+			
 		}
 
 		function getLocation() {
@@ -50,6 +52,7 @@
 
 			else {
 				alert("Sorry, browser does not support geolocation!");
+				window.location.replace("Home");
 			}
 		}
 	</script>
