@@ -110,7 +110,7 @@
 								<div id="location" class="col-md-6 col-sm-6 col-xs-12">
 									<iframe
 										src="http://maps.google.com/maps?q=42.6505753,23.3564571&z=15&output=embed"
-										width="500" height="300" frameborder="0" style="border: 0"></iframe>
+										width="500" height="300" style="border: 0"></iframe>
 								</div>
 							</div>
 							<div class="clearfix"></div>

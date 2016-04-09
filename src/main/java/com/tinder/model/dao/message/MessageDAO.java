@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.tinder.model.dao.chat.IChatDAO;
-import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.pojo.User;
 import com.tinder.model.pojo.chat.Chat;
 import com.tinder.model.pojo.chat.Message;
@@ -23,12 +21,6 @@ public class MessageDAO implements IMessageDAO {
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	private IChatDAO chatDAO;
-	
-	@Autowired
-	private INotificationDAO notificationDAO;
 
 	@Override
 	public List<Message> getLastMessagesFrom(int numMessages, User user1, User user2, LocalDateTime fromTime) {

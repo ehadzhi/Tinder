@@ -4,9 +4,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.
 AbstractAnnotationConfigDispatcherServletInitializer;
-
-import com.tinder.config.chat.WebSocketStompConfig;
-import com.tinder.config.security.SecurityConfig;
  
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
  

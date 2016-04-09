@@ -1,6 +1,5 @@
 package com.tinder.controller.picture;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,15 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tinder.info.UserViewParam;
 import com.tinder.info.PictureViewParam;
+import com.tinder.info.UserViewParam;
 import com.tinder.model.dao.picture.IPictureDAO;
 import com.tinder.model.pojo.User;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 
 @Controller

@@ -1,6 +1,5 @@
 package com.tinder.config.persistance;
 
-import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sql.DataSource;
@@ -9,13 +8,8 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
-import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.tinder.info.DBCredentials;

@@ -1,6 +1,7 @@
 package com.tinder.controller.initial;
 
 import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;

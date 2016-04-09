@@ -1,6 +1,6 @@
 package com.tinder.test.info;
 
-public interface TestUser {
+public interface InfoTestUser {
 	static final String KIRIL = "Kidrsasdsl";
 	static final int TEST_AGE = 135;
 	static final boolean TEST_GENDER = false;

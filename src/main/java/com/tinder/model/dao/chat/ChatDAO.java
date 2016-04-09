@@ -1,7 +1,5 @@
 package com.tinder.model.dao.chat;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

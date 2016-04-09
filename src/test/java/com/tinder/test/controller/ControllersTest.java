@@ -1,24 +1,20 @@
 package com.tinder.test.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
-
 import com.tinder.config.chat.WebSocketStompConfig;
 import com.tinder.config.persistance.PersistanceConfig;
 import com.tinder.config.security.SecurityConfig;
-import com.tinder.controller.Home;
-import com.tinder.controller.Messages;
-import com.tinder.controller.Profile;
 import com.tinder.controller.initial.UserLoader;
 import com.tinder.controller.settings.AppSettings;
 import com.tinder.model.dao.user.IUserDAO;

@@ -18,8 +18,8 @@ import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.dao.message.IMessageDAO;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
-import com.tinder.test.info.TestMessage;
-import com.tinder.test.info.TestUser;
+import com.tinder.test.info.InfoTestMessage;
+import com.tinder.test.info.InfoTestUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistanceConfig.class })
@@ -40,35 +40,35 @@ public class MessageDAOTest {
 	public void testGetLastMessagesFrom() {
 		checkInitialConditions();
 
-		User user1 = userDAO.getUser(TestUser.TEST_USERNAME);
-		User user2 = userDAO.getUser(TestUser.KIRIL);
+		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
+		User user2 = userDAO.getUser(InfoTestUser.KIRIL);
 
 		chatDAO.createChat(user1, user2);
 		assertEquals(Collections.EMPTY_LIST,
-				messageDAO.getLastMessagesFrom(TestMessage.NUM_MESG,
+				messageDAO.getLastMessagesFrom(InfoTestMessage.NUM_MESG,
 						user1, user2, LocalDateTime.now()));
-		messageDAO.sendMessage(TestMessage.TEST_MESSAGE, user2, user1);
-		assertEquals(TestMessage.TEST_MESSAGE,
-				messageDAO.getLastMessagesFrom(TestMessage.NUM_MESG,
+		messageDAO.sendMessage(InfoTestMessage.TEST_MESSAGE, user2, user1);
+		assertEquals(InfoTestMessage.TEST_MESSAGE,
+				messageDAO.getLastMessagesFrom(InfoTestMessage.NUM_MESG,
 						user1, user2, LocalDateTime.now()).get(0).getMessage());
 
 	}
 
 	private void checkInitialConditions() {
-		assertFalse(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
-		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER,
-				TestUser.TEST_AGE, TestUser.TEST_USERNAME);
-		assertFalse(userDAO.isUserAndPassExisting(TestUser.KIRIL, TestUser.TEST_PASSWORD));
-		userDAO.registerUser(TestUser.KIRIL, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL + "k", TestUser.TEST_GENDER,
-				TestUser.TEST_AGE, TestUser.TEST_USERNAME);
+		assertFalse(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));
+		userDAO.registerUser(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL, InfoTestUser.TEST_GENDER,
+				InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME);
+		assertFalse(userDAO.isUserAndPassExisting(InfoTestUser.KIRIL, InfoTestUser.TEST_PASSWORD));
+		userDAO.registerUser(InfoTestUser.KIRIL, InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL + "k", InfoTestUser.TEST_GENDER,
+				InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME);
 	}
 
 	@Test
 	public void testFindChatId() {
 		checkInitialConditions();
 		
-		User user1 = userDAO.getUser(TestUser.TEST_USERNAME);
-		User user2 = userDAO.getUser(TestUser.KIRIL);
+		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
+		User user2 = userDAO.getUser(InfoTestUser.KIRIL);
 		int chatId = chatDAO.createChat(user1, user2);
 		
 		assertEquals(chatId, messageDAO.findChatId(user1, user2));

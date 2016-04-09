@@ -1,6 +1,6 @@
 package com.tinder.test.info;
 
-public interface TestMessage {
+public interface InfoTestMessage {
 
 	int NUM_MESG = 10;
 	String TEST_MESSAGE = "I like sending message";
