@@ -54,7 +54,7 @@ public class MessageDAO implements IMessageDAO {
 		paramMap.put("message", msg);
 		jdbcTemplate.update(SEND_MESSAGE, paramMap);
 		
-		if(isMessageNotificationExisting(from,to)){
+		if(!isMessageNotificationExisting(from,to)){
 			insertMessageNotification(from,to);
 		}
 	}
@@ -77,14 +77,14 @@ public class MessageDAO implements IMessageDAO {
 	}
 	
 	public boolean isMessageNotificationExisting(User firstUser, User secondUser) {
-		final String FIND_CHAT_ID = "SELECT count(id) FROM tinder.`message-notifications` "
+		final String IS_NOTIFICATION_EXISTING = "SELECT count(id) FROM tinder.`message-notifications` "
 				+ "where from_user_id = :from_id and to_user_id=:to_id; ";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("from_id", firstUser.getId());
 		paramMap.put("to_id", secondUser.getId());
-		return jdbcTemplate.query(FIND_CHAT_ID, paramMap, resultSet -> {
+		return jdbcTemplate.query(IS_NOTIFICATION_EXISTING, paramMap, resultSet -> {
 			resultSet.next();
-			return resultSet.getInt(1)==0;
+			return resultSet.getInt(1)!=0;
 		});
 	}
 

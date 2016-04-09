@@ -8,7 +8,7 @@ public interface INotificationDAO {
 
 	void addMatch(int userOneId, int userTwoId);
 
-	 boolean checkForLike(int likerId, int likedId);
+	boolean checkForLike(int likerId, int likedId);
 
 	void deleteAllMatchNotificationsForUser(User user);
 
@@ -17,5 +17,7 @@ public interface INotificationDAO {
 	List<User> getAllMessageNotificationsForUser(User user);
 
 	void deleteAllMessageNotificationsForUser(User user,User withUser);
+
+	boolean checkForMatch(int userOneId, int userTwoId);
 
 }

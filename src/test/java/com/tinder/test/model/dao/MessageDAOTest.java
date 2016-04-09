@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tinder.config.persistance.PersistanceConfig;
 import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.dao.message.IMessageDAO;
+import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 import com.tinder.test.info.InfoTestMessage;
@@ -38,7 +39,7 @@ public class MessageDAOTest {
 
 	@Test
 	public void testGetLastMessagesFrom() {
-		checkInitialConditions();
+		setInitialConditions();
 
 		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
 		User user2 = userDAO.getUser(InfoTestUser.KIRIL);
@@ -54,7 +55,7 @@ public class MessageDAOTest {
 
 	}
 
-	private void checkInitialConditions() {
+	private void setInitialConditions() {
 		assertFalse(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));
 		userDAO.registerUser(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL, InfoTestUser.TEST_GENDER,
 				InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME);
@@ -65,7 +66,7 @@ public class MessageDAOTest {
 
 	@Test
 	public void testFindChatId() {
-		checkInitialConditions();
+		setInitialConditions();
 		
 		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
 		User user2 = userDAO.getUser(InfoTestUser.KIRIL);
@@ -76,18 +77,35 @@ public class MessageDAOTest {
 
 	
 	@Test
-	public void testIsMessageNotificationExisting() {
-		fail("Not yet implemented");
+	public void testIsMessageNotificationExisting() throws InterruptedException {
+		setInitialConditions();
+		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
+		User user2 = userDAO.getUser(InfoTestUser.KIRIL);
+		assertFalse(messageDAO.isMessageNotificationExisting(user1, user2));
+		messageDAO.insertMessageNotification(user1, user2);
+		assertTrue(messageDAO.isMessageNotificationExisting(user1, user2));
 	}
 
 	@Test
 	public void testDeletAllMessagesBetweenUsers() {
-		fail("Not yet implemented");
+		setInitialConditions();
+		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
+		User user2 = userDAO.getUser(InfoTestUser.KIRIL);
+		chatDAO.createChat(user1,user2);
+		messageDAO.sendMessage("test", user1, user2);
+		assertEquals(1, (messageDAO.getLastMessagesFrom(1, user1, user2, LocalDateTime.now())).size());
+		messageDAO.deletAllMessagesBetweenUsers(user1, user2);
+		assertEquals(0, (messageDAO.getLastMessagesFrom(1, user1, user2, LocalDateTime.now())).size());
 	}
 
 	@Test
 	public void testInsertMessageNotification() {
-		fail("Not yet implemented");
+		setInitialConditions();
+		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
+		User user2 = userDAO.getUser(InfoTestUser.KIRIL);
+		assertFalse(messageDAO.isMessageNotificationExisting(user1, user2));
+		messageDAO.insertMessageNotification(user1, user2);
+		assertTrue(messageDAO.isMessageNotificationExisting(user1, user2));
 	}
 
 }

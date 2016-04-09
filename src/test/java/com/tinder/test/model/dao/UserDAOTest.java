@@ -11,7 +11,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tinder.config.persistance.PersistanceConfig;
+import com.tinder.model.dao.message.IMessageDAO;
+import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.dao.user.IUserDAO;
+import com.tinder.model.pojo.UnconfirmedUser;
 import com.tinder.model.pojo.User;
 import com.tinder.test.info.InfoTestUser;
 
@@ -22,51 +25,47 @@ import com.tinder.test.info.InfoTestUser;
 public class UserDAOTest {
 	
 	@Autowired
+	private IMessageDAO messageDAO;
+
+	@Autowired
+	private INotificationDAO notificationDAO;
+	
+	@Autowired
 	private IUserDAO userDAO;
 
+	private void setInitialConditions() {
+		assertFalse(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));
+		userDAO.registerUser(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL, InfoTestUser.TEST_GENDER,
+				InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME);
+		assertFalse(userDAO.isUserAndPassExisting(InfoTestUser.KIRIL, InfoTestUser.TEST_PASSWORD));
+		userDAO.registerUser(InfoTestUser.KIRIL, InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL + "k", InfoTestUser.TEST_GENDER,
+				InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME);
+	}
+	
+	private void setInitialUnconfirmedUser() {
+		userDAO.registerUnconfirmedUser(
+				InfoTestUser.KIRIL, InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL + "k", InfoTestUser.TEST_GENDER,
+				InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME,InfoTestUser.UNCONFIRMED_USER_UUID);
+
+	}
+		
 	@Test
 	public void testIsUserAndPassExisting() {
-		assertFalse(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME,
-				InfoTestUser.TEST_PASSWORD));
-		userDAO.registerUser(
-				InfoTestUser.TEST_USERNAME,
-				InfoTestUser.TEST_PASSWORD,
-				InfoTestUser.TEST_MAIL,
-				InfoTestUser.TEST_GENDER, 
-				InfoTestUser.TEST_AGE, 
-				InfoTestUser.TEST_USERNAME);
+		setInitialConditions();
 		assertTrue(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME,
 				InfoTestUser.TEST_PASSWORD));
 	}
 
 	@Test
 	public void testIsUserExisting() {
-		assertFalse(userDAO.isUserExisting(InfoTestUser.TEST_USERNAME,InfoTestUser.TEST_PASSWORD));
-		userDAO.registerUser(InfoTestUser.TEST_USERNAME,
-				InfoTestUser.TEST_PASSWORD,
-				InfoTestUser.TEST_MAIL,
-				InfoTestUser.TEST_GENDER,
-				InfoTestUser.TEST_AGE,
-				InfoTestUser.TEST_USERNAME);
+		setInitialConditions();
 		assertTrue(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME,
 				InfoTestUser.TEST_PASSWORD));
 	}
 
-	private void registerUserWithTestParam() {
-		userDAO.registerUser(InfoTestUser.TEST_USERNAME,
-				InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL,
-				InfoTestUser.TEST_GENDER, InfoTestUser.TEST_AGE, InfoTestUser.KIRIL);
-	}
-
 	@Test
 	public void testRegisterUser() {
-		
-		assertFalse(userDAO.isUserAndPassExisting(
-				InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));
-		userDAO.registerUser(InfoTestUser.TEST_USERNAME,
-				InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL, InfoTestUser.TEST_GENDER, InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME);
-		assertTrue(userDAO.isUserAndPassExisting(
-				InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));
+		setInitialConditions();
 		
 		User testUser = userDAO.getUser(InfoTestUser.TEST_USERNAME);
 		
@@ -79,7 +78,7 @@ public class UserDAOTest {
 
 	@Test
 	public void testSetUserDiscoverySettings() {
-		registerUserWithTestParam();
+		setInitialConditions();
 		userDAO.setUserDiscoverySettings(InfoTestUser.TEST_USERNAME, InfoTestUser.WANTS_MALE,
 				InfoTestUser.WANTS_FEMALE, InfoTestUser.SEARCH_DISTANCE,
 				InfoTestUser.MIN_DESIRED_AGE, InfoTestUser.MAX_DESIRED_AGE);
@@ -95,16 +94,14 @@ public class UserDAOTest {
 
 	@Test
 	public void testDeleteUser() {
-		assertFalse(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));
-		userDAO.registerUser(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL, InfoTestUser.TEST_GENDER, InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME);
-		assertTrue(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));
+		setInitialConditions();
 		userDAO.deleteUser(InfoTestUser.TEST_USERNAME);
 		assertFalse(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));
 	}
 
 	@Test
 	public void testSetLocation() {
-		registerUserWithTestParam();
+		setInitialConditions();
 		userDAO.setLocation(InfoTestUser.TEST_USERNAME,
 				InfoTestUser.TEST_LATITUDE, InfoTestUser.TEST_LONGITUDE);
 		
@@ -149,14 +146,7 @@ public class UserDAOTest {
 
 	@Test
 	public void testGetUser() {
-		assertFalse(userDAO.isUserExisting(
-				InfoTestUser.TEST_USERNAME,InfoTestUser.TEST_PASSWORD));
-		userDAO.registerUser(InfoTestUser.TEST_USERNAME,
-				InfoTestUser.TEST_PASSWORD, InfoTestUser.TEST_MAIL,
-				InfoTestUser.TEST_GENDER, InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME);
-		
-		assertTrue(userDAO.isUserAndPassExisting(
-				InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));
+		setInitialConditions();
 		
 		User newUser = userDAO.getUser(InfoTestUser.TEST_USERNAME);
 		
@@ -169,13 +159,7 @@ public class UserDAOTest {
 
 	@Test
 	public void testIsUsernameExisting() {
-		assertFalse(userDAO.isUsernameExisting(InfoTestUser.TEST_USERNAME));
-		userDAO.registerUser(
-				InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD,
-				InfoTestUser.TEST_MAIL, InfoTestUser.TEST_GENDER,
-				InfoTestUser.TEST_AGE, InfoTestUser.TEST_USERNAME);
-		
-		assertTrue(userDAO.isUsernameExisting(InfoTestUser.TEST_USERNAME));
+		setInitialConditions();
 	}
 
 	@Test
@@ -192,57 +176,49 @@ public class UserDAOTest {
 
 	@Test
 	public void testLikeUser() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testDislikeUser() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testRegisterUserWithHashedPassword() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCalculateHash() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetAllPhotosOfUser() {
-		fail("Not yet implemented");
+		setInitialConditions();
+		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
+		User user2 = userDAO.getUser(InfoTestUser.KIRIL);
+		userDAO.likeUser(user1.getId(), user2.getId());
+		assertTrue(notificationDAO.checkForLike(user1.getId(), user2.getId()));
 	}
 
 	@Test
 	public void testUpdateUser() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetUsernameFromFacebookId() {
-		fail("Not yet implemented");
+		setInitialConditions();
+		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
+		user1.setDescription("I am just a test!");
+		userDAO.updateUser(user1);
+		user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
+		assertEquals("I am just a test!", user1.getDescription());
 	}
 
 	@Test
 	public void testAddFacebookConnection() {
-		fail("Not yet implemented");
+		setInitialConditions();
+		User user1 = userDAO.getUser(InfoTestUser.TEST_USERNAME);
+		userDAO.addFacebookConnection(user1.getUsername(), InfoTestUser.FACEBOOK_CONNECTION_ID);
+		assertEquals(user1.getUsername(),userDAO.getUsernameFromFacebookId(InfoTestUser.FACEBOOK_CONNECTION_ID));
 	}
 
 	@Test
 	public void testRegisterUnconfirmedUser() {
-		fail("Not yet implemented");
+		setInitialUnconfirmedUser();
+		assertNotEquals(null, userDAO.getUnconfirmedUser(InfoTestUser.UNCONFIRMED_USER_UUID));
 	}
 
 	@Test
 	public void testGetUnconfirmedUser() {
-		fail("Not yet implemented");
+		setInitialUnconfirmedUser();
+		assertNotEquals(null, userDAO.getUnconfirmedUser(InfoTestUser.UNCONFIRMED_USER_UUID));
 	}
 
 	@Test
 	public void testDeleteUnconfirmedUser() {
-		fail("Not yet implemented");
+		setInitialUnconfirmedUser();
+		assertNotEquals(null, userDAO.getUnconfirmedUser(InfoTestUser.UNCONFIRMED_USER_UUID));
+		userDAO.deleteUnconfirmedUser(InfoTestUser.UNCONFIRMED_USER_UUID);
+		assertEquals(null, userDAO.getUnconfirmedUser(InfoTestUser.UNCONFIRMED_USER_UUID));
 	}
 
 }
