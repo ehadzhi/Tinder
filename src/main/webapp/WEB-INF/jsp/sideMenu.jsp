@@ -43,12 +43,8 @@
 							class="fa fa-heart-o"></i> Discovery settings</a></li>
 					<li><a href="AppSettings"><i class="fa fa-fire"></i>
 							App settings</a></li>
-					<li><a><i class="fa fa-info"></i> Help and Info <span
-							class="fa fa-chevron-down"></span></a>
-						<ul class="nav child_menu" style="display: none">
-							<li><a href=#>Some setting here</a></li>
-							<li><a href=#>Some setting here</a></li>
-						</ul></li>
+					<li><a href="#"><i class="fa fa-info"></i>
+							Help and Info</a></li>
 				</ul>
 			</div>
 

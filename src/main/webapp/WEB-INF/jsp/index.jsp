@@ -135,8 +135,7 @@
 	</script>
 	<script type="text/javascript">
 		function worker(action) {
-			$
-					.ajax({
+			$.ajax({
 						url : 'LikeDislikeService',
 						type : 'POST',
 						data : "action=" + action

@@ -52,5 +52,7 @@ public interface IUserDAO {
 	void registerUserWithHashedPassword(String username, String password, String email, boolean gender, int age,
 			String fullName);
 
+	void removeLike(int likerId, int likedId);
+
 
 }

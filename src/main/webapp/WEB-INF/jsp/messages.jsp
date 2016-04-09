@@ -115,42 +115,40 @@
 	<script type="text/javascript">
 		//$(".chat").niceScroll();
 		var url = 'http://' + window.location.host + '/Tinder/messageEndpoint';
+		var unmatchController = 'http://' + window.location.host + '/Tinder/UnmatchUser?user=';
 		var sock = new SockJS(url);
 		var stomp = Stomp.over(sock);
 		var clickedChat;
-		stomp
-				.connect(
+		stomp.connect(
 						'guest',
 						'guest',
 						function(frame) {
-							stomp
-									.subscribe(
+							stomp.subscribe(
 											"/app/getInitialData",
-											function(frame) {
+											function (frame) {
 												$('#chat-users').empty();
 												chats = JSON.parse(frame.body);
 												for ( var chat in chats) {
 													$('#chat-users')
 															.append(
-																	"<div id='"
-																			+ chat
-																			+ "' class='user' onclick='loadMessages(\""
-																			+ chat
-																			+ "\")'>"
-																			+ "<div class='avatar'>"
-																			+ "<img "
-																			+ "src=\"images/"+chats[chat].picture+"\" "
-																			+ "alt='User name'>"
-																			+ "<div class='status off'></div>"
-																			+ "</div>"
-																			+ "<div class='name'>"
-																			+ chat
-																			+ "</div>"
-																			+ "<div class='mood'>User mood</div>"
-																			+ "</div>");
+																	"<div id='"+chat+"' class='user' onclick='loadMessages(\""
+																	+ chat
+																	+ "\")'>"
+																	+ "	<div class='avatar'>"
+																	+ "		<img "
+																	+ "		src=\"images/"+chats[chat].picture+"\" "
+																	+ "		alt='User name'>"
+																	+ "			<div class=''></div>"
+																	+ "			</div>"
+																	+ "<div class='name'>"
+																	+ chat
+																	+ "<a style='float:right;' "
+																	+ "href=\""+unmatchController+chat+"\"><i style='color: red;' class='fa fa-close'></i></a>"
+																	+ "</div>"
+																	+ "<div class='mood' style='font-size:10px;'>Say something</div>"
+																	+ "</div>");
 												}
-												stomp
-														.subscribe(
+												stomp.subscribe(
 																"/topic/${user.username}",
 																handleMessage);
 											});
@@ -238,16 +236,18 @@
 			deleteMessageNotifications(chat);
 		}
 		function getMessage(side, senderUsername, senderMessage, picture, time) {
-			return "<div class='answer "+side+"'>"
-					+ "	<div class='avatar'>"
-					+ "		<img "
-					+ "			src='images/"+picture+"' "
-					+ "			alt='User name'>"
-					+ "		<div class='status offline'></div>" + "		</div>"
+			return 	  "<div class='answer "+side+"'>"
+					+ "		<div class='avatar'>"
+					+ "			<img "
+					+ "				src='images/"+picture+"' "
+					+ "				alt='User name'>"
+					+ "			<div class='status offline'></div>" 
+					+ "		</div>"
 					+ "		<div class='name'>" + senderUsername + "</div>"
 					+ "		<div class='text'>" + senderMessage + "</div>"
 					+ "		<div style=\"font-size:small;\" class='time'>" + time
 					+ "</div>" + " </div>";
+
 		}
 		$("#messageToSend").keyup(function(e) {
 			if (e.keyCode == 13) {
