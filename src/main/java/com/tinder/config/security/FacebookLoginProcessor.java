@@ -67,7 +67,8 @@ public class FacebookLoginProcessor {
 	private String registerWithUniqueUsername(String email, String gender, String fullName) {
 		String username;
 		username = generateUsername(fullName);
-		userDAO.registerUser(username, generatePassword(), email, UserViewParam.parseGender(gender), 18, fullName);
+		userDAO.registerUser(username, generatePassword(), email, UserViewParam.parseGender(gender),
+				18, transliterate(fullName));
 		return username;
 	}
 

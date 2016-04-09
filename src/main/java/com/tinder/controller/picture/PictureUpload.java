@@ -1,5 +1,6 @@
 package com.tinder.controller.picture;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -46,8 +47,17 @@ public class PictureUpload {
 		}
 		return "redirect:/Profile?error=empty-file";
 	}
+	
+	public String saveFile(MultipartFile file, User user) throws IOException {
+		String fileName = file.getOriginalFilename();
+		fileName = fileName.substring(fileName.lastIndexOf('.'));
+		fileName = numPictures.incrementAndGet() + fileName;
+		file.transferTo(new File("C:/resources/images/" + fileName));
+		pictureDAO.addPicture(fileName, user.getId());
+		return "redirect:/Profile";
+	}
 
-	 public String saveFile(MultipartFile file, User user) throws IOException, S3ServiceException {
+	 public String saveFileA(MultipartFile file, User user) throws IOException, S3ServiceException {
 		String fileName = file.getOriginalFilename();
 		fileName = fileName.substring(fileName.lastIndexOf('.'));
 		fileName = numPictures.incrementAndGet() + fileName;
