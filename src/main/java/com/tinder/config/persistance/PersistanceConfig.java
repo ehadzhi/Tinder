@@ -11,10 +11,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.connect.ConnectionFactory;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.tinder.info.DBCredentials;
 import com.tinder.model.dao.picture.IPictureDAO;
@@ -39,6 +41,13 @@ public class PersistanceConfig {
 	public NamedParameterJdbcTemplate jdbcTemplate(DataSource dataSource) {
 		return new NamedParameterJdbcTemplate(dataSource);
 	}
+	
+	 @Bean
+	   public PlatformTransactionManager transactionManager(){
+		 DataSourceTransactionManager transactionManager = 
+				 new DataSourceTransactionManager(dataSource());
+	      return transactionManager;
+	   }
 
 	@Bean(name = "numPictures")
 	public AtomicInteger numPictures(IPictureDAO pictureDAO) {
