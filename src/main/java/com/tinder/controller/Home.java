@@ -17,8 +17,9 @@ public class Home {
 	private UserLoader loader;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String doGet(HttpServletRequest request) {
+	public String doGet(HttpServletRequest request) throws Exception {
 		loader.loadUser(request);
+		
 		return "index";
 	}
 

@@ -29,9 +29,7 @@
 <link href="css/icheck/flat/green.css" rel="stylesheet">
 
 <script src="js/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-2.2.2.js"
-	integrity="sha256-4/zUCqiq0kqxhZIyp4G0Gk+AOtCJsY1TA00k5ClsZYE="
-	crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-2.2.2.js"></script>
 
 
 </head>
@@ -195,20 +193,6 @@
 			}
 		}, {
 			scope: 'public_profile,email'
-		});
-	});
-	 
-	 
-	$("#facebook-logout").click(function(){
-		$.ajax({
-			type: "GET",
-			url: "/account/facebook-logout",
-			success: function(){ 
-				location.reload(); 
-			},
-			headers : { 
-				'X-CSRF-Token' : $("meta[name='_csrf']").attr("content") 
-			}
 		});
 	});
 </script>
