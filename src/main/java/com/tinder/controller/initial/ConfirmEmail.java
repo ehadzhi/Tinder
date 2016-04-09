@@ -1,4 +1,4 @@
-package com.tinder.controller;
+package com.tinder.controller.initial;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;

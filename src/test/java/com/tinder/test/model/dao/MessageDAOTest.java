@@ -16,6 +16,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.tinder.config.persistance.PersistanceConfig;
 import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.dao.message.IMessageDAO;
+import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 import com.tinder.test.info.TestMessage;
@@ -28,6 +29,9 @@ public class MessageDAOTest {
 
 	@Autowired
 	private IMessageDAO messageDAO;
+	
+	@Autowired
+	private INotificationDAO notificationDAO;
 
 	@Autowired
 	private IUserDAO userDAO;
@@ -45,7 +49,7 @@ public class MessageDAOTest {
 		chatDAO.createChat(user1, user2);
 		assertEquals(Collections.EMPTY_LIST,
 				messageDAO.getLastMessagesFrom(TestMessage.NUM_MESG, user1, user2, LocalDateTime.now()));
-		messageDAO.sendMessage(TestMessage.TEST_MESSAGE, user2, user2);
+		messageDAO.sendMessage(TestMessage.TEST_MESSAGE, user2, user1);
 		assertEquals(TestMessage.TEST_MESSAGE,
 				messageDAO.getLastMessagesFrom(TestMessage.NUM_MESG,
 						user1, user2, LocalDateTime.now()).get(0).getMessage());
@@ -54,6 +58,7 @@ public class MessageDAOTest {
 	}
 
 	private void cleanupMessagesAndUsers(User user1, User user2) {
+		notificationDAO.deleteAllMessageNotificationsForUser(user1, user2);
 		messageDAO.deletAllMessagesBetweenUsers(user1, user2);
 		chatDAO.deleteChat(user1, user2);
 		userDAO.deleteUser(user1.getUsername());

@@ -51,16 +51,6 @@ public class UserDAOTest {
 		userDAO.deleteUser(TestUser.TEST_USERNAME);
 	}
 
-	@Test
-	public void testLikeUser() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testDislikeUser() {
-		fail("Not yet implemented");
-	}
-
 	private void registerUserWithTestParam() {
 		userDAO.deleteUser(TestUser.TEST_USERNAME);
 		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.KIRIL);
@@ -86,7 +76,7 @@ public class UserDAOTest {
 	public void testSetUserDiscoverySettings() {
 		registerUserWithTestParam();
 		userDAO.setUserDiscoverySettings(TestUser.TEST_USERNAME, TestUser.WANTS_MALE,
-				TestUser.WANTS_FEMALE, TestUser.SEARCH_DISTANCE, TestUser.MAX_DESIRED_AGE, TestUser.MIN_DESIRED_AGE);
+				TestUser.WANTS_FEMALE, TestUser.SEARCH_DISTANCE, TestUser.MIN_DESIRED_AGE, TestUser.MAX_DESIRED_AGE);
 		User afterUpdate = userDAO.getUser(TestUser.TEST_USERNAME);
 		assertEquals(TestUser.WANTS_MALE, afterUpdate.isWantsMale());
 		assertEquals(TestUser.WANTS_FEMALE, afterUpdate.isWantsFemale());
@@ -98,6 +88,8 @@ public class UserDAOTest {
 
 	@Test
 	public void testDeleteUser() {
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
+		assertFalse(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
 		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.TEST_USERNAME);
 		assertTrue(userDAO.isUserAndPassExisting(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD));
 		userDAO.deleteUser(TestUser.TEST_USERNAME);
@@ -147,6 +139,7 @@ public class UserDAOTest {
 
 	@Test
 	public void testGetUser() {
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 		assertFalse(userDAO.isUserExisting(TestUser.TEST_USERNAME,TestUser.TEST_PASSWORD));
 		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD,
 				TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.TEST_USERNAME);
@@ -169,6 +162,7 @@ public class UserDAOTest {
 
 	@Test
 	public void testIsEmailExisting() {
+		userDAO.deleteUser(TestUser.TEST_USERNAME);
 		assertFalse(userDAO.isEmailExisting(TestUser.TEST_MAIL));
 		userDAO.registerUser(TestUser.TEST_USERNAME, TestUser.TEST_PASSWORD, TestUser.TEST_MAIL, TestUser.TEST_GENDER, TestUser.TEST_AGE, TestUser.TEST_USERNAME);
 		assertTrue(userDAO.isEmailExisting(TestUser.TEST_MAIL));
