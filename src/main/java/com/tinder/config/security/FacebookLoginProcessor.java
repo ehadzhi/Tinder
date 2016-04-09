@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tinder.controller.initial.UserLoader;
 import com.tinder.controller.picture.PictureUpload;
 import com.tinder.info.UserViewParam;
 import com.tinder.model.dao.picture.IPictureDAO;
@@ -36,7 +37,6 @@ public class FacebookLoginProcessor {
 	@Autowired
 	private PictureUpload pictureUpload;
 
-
 	public void processFacebookLogin(String email, String gender, String fullName,
 			String facebookId) throws IOException, S3ServiceException {
 		String username = userDAO.getUsernameFromFacebookId(facebookId);
@@ -50,6 +50,7 @@ public class FacebookLoginProcessor {
 			connectWithFacebook(facebookId, username);
 		}
 		authenticateFacebookUser(facebookId);
+		
 	}
 
 	private void authenticateFacebookUser(String facebookId) {
@@ -57,6 +58,7 @@ public class FacebookLoginProcessor {
 		Authentication authentication = new UsernamePasswordAuthenticationToken((Principal) () -> principalUsername,
 				null, AuthorityUtils.createAuthorityList("ROLE_USER"));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
 	}
 
 	private void connectWithFacebook(String facebookId, String username) throws IOException, S3ServiceException {
@@ -81,8 +83,9 @@ public class FacebookLoginProcessor {
 			MultipartFile multipartFile = new MockMultipartFile("file", toUpload.getName(), "text/plain",
 					IOUtils.toByteArray(input));
 			pictureUpload.saveFile(multipartFile, userDAO.getUser(newUsername));
-			pictureDAO.setProfilePicture(userDAO.getAllPhotosOfUser(newUsername).get(0), userDAO.getUser(newUsername));
-			
+			pictureDAO.setProfilePicture(
+					userDAO.getAllPhotosOfUser(newUsername).get(0),
+					userDAO.getUser(newUsername));
 
 	}
 

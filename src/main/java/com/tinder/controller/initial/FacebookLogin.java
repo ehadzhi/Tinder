@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.tinder.config.security.FacebookLoginProcessor;
 import com.tinder.info.UserViewParam;
 
@@ -18,9 +20,12 @@ public class FacebookLogin {
 
 	@Autowired
 	private FacebookLoginProcessor loginProcesor;
+	
+	@Autowired
+	private UserLoader userLoader;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPost(
+	public String doPost(HttpServletRequest request,
 		@RequestParam(value = UserViewParam.PASSWORD, required = false) String password,
 		@RequestParam(value = UserViewParam.EMAIL, required = false) String email,
 		@RequestParam(value = UserViewParam.GENDER, required = false) String gender,
@@ -29,6 +34,7 @@ public class FacebookLogin {
 					throws IOException, S3ServiceException {
 		
 		loginProcesor.processFacebookLogin(email, gender, fullName, facebookId);
+		userLoader.loadUser(request);
 		
 		return "/LocationSetter";
 	}
