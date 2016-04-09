@@ -71,7 +71,7 @@ public class LikeDislikeService {
 				chatDAO.createChat(user, users.get(0));
 			}
 		}
-		if (((String) request.getParameter("action")).equals("Dislike")) {
+		if (((String) request.getParameter("action")).equals("disLike")) {
 			userDAO.dislikeUser(user.getId(), users.get(0).getId());
 		}
 		users.remove(0);
