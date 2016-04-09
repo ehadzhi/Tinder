@@ -47,6 +47,16 @@ public class UserDAO implements IUserDAO {
 		paramMap.put("liked_id", likedId);
 		jdbcTemplate.update(LIKE_USER, paramMap);
 	}
+	
+	@Override
+	public void removeLike(int likerId, int likedId) {
+		final String REMOVE_LIKE = "delete from tinder.likes where liker_id = :liker_id"
+				+ " and liked_id = :liked_id ;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("liker_id", likerId);
+		paramMap.put("liked_id", likedId);
+		jdbcTemplate.update(REMOVE_LIKE, paramMap);
+	}
 
 	@Override
 	public void dislikeUser(int dislikerId, int dislikedId) {

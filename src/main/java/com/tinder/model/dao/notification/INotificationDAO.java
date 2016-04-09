@@ -20,4 +20,6 @@ public interface INotificationDAO {
 
 	boolean checkForMatch(int userOneId, int userTwoId);
 
+	void deleteAllMatchNotificationsForUser(User user1, User user2);
+
 }

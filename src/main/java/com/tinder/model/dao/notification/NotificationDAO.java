@@ -57,6 +57,15 @@ public class NotificationDAO implements INotificationDAO {
 		paramMap.put("user_id", user.getId());
 		jdbcTemplate.update(DELETE_ALL_USER_MATCH_NOTIFICATIONS, paramMap);
 	}
+	
+	@Override
+	public void deleteAllMatchNotificationsForUser(User user1,User user2) {
+		final String DELETE_ALL_USER_MATCH_NOTIFICATIONS = "DELETE FROM `tinder`.`match-notification` WHERE user_one=:user_one and user_two=:user_two;";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("user_one", user1.getId());
+		paramMap.put("user_two", user2.getId());
+		jdbcTemplate.update(DELETE_ALL_USER_MATCH_NOTIFICATIONS, paramMap);
+	}
 
 	@Override
 	public List<User> getAllMatchNotificationsForUser(User user) {
