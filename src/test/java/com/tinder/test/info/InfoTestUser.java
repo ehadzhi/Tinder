@@ -15,4 +15,6 @@ public interface InfoTestUser {
 	static final int SEARCH_DISTANCE = 16;
 	static final int MAX_DESIRED_AGE = 30;
 	static final int MIN_DESIRED_AGE= 17;
+	static final String UNCONFIRMED_USER_UUID = "test";
+	static final String FACEBOOK_CONNECTION_ID = "12321321321321421421321";
 }
