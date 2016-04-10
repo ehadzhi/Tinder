@@ -1,6 +1,8 @@
 package com.tinder.test.model.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +13,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tinder.config.persistance.PersistanceConfig;
-import com.tinder.model.dao.chat.IChatDAO;
-import com.tinder.model.dao.message.IMessageDAO;
 import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
@@ -23,18 +23,12 @@ import com.tinder.test.info.InfoTestUser;
 @WebAppConfiguration
 @Transactional
 public class NotificationDAOTest {
-	
-	@Autowired
-	private IMessageDAO messageDAO;
 
 	@Autowired
 	private INotificationDAO notificationDAO;
 	
 	@Autowired
 	private IUserDAO userDAO;
-
-	@Autowired
-	private IChatDAO chatDAO;
 
 	private void setInitialConditions() {
 		assertFalse(userDAO.isUserAndPassExisting(InfoTestUser.TEST_USERNAME, InfoTestUser.TEST_PASSWORD));

@@ -36,6 +36,7 @@ public class DiscoverySettings {
 		int minAge = Integer.parseInt(ageRange.split(";")[0]);
 		int maxAge = Integer.parseInt(ageRange.split(";")[1]);
 		User user = (User) session.getAttribute(UserViewParam.USER);
+		
 		userDAO.setUserDiscoverySettings(user.getUsername(),
 				showMale, showFemale,dist,minAge,maxAge);
 		

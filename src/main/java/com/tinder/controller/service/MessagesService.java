@@ -4,13 +4,9 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,14 +31,19 @@ public class MessagesService{
 			@RequestParam("fromtime") String fromTime,
 			Principal principal) throws JSONException{
 		
-		JSONObject jsontime = new JSONObject(fromTime);
-		LocalDateTime time = LocalDateTime.of(2016, 4, jsontime.getInt("dayOfMonth"),
-				jsontime.getInt("hour"), jsontime.getInt("minute"), 
-				jsontime.getInt("second"), jsontime.getInt("nano"));
+		LocalDateTime time = stringToLocalDateTime(fromTime);
 
 		return messageDAO.getLastMessagesFrom(
 			numMessages, userDAO.getUser(principal.getName()),
 			userDAO.getUser(username), time);
+	}
+
+	private LocalDateTime stringToLocalDateTime(String fromTime) throws JSONException {
+		JSONObject jsontime = new JSONObject(fromTime);
+		LocalDateTime time = LocalDateTime.of(2016, 4, jsontime.getInt("dayOfMonth"),
+				jsontime.getInt("hour"), jsontime.getInt("minute"), 
+				jsontime.getInt("second"), jsontime.getInt("nano"));
+		return time;
 	}
 
 }

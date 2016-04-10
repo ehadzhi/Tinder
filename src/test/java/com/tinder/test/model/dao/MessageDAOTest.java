@@ -1,6 +1,8 @@
 package com.tinder.test.model.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -16,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tinder.config.persistance.PersistanceConfig;
 import com.tinder.model.dao.chat.IChatDAO;
 import com.tinder.model.dao.message.IMessageDAO;
-import com.tinder.model.dao.notification.INotificationDAO;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 import com.tinder.test.info.InfoTestMessage;

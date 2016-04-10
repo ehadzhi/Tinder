@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -22,7 +24,9 @@ import com.tinder.model.pojo.chat.OutgoingMessage;
 @Controller
 public class StompController {
 
-	private static final int INITIAL_LOAD_MESSAGE_COUNT = 20;
+	private static final int INITIAL_LOAD_MESSAGE_COUNT = 8;
+	
+	private static final Logger logger = LoggerFactory.getLogger(StompController.class);
 
 	@Autowired
 	private IUserDAO userDAO;
@@ -38,6 +42,7 @@ public class StompController {
 
 	@SubscribeMapping({ "/getInitialData" })
 	public Map<String, Map<String, Object>> sendInitialData(Principal principal) {
+		logger.info("User "+principal.getName()+" requested initial messages,");
 
 		User whoWantsIt = userDAO.getUser(principal.getName());
 		Map<String, Map<String,Object>> toReturn = new HashMap<String, Map<String,Object>>();
@@ -51,7 +56,9 @@ public class StompController {
 
 	@MessageMapping("/dispatcher")
 	public void handleMessage(IncomingMessage incoming, Principal sender) {
-
+		logger.info("User " + sender.getName() + " sent " + incoming.getMessage() + 
+				" to " +incoming.getReceiver());
+		
 		OutgoingMessage toSend = prepareOutgoingMessage(incoming, sender);
 
 		messageDAO.sendMessage(incoming.getMessage(), userDAO.getUser(toSend.getSender()),

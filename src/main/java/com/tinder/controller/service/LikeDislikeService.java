@@ -33,6 +33,7 @@ public class LikeDislikeService {
 
 	@RequestMapping(value = "/LikeDislikeService", method = RequestMethod.POST)
 	public Map<String, Object> doPost(HttpServletRequest request, HttpServletResponse response) {
+		
 		User user = (User) request.getSession(false).getAttribute(UserViewParam.USER);
 		@SuppressWarnings("unchecked")
 		List<User> users = (List<User>) request.getSession().getAttribute(UserViewParam.USER_CANDIDATES);

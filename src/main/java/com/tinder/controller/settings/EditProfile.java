@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tinder.info.UserViewParam;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.User;
 
@@ -24,14 +25,28 @@ public class EditProfile {
 	public String doGet(
 		HttpServletRequest request,
 		Principal principal,
-		@RequestParam("email")String newEmail,
-		@RequestParam("username")String newUsername,
-		@RequestParam("password")String newPassword,
-		@RequestParam("description")String newDescription) {
-		
-		boolean logout = false;
+		@RequestParam(UserViewParam.EMAIL)String newEmail,
+		@RequestParam(UserViewParam.USERNAME)String newUsername,
+		@RequestParam(UserViewParam.PASSWORD)String newPassword,
+		@RequestParam(UserViewParam.DESCRIPTION)String newDescription) {
 		
 		User user = userDAO.getUser(principal.getName());
+		
+		boolean logout = changeOnlyNecessarySettings(principal,
+				newEmail, newUsername, user, newPassword, newDescription);
+		
+		userDAO.updateUser(user);
+		if(!logout)
+			request.getSession(false).setAttribute("user", user);
+		
+		return "redirect:/" + (logout?"Logout":"Profile");
+	}
+
+	private boolean changeOnlyNecessarySettings(Principal principal,
+			String newEmail, String newUsername,User user,
+			String newPassword, String newDescription) {
+		boolean logout = false;
+		
 		if (newEmail != null && !newEmail.equals("")) {
 			user.setEmail(newEmail);
 		}
@@ -46,12 +61,7 @@ public class EditProfile {
 			newDescription=newDescription.trim();
 			user.setDescription(newDescription);
 		}
-		
-		userDAO.updateUser(user);
-		if(!logout)
-			request.getSession(false).setAttribute("user", user);
-		
-		return "redirect:/" + (logout?"Logout":"Profile");
+		return logout;
 	}
 
 }
