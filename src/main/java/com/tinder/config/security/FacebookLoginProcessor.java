@@ -40,6 +40,7 @@ public class FacebookLoginProcessor {
 			String facebookId) throws IOException, S3ServiceException {
 		String username = userDAO.getUsernameFromFacebookId(facebookId);
 		User user = userDAO.getUser(email);
+		
 		if (username == null) {
 			if (user == null) {
 				username = registerWithUniqueUsername(email, gender, fullName);
@@ -54,8 +55,11 @@ public class FacebookLoginProcessor {
 
 	private void authenticateFacebookUser(String facebookId) {
 		String principalUsername = userDAO.getUsernameFromFacebookId(facebookId);
-		Authentication authentication = new UsernamePasswordAuthenticationToken((Principal) () -> principalUsername,
+		
+		Authentication authentication = new UsernamePasswordAuthenticationToken(
+				(Principal) () -> principalUsername,
 				null, AuthorityUtils.createAuthorityList("ROLE_USER"));
+		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 	}

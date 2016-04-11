@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.tinder.info.UserViewParam;
 import com.tinder.model.dao.user.IUserDAO;
 import com.tinder.model.pojo.UnconfirmedUser;
+import com.tinder.model.validator.IUserValidator;
 
 @Controller
 @RequestMapping(value = "/SignUp")
@@ -23,6 +24,9 @@ public class SignUp {
 	
 	@Autowired
 	private MailSender mailSender;
+	
+	@Autowired
+	private IUserValidator userValidator;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String doPost(HttpServletRequest request,
@@ -33,7 +37,13 @@ public class SignUp {
 		@RequestParam(value = UserViewParam.AGE, required = false) int age,
 		@RequestParam(value = UserViewParam.FULL_NAME, required = false) String fullName) {
 		
+		if( !userValidator.validateSignupParam(username, password, email)){
+			request.setAttribute("error", "Invalid signup parameters");
+			return "forward:/login";
+		}
+		
 		String uuid = generateUUID();
+		
 		userDAO.registerUnconfirmedUser(username, password, email,
 				UserViewParam.parseGender(gender),age , fullName, uuid);
 		

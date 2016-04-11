@@ -69,7 +69,7 @@
 					"	class='fa fa-angle-up'></i>"+
 					"</a>"+
 			"</div></li>");
-			setTimeout(getMatchNotifications, 10000);
+			setTimeout(getMatchNotifications, 1000);
 		});
 	})();
 	function deleteMatchNotifications() {
@@ -112,7 +112,7 @@
 							"	class='fa fa-angle-up'></i>"+
 							"</a>"+
 					"</div></li>");
-			setTimeout(getMessageNotifications, 10000);
+			setTimeout(getMessageNotifications, 1000);
 		});
 	})();
 	function deleteMessageNotifications() {

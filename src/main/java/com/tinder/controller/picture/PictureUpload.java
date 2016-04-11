@@ -22,6 +22,7 @@ import com.tinder.model.pojo.User;
 public class PictureUpload {
 
 
+	private static final int MAX_FILE_SIZE = 2097152;
 	@Autowired
 	private FileSaver fileSaver;
 
@@ -29,10 +30,11 @@ public class PictureUpload {
 	public String uploadPicture(@RequestParam(PictureViewParam.TO_UPOAD) MultipartFile file, HttpServletRequest req)
 			throws IllegalStateException, IOException, S3ServiceException {
 		User user = (User) req.getSession().getAttribute(UserViewParam.USER);
-		if (!file.isEmpty()) {
-			return fileSaver.saveFile(file, user);
+		
+		if (!file.isEmpty() && file.getSize() <= MAX_FILE_SIZE) {
+			return fileSaver.saveFileAmazon(file, user);
 		}
-		return "redirect:/Profile?error=empty-file";
+		return "redirect:/Profile?error=empty-file-or-too-big";
 	}
 	
 

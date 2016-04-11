@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -87,7 +86,7 @@ public class UserDAO implements IUserDAO {
 	public void registerUserWithHashedPassword(String username, String password, String email, boolean gender, int age, String fullName) {
 		final String REGISTER_USER = "INSERT INTO tinder.users "
 				+ "values(null,:username,:password_hash,:age,:gender,'avatar_default.jpg'"
-				+ ",:email,false,false,null,null,null,null,null,:full_name,NULL);";
+				+ ",:email,false,false,null,null,null,null,null,:full_name,'No description');";
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("username", username);
 		paramMap.put("password_hash", password);

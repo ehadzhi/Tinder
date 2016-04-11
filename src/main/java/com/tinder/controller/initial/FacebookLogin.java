@@ -34,6 +34,7 @@ public class FacebookLogin {
 					throws IOException, S3ServiceException {
 		
 		loginProcesor.processFacebookLogin(email, gender, fullName, facebookId);
+		
 		userLoader.loadUser(request);
 		
 		return "/LocationSetter";

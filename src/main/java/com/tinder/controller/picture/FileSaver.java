@@ -49,9 +49,10 @@ public class FileSaver {
 	}
 
 	private void saveImageInAmazon(MultipartFile image, String filename) throws IOException, S3ServiceException {
-			AWSCredentials awsCredentials = new AWSCredentials(UserViewParam.S3ACCESSKEY, UserViewParam.S2SECRETKEY);
+			AWSCredentials awsCredentials = new AWSCredentials(
+					UserViewParam.S3ACCESSKEY, UserViewParam.S2SECRETKEY);
 			S3Service s3 = new RestS3Service( awsCredentials);
-			S3Bucket bucket = s3.getBucket("tinderbucket");
+			S3Bucket bucket = s3.getBucket("it-tinder-bucket");
 			S3Object imageObject = new S3Object(filename);
 			imageObject.setDataInputStream(image.getInputStream());
 			imageObject.setContentLength(image.getSize());

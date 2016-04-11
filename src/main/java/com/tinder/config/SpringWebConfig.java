@@ -22,7 +22,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/css/**").addResourceLocations("/static/css/");
 		registry.addResourceHandler("/fonts/**").addResourceLocations("/static/fonts/");
 		registry.addResourceHandler("/images/**").addResourceLocations("file:///C:/resources/images/")
-				.addResourceLocations("http://s3-eu-west-1.amazonaws.com/tinderbucket/")
+				.addResourceLocations("https://s3.amazonaws.com/it-tinder-bucket/")
 				.addResourceLocations("/static/images/");
 		registry.addResourceHandler("/js/**").addResourceLocations("/static/js/");
 		registry.addResourceHandler("/less/**").addResourceLocations("/static/less/");

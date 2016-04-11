@@ -35,13 +35,12 @@ public class PersistanceConfig {
 	public NamedParameterJdbcTemplate jdbcTemplate(DataSource dataSource) {
 		return new NamedParameterJdbcTemplate(dataSource);
 	}
-	
-	 @Bean
-	   public PlatformTransactionManager transactionManager(){
-		 DataSourceTransactionManager transactionManager = 
-				 new DataSourceTransactionManager(dataSource());
-	      return transactionManager;
-	   }
+
+	@Bean
+	public PlatformTransactionManager transactionManager() {
+		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
+		return transactionManager;
+	}
 
 	@Bean(name = "numPictures")
 	public AtomicInteger numPictures(IPictureDAO pictureDAO) {
