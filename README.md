@@ -1,7 +1,7 @@
 # Tinder
 IT-Talents Final Project
 
-Our project is inspired from Tinder android app,
+Our project is inspired from Tinder app,
 we implemented a web version as our final project at
 the academy.
 
